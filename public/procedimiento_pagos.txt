@@ -1,0 +1,259 @@
+﻿DELIMITER //
+
+CREATE PROCEDURE estado_pagos()
+
+BEGIN
+
+-- Declaración de variables
+DECLARE _id INT;
+DECLARE _id_sitio INT;
+
+-- Definición de la consulta
+DECLARE fecha_cursor CURSOR FOR
+SELECT p.id,p.id_sitio FROM pagos_sitios p, sitios s WHERE DATEDIFF(fecha_fin,CURDATE())<0 AND p.id_sitio=s.id AND s.estado_pago='A';
+
+-- Declaración de un manejador de error tipo NOT FOUND
+DECLARE CONTINUE HANDLER FOR NOT FOUND SET @hecho = TRUE;
+
+-- Abrimos el cursor
+OPEN fecha_cursor;
+
+-- Comenzamos nuestro bucle de lectura
+loop1: LOOP
+
+-- Obtenemos la primera fila en la variables correspondientes
+FETCH fecha_cursor INTO _id, _id_sitio;
+
+UPDATE sitios SET estado_pago = 'I' WHERE sitios.id = _id_sitio;
+
+-- Si el cursor se quedó sin elementos,
+-- entonces nos salimos del bucle
+IF @hecho THEN
+LEAVE loop1;
+END IF;
+
+END LOOP loop1;
+
+-- Cerramos el cursor
+CLOSE fecha_cursor;
+
+END//
+
+DELIMITER ;
+
+---------------------------------- procedimineto para actualizar las reservas que ya estan vencidas---------------------------------------
+
+
+DELIMITER //
+
+CREATE PROCEDURE estado_reservas_fecha()
+
+BEGIN
+
+-- Declaración de variables
+DECLARE _id INT;
+
+-- Definición de la consulta
+DECLARE fecha_cursor CURSOR FOR
+SELECT id FROM reservas WHERE DATEDIFF(fecha,CURDATE())<0 AND estado="A";
+
+-- Declaración de un manejador de error tipo NOT FOUND
+DECLARE CONTINUE HANDLER FOR NOT FOUND SET @hecho = TRUE;
+
+-- Abrimos el cursor
+OPEN fecha_cursor;
+
+-- Comenzamos nuestro bucle de lectura
+loop1: LOOP
+
+-- Obtenemos la primera fila en la variables correspondientes
+FETCH fecha_cursor INTO _id;
+
+UPDATE reservas SET estado = '' WHERE reservas.id = _id;
+
+-- Si el cursor se quedó sin elementos,
+-- entonces nos salimos del bucle
+IF @hecho THEN
+LEAVE loop1;
+END IF;
+
+END LOOP loop1;
+
+-- Cerramos el cursor
+CLOSE fecha_cursor;
+
+END//
+
+DELIMITER ;
+
+
+
+DELIMITER //
+
+CREATE PROCEDURE estado_reservas_hoy()
+
+BEGIN
+
+-- Declaración de variables
+DECLARE _id INT;
+
+-- Definición de la consulta
+DECLARE fecha_cursor CURSOR FOR
+SELECT id FROM reservas WHERE fecha=CURDATE() AND estado="A" AND hora < TRUNCATE(((CURTIME()+0)/10000),0);
+
+-- Declaración de un manejador de error tipo NOT FOUND
+DECLARE CONTINUE HANDLER FOR NOT FOUND SET @hecho = TRUE;
+
+-- Abrimos el cursor
+OPEN fecha_cursor;
+
+-- Comenzamos nuestro bucle de lectura
+loop1: LOOP
+
+-- Obtenemos la primera fila en la variables correspondientes
+FETCH fecha_cursor INTO _id;
+
+UPDATE reservas SET estado = '' WHERE reservas.id = _id;
+
+-- Si el cursor se quedó sin elementos,
+-- entonces nos salimos del bucle
+IF @hecho THEN
+LEAVE loop1;
+END IF;
+
+END LOOP loop1;
+
+-- Cerramos el cursor
+CLOSE fecha_cursor;
+
+END//
+
+DELIMITER ;
+
+-----------------------------por aparte ------------------------------------------------
+
+CREATE EVENT e_call_pagos_a_diario
+    ON SCHEDULE
+      EVERY 1 DAY
+    DO CALL estado_pagos();
+
+
+
+CREATE EVENT e_call_pagos_a_diario
+    ON SCHEDULE
+      EVERY 30 SECOND
+    DO CALL estado_pagos();
+
+
+CREATE EVENT e_call_reservas_a_hora
+    ON SCHEDULE
+      EVERY 1 HOUR
+    DO CALL estado_reservas();
+
+
+
+
+--------------------------------------- los que estan funcionando en el servidor solo procediminetos ----------------------------------------------------------------------
+DELIMITER $$
+CREATE PROCEDURE estado_reservas_hoy()
+BEGIN
+
+DECLARE _id INT;
+
+DECLARE fecha_cursor CURSOR FOR
+SELECT id FROM reservas WHERE fecha=CURDATE() AND estado="A" AND hora < TRUNCATE(((CURTIME()+0)/10000),0);
+
+DECLARE CONTINUE HANDLER FOR NOT FOUND SET @hecho = TRUE;
+
+OPEN fecha_cursor;
+
+loop1: LOOP
+
+FETCH fecha_cursor INTO _id;
+
+UPDATE reservas SET estado = '' WHERE reservas.id = _id;
+
+IF @hecho THEN
+LEAVE loop1;
+END IF;
+
+END LOOP loop1;
+
+CLOSE fecha_cursor;
+
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE PROCEDURE estado_reservas_fecha()
+BEGIN
+
+DECLARE _id INT;
+
+DECLARE fecha_cursor CURSOR FOR
+SELECT id FROM reservas WHERE DATEDIFF(fecha,CURDATE())<0 AND estado="A";
+
+DECLARE CONTINUE HANDLER FOR NOT FOUND SET @hecho = TRUE;
+
+OPEN fecha_cursor;
+
+loop1: LOOP
+
+FETCH fecha_cursor INTO _id;
+
+UPDATE reservas SET estado = '' WHERE reservas.id = _id;
+
+IF @hecho THEN
+LEAVE loop1;
+END IF;
+
+END LOOP loop1;
+
+CLOSE fecha_cursor;
+
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE PROCEDURE estado_pagos()
+BEGIN
+
+DECLARE _id INT;
+DECLARE _id_sitio INT;
+
+DECLARE fecha_cursor CURSOR FOR
+SELECT p.id,p.id_sitio FROM pagos_sitios p, sitios s WHERE DATEDIFF(fecha_fin,CURDATE())<0 AND p.id_sitio=s.id AND s.estado_pago='A';
+
+DECLARE CONTINUE HANDLER FOR NOT FOUND SET @hecho = TRUE;
+
+OPEN fecha_cursor;
+
+loop1: LOOP
+
+FETCH fecha_cursor INTO _id, _id_sitio;
+
+UPDATE sitios SET estado_pago = 'I' WHERE sitios.id = _id_sitio;
+
+IF @hecho THEN
+LEAVE loop1;
+END IF;
+
+END LOOP loop1;
+
+CLOSE fecha_cursor;
+
+END$$
+DELIMITER ;
+
+
+
+
+
+
+
+
+
+
+
+
+

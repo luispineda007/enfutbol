@@ -1,0 +1,47 @@
+.manito{
+  cursor: pointer;
+}
+.datepicker table tr td.disabled, .datepicker table tr td.disabled:hover {
+  background: #ece9e9 !important;
+}
+
+
+
+.navbar-default .navbar-nav>.open>a{
+  background-color: #6fb283;
+}
+
+.munuOpen{
+  color: #4c4f47;
+
+}
+.munuOpen:hover{
+  color: #fff7ee;
+  font-weight: bold;
+}
+
+.perfilUserCol{
+  margin: 7px 36px 0px 0px;
+}
+.popover {
+  background-color: #a6ffbe;
+  width: 150px;
+}
+
+.popover-title {
+  background-color: #81d199;
+  border-bottom:0px;
+}
+.popover .popover-content a{
+  text-decoration: none;
+}
+.borderCanchas{
+  padding-top: 5px;
+  border:solid 1px #2b82ff;
+  border-radius: 5px;
+  margin-bottom: 5px;
+}
+.ico-cerrar{
+  cursor: pointer;
+  color: #680000;
+}
