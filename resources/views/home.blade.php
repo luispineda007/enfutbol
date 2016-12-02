@@ -173,8 +173,8 @@
 
                         <i class="fh5co-intro-icon icon-people"></i>
                         <h2>Jugador</h2>
-                        <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-                        <p><a href="#" class="btn btn-primary">Get In Touch</a></p>
+                        <p>Encuentra tu lugar juego ideal a la fecha y hora que lo necesites, <b>regístrate</b>, explora las mejores canchas de la ciudad, <b>reserva</b> mediante nuestro sistema de <b>Tokens</b> y disfruta!</p>
+                        {{--<p><a href="#" class="btn btn-primary">Get In Touch</a></p>--}}
                     </div>
                 </div>
                 <div class="fh5co-block to-animate" style="background-image: url({{URL::to('images/img_8.jpg')}});">
@@ -184,8 +184,8 @@
                         <i class="fh5co-intro-icon fa fa-user" aria-hidden="true"></i>
                         {{--<i class="fh5co-intro-icon icon-wrench"></i>--}}
                         <h2>Administrador</h2>
-                        <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-                        <p><a href="#" class="btn btn-primary">Click Me</a></p>
+                        <p>Consulta y administra la disponibilidad de tus canchas, actualiza la información y promociones de tu sitio, brinda membresías <b>(Token)</b> a tus clientes frecuentes.</p>
+                        {{--<p><a href="#" class="btn btn-primary">Click Me</a></p>--}}
                     </div>
                 </div>
                 <div class="fh5co-block to-animate" style="background-image: url({{URL::to('images/img_9.jpg')}});">
@@ -195,8 +195,8 @@
                         <i class="fh5co-intro-icon fa fa-user-secret" aria-hidden="true"></i>
                         {{--<i class="fh5co-intro-icon icon-rocket"></i>--}}
                         <h2>Entrenador</h2>
-                        <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-                        <p><a href="#" class="btn btn-primary">Why Us?</a></p>
+                        <p><b>Regístrate</b>, Solicita membresías <b>(Token)</b> VIP en los sitios de tu preferencia, programa los horarios para tus entrenamientos, <b>reserva</b> tantas canchas como necesites.</p>
+                        {{--<p><a href="#" class="btn btn-primary">Why Us?</a></p>--}}
                     </div>
                 </div>
             </div>
@@ -482,7 +482,7 @@
                     <h2 class="to-animate">Aliados</h2>
                     <div class="row">
                         <div class="col-md-8 col-md-offset-2 subtext to-animate">
-                            <h3>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</h3>
+                            <h3>Pauta con nosotros y consigue un espacio para tu marca o empresa en nuestra página principal, Que esperas: <a href="#fh5co-contact"><b>Contactanos!</b></a></h3>
                         </div>
                     </div>
                 </div>
@@ -491,9 +491,9 @@
                 <div class="col-md-4">
                     <div class="fh5co-person text-center to-animate">
                         <figure><img src="images/cgh.png" alt="Image" style="width: 120px;height: 120px; "></figure>
-                        <h3>Jean Smith</h3>
-                        <span class="fh5co-position">Web Designer</span>
-                        <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts</p>
+                        <h3>Tu Empresa</h3>
+                        <span class="fh5co-position">Patrocinador</span>
+                        <p>Espacio publicitario disponible para tu marca empresa, consigue que mas personas conozcan tus actividades, productos y servicios.</p>
                         <ul class="social social-circle">
                             <li><a href="#"><i class="icon-twitter"></i></a></li>
                             <li><a href="#"><i class="icon-facebook"></i></a></li>
@@ -504,22 +504,22 @@
                 <div class="col-md-4">
                     <div class="fh5co-person text-center to-animate">
                         <figure><img src="images/ceindetec.jpg" alt="Image" style="width: 120px;height: 120px; "></figure>
-                        <h3>Rob Smith</h3>
-                        <span class="fh5co-position">Web Developer</span>
-                        <p>La Corporación CEINDETEC Llanos es una Entidad Sin Ánimo de Lucro dedicada al fomento de la Investigación y el Desarrollo Tecnológico. Tiene como objetivo contribuir a la apropiación social de la Ciencia y la Tecnología, y al cambio hacia una cultura basada en el Conocimiento y la Investigación, que incorpore el Desarrollo Tecnológico a la cotidianidad y a los procesos productivos dentro de un marco de desarrollo sostenible.</p>
+                        <h3>CEINDETEC Llanos</h3>
+                        <span class="fh5co-position">Villavicencio - Meta</span>
+                        <p>El Centro de Investigación y Desarrollo Tecnológico de los Llanos, es una entidad sin ánimo de lucro dedicada al fomento de la <b>Investigación</b> y el <b>Desarrollo Tecnológico</b> en el Meta.</p>
                         <ul class="social social-circle">
-                            <li><a href="#"><i class="icon-twitter"></i></a></li>
-                            <li><a href="#"><i class="icon-facebook"></i></a></li>
-                            <li><a href="#"><i class="icon-github"></i></a></li>
+                            <li><a href="https://twitter.com/ceindetec" target="_blank"><i class="icon-twitter"></i></a></li>
+                            <li><a href="https://www.facebook.com/CEINDETEC/" target="_blank"><i class="icon-facebook"></i></a></li>
+                            <li><a href="http://ceindetec.org.co/" target="_blank"><i class="icon-globe"></i></a></li>
                         </ul>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="fh5co-person text-center to-animate">
                         <figure><img src="images/smart.png" alt="Image" style="width: 120px;height: 120px; "></figure>
-                        <h3>Larry Ben</h3>px
-                        <span class="fh5co-position">Web Designer</span>
-                        <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts</p>
+                        <h3>Tu marca</h3>
+                        <span class="fh5co-position">Patrocinador</span>
+                        <p>Espacio publicitario disponible para tu marca empresa, consigue que mas personas conozcan tus actividades, productos y servicios.</p>
                         <ul class="social social-circle">
                             <li><a href="#"><i class="icon-twitter"></i></a></li>
                             <li><a href="#"><i class="icon-facebook"></i></a></li>
