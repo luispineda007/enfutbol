@@ -53,7 +53,7 @@ Route::group(['middleware' => ['auth', 'administrador']], function () {
     Route::get('administrador/horarios', 'AdministradorController@editHorarios')->name('editHorarios');
     Route::get('adminCanchas','AdministradorController@adminCanchas')->name('adminCanchas');
     Route::post('imagenCancha', 'AdministradorController@updateImagenCancha')->name('updateImagenCancha');
-    Route::get('disponibilidades','AdministradorController@disponibilidades')->name('disponibilidades');
+    Route::get('reservasYsanciones','AdministradorController@disponibilidades')->name('reservasysanciones');
     Route::post('getDisponibilidad','AdministradorController@getDisponibilidad')->name('getDisponibilidad');
     Route::post('addInfoCanchas','AdministradorController@addInfoCanchas')->name('addInfoCanchas');
     Route::post('addNuevaReserva','AdministradorController@addNuevaReserva')->name('addNuevaReserva');
@@ -70,7 +70,7 @@ Route::group(['middleware' => ['auth', 'administrador']], function () {
     Route::post('ubicacion', 'AdministradorController@updateUbicacion')->name('updateUbicacion');
     Route::post('servicios', 'AdministradorController@updateServicio')->name('updateServicio');
     Route::post('socialUpdate', 'AdministradorController@updateRedes')->name('updateRedes');
-    Route::get('resumenPlanilla','AdministradorController@planilla')->name('planilla');
+    Route::get('disponibilidades','AdministradorController@planilla')->name('planilla');
     Route::post('getPlanillas','AdministradorController@getPlanillas')->name('getPlanillas');
 });
 
