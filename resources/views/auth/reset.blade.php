@@ -63,7 +63,7 @@
                 </div>
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav navbar-right">
-                        <li ><a href="{{route("home")}}" ><span>Home</span></a></li>
+                        <li ><a href="{{route("home")}}" ><span>Inicio</span></a></li>
                         <li class="active"><a href="#" onclick="return false;" data-nav-section="work"><span>Buscar</span></a></li>
                         <li><a href="{{route("home")}}#fh5co-contact" data-nav-section="contact"><span>Contact</span></a></li>
                         @if(Auth::guest())

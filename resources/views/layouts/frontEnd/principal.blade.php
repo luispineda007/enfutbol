@@ -98,10 +98,7 @@
     <div class="container">
         <div class="">
             <div class="col-md-12 text-center">
-                <p>&copy; Elate Free HTML5. All Rights Reserved. <br>Created by <a href="http://freehtml5.co/"
-                                                                                   target="_blank">FREEHTML5.co</a>
-                    Images: <a href="http://pexels.com/" target="_blank">Pexels</a>, <a href="http://plmd.me/"
-                                                                                        target="_blank">plmd.me</a></p>
+                <p>&copy; enfutbol.co 2016 </p>
 
             </div>
         </div>

@@ -260,7 +260,7 @@
                 </div>
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav navbar-right">
-                        <li ><a href="{{route("home")}}" ><span>Home</span></a></li>
+                        <li ><a href="{{route("home")}}" ><span>Inicio</span></a></li>
                         <li><a href="{{route("buscar")}}#fh5co-work" data-nav-section="work"><span>Buscar</span></a></li>
                         <li class="active"><a href="#" onclick="return false;" data-nav-section="home"><span>Registro</span></a></li>
                         <li><a href="#" data-nav-section="contact"><span>Contacto</span></a></li>
