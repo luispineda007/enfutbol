@@ -111,9 +111,14 @@
                             <i class="fa fa-usd" aria-hidden="true"></i> <span>Administrar Canchas</span>
                         </a>
                     </li>
+                    <li class="{{ (\Request::route()->getName() == 'planilla') ? 'active' : '' }}">
+                        <a href="{{route('planilla')}}">
+                            <i class="fa fa-bullhorn" aria-hidden="true"></i><span>Disponibilidades</span>
+                        </a>
+                    </li>
                     <li class="{{ (\Request::route()->getName() == 'disponibilidades') ? 'active' : '' }}">
                         <a href="{{route('disponibilidades')}}">
-                            <i class="fa fa-bullhorn" aria-hidden="true"></i><span>Disponibilidades</span>
+                            <i class="fa fa-bullhorn" aria-hidden="true"></i><span>Reserevas y sanciones</span>
                         </a>
                     </li>
             @elseif(Auth::user()->rol =="jugador")

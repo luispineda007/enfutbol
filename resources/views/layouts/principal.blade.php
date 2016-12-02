@@ -7,7 +7,7 @@
   <meta name="author" content="">
   <meta name='csrf-param' content='authenticity_token'>
   <meta name="csrf-token" content="{{ csrf_token() }}">
-  <title>AdminLTE 2 | Dashboard</title>
+  <title>Administracion enfutbol.co</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.6 -->
@@ -66,7 +66,7 @@
     <div class="pull-right hidden-xs">
       <b>Version</b> 2.3.5
     </div>
-    <strong>Copyright &copy; 2014-2016 <a href="http://almsaeedstudio.com">Almsaeed Studio</a>.</strong> All rights
+    <strong> &copy; enfutbol.co 2016.</strong>
     reserved.
   </footer>
 

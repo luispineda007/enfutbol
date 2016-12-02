@@ -50,9 +50,9 @@
                     <ul class="nav navbar-nav navbar-right">
                         <li class="active"><a href="#" onclick="return false;" data-nav-section="home"><span>Inicio</span></a></li>
                         <li><a href="{{route("buscar")}}"  ><span>Buscar</span></a></li>
-                        <li class="hidden-md"><a href="#" onclick="return false;" data-nav-section="services"><span>Servicios</span></a></li>
-                        <li><a href="#" onclick="return false;" data-nav-section="about"><span>About</span></a></li>
-                        <li><a href="#" onclick="return false;" data-nav-section="contact"><span>contacto</span></a></li>
+                        {{--<li class="hidden-md"><a href="#" onclick="return false;" data-nav-section="services"><span>Servicios</span></a></li>--}}
+                        <li><a href="#" onclick="return false;" data-nav-section="about"><span>Aliados</span></a></li>
+                        <li><a href="#" onclick="return false;" data-nav-section="contact"><span>Contacto</span></a></li>
 
                         @if(Auth::guest())
                             <li><a href="{{route('myLoginModal')}}"   data-modal=""  ><span>Iniciar Sesión</span></a></li>
@@ -479,7 +479,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12 section-heading text-center">
-                    <h2 class="to-animate">About</h2>
+                    <h2 class="to-animate">Aliados</h2>
                     <div class="row">
                         <div class="col-md-8 col-md-offset-2 subtext to-animate">
                             <h3>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</h3>
@@ -531,7 +531,7 @@
         </div>
     </section>
 
-    <section id="fh5co-counters" style="background-image: url({{URL::to('images/full_image_1.jpg')}});" data-stellar-background-ratio="0.5">
+{{--    <section id="fh5co-counters" style="background-image: url({{URL::to('images/full_image_1.jpg')}});" data-stellar-background-ratio="0.5">
         <div class="fh5co-overlay"></div>
         <div class="container">
             <div class="row">
@@ -542,7 +542,7 @@
             <div class="row">
                 <div class="col-md-3 col-sm-6 col-xs-12">
                     <div class="fh5co-counter to-animate">
-                        {{--<i class="fh5co-counter-icon icon-briefcase to-animate-2"></i>--}}
+                        --}}{{--<i class="fh5co-counter-icon icon-briefcase to-animate-2"></i>--}}{{--
                         <i class="fh5co-counter-icon fa fa-map-marker to-animate-2" aria-hidden="true"></i>
                         <span class="fh5co-counter-number js-counter" data-from="0" data-to="89" data-speed="5000" data-refresh-interval="50">89</span>
                         <span class="fh5co-counter-label">Sitios</span>
@@ -550,7 +550,7 @@
                 </div>
                 <div class="col-md-3 col-sm-6 col-xs-12">
                     <div class="fh5co-counter to-animate">
-                        {{--<i class="fh5co-counter-icon icon-code to-animate-2"></i>--}}
+                        --}}{{--<i class="fh5co-counter-icon icon-code to-animate-2"></i>--}}{{--
                         <i class=" fh5co-counter-icon fa fa-futbol-o to-animate-2" aria-hidden="true"></i>
                         <span class="fh5co-counter-number js-counter" data-from="0" data-to="2343409" data-speed="5000" data-refresh-interval="50">2343409</span>
                         <span class="fh5co-counter-label">Canchas</span>
@@ -572,38 +572,38 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section>--}}
 
     <section id="fh5co-contact" data-section="contact">
         <div class="container">
             <div class="row">
                 <div class="col-md-12 section-heading text-center">
-                    <h2 class="to-animate">Get In Touch</h2>
+                    <h2 class="to-animate">Contacto</h2>
                     <div class="row">
                         <div class="col-md-8 col-md-offset-2 subtext to-animate">
-                            <h3>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</h3>
+                            <h3>¿Tienes dudas? ¿deseas información adicional? escríbenos</h3>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="row row-bottom-padded-md">
                 <div class="col-md-6 to-animate">
-                    <h3>Contact Info</h3>
+                    <h3>Información de Contacto</h3>
                     <ul class="fh5co-contact-info">
                         <li class="fh5co-contact-address ">
                             <i class="icon-home"></i>
-                            5555 Love Paradise 56 New Clity 5655, <br>Excel Tower United Kingdom
+                           Carrera 19c No. 19 - 20
                         </li>
-                        <li><i class="icon-phone"></i> (123) 465-6789</li>
+                        <li><i class="icon-phone"></i> 311 807 3599 - 313 858 5565</li>
                         <li><i class="icon-envelope"></i>informacion.enfutbol.co@gmail.com</li>
-                        <li><i class="icon-globe"></i> <a href="http://freehtml5.co/" target="_blank">freehtml5.co</a></li>
+                        <li><i class="icon-globe"></i> <a href="http://ceindetec.org.co/" target="_blank">ceindetec.org.co</a></li>
                     </ul>
                 </div>
 
                 <div class="col-md-6 to-animate">
 
                     {!!Form::open(['id'=>'formContacto','class'=>'form-horizontal'])!!}
-                    <h3>Contact Form</h3>
+                    <h3>Formulario de Contacto</h3>
                     <div class="form-group ">
                         <label for="name" class="sr-only">Name</label>
                         <input id="name" name="nombre" class="form-control" placeholder="Nombre" type="text" required>
