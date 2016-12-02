@@ -116,8 +116,8 @@
                             <i class="fa fa-bullhorn" aria-hidden="true"></i><span>Disponibilidades</span>
                         </a>
                     </li>
-                    <li class="{{ (\Request::route()->getName() == 'disponibilidades') ? 'active' : '' }}">
-                        <a href="{{route('disponibilidades')}}">
+                    <li class="{{ (\Request::route()->getName() == 'reservasysanciones') ? 'active' : '' }}">
+                        <a href="{{route('reservasysanciones')}}">
                             <i class="fa fa-bullhorn" aria-hidden="true"></i><span>Reserevas y sanciones</span>
                         </a>
                     </li>

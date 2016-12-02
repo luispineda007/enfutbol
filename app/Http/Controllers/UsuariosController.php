@@ -488,62 +488,68 @@ class UsuariosController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @return array
      */
     public function addNuevaReservaUsuario(Request $request)
     {
 
-        $canchaSelec = Cancha::select("id_sitio")->where("id", $request->id_cancha)->first();
 
-        if (!$this->getInfoToken($canchaSelec->id_sitio)["bandera"]) {
-            $data["tipo"] = "normal";
-            $data["estado"] = false;
+            $canchaSelec = Cancha::select("id_sitio")->where("id", $request->id_cancha)->first();
 
-            return $data;
-        }
+            if (!$this->getInfoToken($canchaSelec->id_sitio)["bandera"]) {
+                $data["tipo"] = "normal";
+                $data["estado"] = false;
 
-        $token = Token::select("id", "tipo")->where("id_sitio", $canchaSelec->id_sitio)->where("id_usuario", \Auth::user()->id)->where("estado", "A")->first();
-        //dd($canchaSelec->id_sitio);
-
-
-        $persona = \Auth::user()->getPersona;
-        $reserva = new Reserva($request->all());
-        $reserva->id_token = $token->id;
-        $reserva->responsable = $persona->nombres;
-        $reserva->telefono = $persona->telefono;
-        $reserva->estado = "A";
-        $reserva->save();
-
-        if ($reserva->getCancha->id_padre == 0) {
-            $canchas = Cancha::select("id")->where("id_padre", $reserva->getCancha->id)->get();
-            foreach ($canchas as $cancha) {
-                $reservas = new Reserva($request->all());
-                $reservas->id_cancha = $cancha->id;
-                $reservas->responsable = $reserva->getCancha->nombre;
-                $reservas->id_token = $token->id;
-                $reservas->estado = "";
-                $reservas->save();
+                return $data;
             }
-        } else {
-            $reser = Reserva::where("id_cancha", $reserva->getCancha->id_padre)->where("fecha", $request->input("fecha"))->where("hora", $request->input("hora"))->first();
+        DB::beginTransaction();
+        try {
+            $token = Token::select("id", "tipo")->where("id_sitio", $canchaSelec->id_sitio)->where("id_usuario", \Auth::user()->id)->where("estado", "A")->first();
+            //dd($canchaSelec->id_sitio);
 
-            if ($reser == "" || $reser == null) {
-                $reservas = new Reserva($request->all());
-                $reservas->id_cancha = $reserva->getCancha->id_padre;
-                $reservas->responsable = $reserva->getCancha->nombre . " (Futbol " . $reserva->getCancha->tipo . ")";
-                $reservas->id_token = $token->id;
-                $reservas->estado = "";
-                $reservas->save();
+
+            $persona = \Auth::user()->getPersona;
+            $reserva = new Reserva($request->all());
+            $reserva->id_token = $token->id;
+            $reserva->responsable = $persona->nombres;
+            $reserva->telefono = $persona->telefono;
+            $reserva->estado = "A";
+            $reserva->save();
+
+            if ($reserva->getCancha->id_padre == 0) {
+                $canchas = Cancha::select("id")->where("id_padre", $reserva->getCancha->id)->get();
+                foreach ($canchas as $cancha) {
+                    $reservas = new Reserva($request->all());
+                    $reservas->id_cancha = $cancha->id;
+                    $reservas->responsable = $reserva->getCancha->nombre;
+                    $reservas->id_token = $token->id;
+                    $reservas->estado = "";
+                    $reservas->save();
+                }
             } else {
+                $reser = Reserva::where("id_cancha", $reserva->getCancha->id_padre)->where("fecha", $request->input("fecha"))->where("hora", $request->input("hora"))->where("estado", "")->first();
 
-                $reser->responsable = $reser->responsable . " y " . $reserva->getCancha->nombre;
-                $reser->save();
+                if ($reser == "" || $reser == null) {
+                    $reservas = new Reserva($request->all());
+                    $reservas->id_cancha = $reserva->getCancha->id_padre;
+                    $reservas->responsable = $reserva->getCancha->nombre . " (Futbol " . $reserva->getCancha->tipo . ")";
+                    $reservas->id_token = $token->id;
+                    $reservas->estado = "";
+                    $reservas->save();
+                } else {
+
+                    $reser->responsable = $reser->responsable . " y " . $reserva->getCancha->nombre;
+                    $reser->save();
+                }
             }
+
+            $data["tipo"] = $token->tipo;
+            $data["estado"] = true;
+            DB::commit();
+        }catch (\Exception $e){
+            $data=["estado"=>false,"mensaje"=>"error en la transaccion, intentar nuevamente.".$e->getMessage()];
+            DB::rollBack();
         }
-
-        $data["tipo"] = $token->tipo;
-        $data["estado"] = true;
-
         return $data;
     }
 

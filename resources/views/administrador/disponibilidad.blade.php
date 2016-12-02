@@ -506,14 +506,14 @@
                     if(parseInt(horaActual)>parseInt(hora)){
                         quitarTokenOno(id_res);
                     }else{
-                        cancelarReserva($("#cancha").val(),$("#fecha").val(),hora);
+                        cancelarReserva($("#fecha").val(),hora);
                     }
 
                     //alert("Primera es igual Segunda");
                 } else if (fechaHoy > fechaSeleccionada) {
                     quitarTokenOno(id_res);
                 } else{
-                    cancelarReserva($("#cancha").val(),$("#fecha").val(),hora);
+                    cancelarReserva($("#fecha").val(),hora);
                 }
 
 
@@ -533,8 +533,10 @@
         }
 
         var ids;
-        function cancelarReserva(cancha,fecha,hora) {
+        function cancelarReserva(fecha,hora) {
 
+
+            var cancha = id_cancha;
             //alert("cancelar la reserva en la cancha :" +$("#cancha").val()+"a las : "+$("#fecha").val()+" en la hora "+hora);
             $.ajax({
                 type:"POST",

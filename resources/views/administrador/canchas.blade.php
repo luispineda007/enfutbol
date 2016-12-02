@@ -261,6 +261,7 @@
 {{------end content--}}
 
 @section('js')
+    <script src="js/inicio.js"></script>
     <script src="plugins/bootstrapFileInput/js/plugins/canvas-to-blob.min.js" type="text/javascript"></script>
     <script src="plugins/bootstrapFileInput/js/plugins/sortable.min.js" type="text/javascript"></script>
     <script src="plugins/bootstrapFileInput/js/plugins/purify.min.js" type="text/javascript"></script>
@@ -275,11 +276,11 @@
             });
 
             $( ":input" ).click(function () {
-                console.log("dio click");
+//                console.log("dio click");
                 $(this).parent().parent().parent().removeClass("has-error");
             });
             $( "textarea" ).click(function () {
-                console.log("dio click");
+//                console.log("dio click");
                 $(this).parent().parent().removeClass("has-error");
             });
 
@@ -426,14 +427,32 @@
         }
 
         function format(input){
-            var num = input.value.replace(/\./g,"");
-            if(!isNaN(num)){
-                num = num.toString().split("").reverse().join("").replace(/(?=\d*\.?)(\d{3})/g,"$1.");
-                num = num.split("").reverse().join("").replace(/^[\.]/,"");
-                input.value = num;
+            var keynum = window.event ? window.event.keyCode : input.which;
+
+
+            var menos=(input.value.indexOf("-")==0)?"-":"";
+            input.value = input.value.replace("-","");
+
+            if (input.value.length==1){
+                if(keynum==109){
+
+                }else{
+                    input.value = menos+input.value.replace(/[^\d\.]*/g,"");
+                }
             }else{
-                input.value = input.value.replace(/[^\d\.]*/g,"");
+                var num = input.value.replace(/\./g,"");
+                if(!isNaN(num)){
+                    num = num.toString().split("").reverse().join("").replace(/(?=\d*\.?)(\d{3})/g,"$1.");
+                    num = num.split("").reverse().join("").replace(/^[\.]/,"");
+                    input.value = menos+num;
+                }else{
+                    input.value = menos+input.value.replace(/[^\d\.]*/g,"");
+                }
             }
+
+
+
+
         }
     </script>
 
