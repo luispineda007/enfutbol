@@ -368,7 +368,7 @@
                                         <div class="input-group-addon facebook">
                                             <i class="fa fa-facebook"></i>
                                         </div>
-                                        <input type="text" name="facebook" id="facebook" class="form-control" required placeholder="Ej: https://www.facebook.com/tuSitio" value="{{$sitio->facebook}}">
+                                        <input type="text" name="facebook" id="facebook" class="form-control" placeholder="Ej: https://www.facebook.com/tuSitio" value="{{$sitio->facebook}}">
                                     </div>
                                 </div>
                             </div>
@@ -378,7 +378,7 @@
                                         <div class="input-group-addon twitt">
                                             <i class="fa fa-twitter"></i>
                                         </div>
-                                        <input type="text" name="twitter" id="twitter" class="form-control" required placeholder="Ej: https://twitter.com/tuSitio" value="{{$sitio->twitter}}">
+                                        <input type="text" name="twitter" id="twitter" class="form-control" placeholder="Ej: https://twitter.com/tuSitio" value="{{$sitio->twitter}}">
                                     </div>
                                 </div>
                             </div>
@@ -543,8 +543,6 @@
                         lng: -77.028333
                     });
 
-                    //console.log("{{$municipio->municipio." ".$municipio->getDepartamento->departamento}}");
-
                     if(geolocalizacion=="")
                     geoMapa("{{$municipio->municipio." ".$municipio->getDepartamento->departamento}}");
                     else{
@@ -574,19 +572,22 @@
             var formulario = $("#formSocial");
             formulario.submit(function(e){
                 e.preventDefault();
-                $.ajax({
-                    type:"POST",
-                    context: document.body,
-                    url: '{{route('updateRedes')}}',
-                    data:formulario.serialize(),
-                    success: function(data){
-                        if (data=="exito")
-                            $(".cargando").removeClass("hidden");
-                    },
-                    error: function (data) {
+                $("#submitRedes").focus();
+//                if ($("#facebook").parent()
+                    $.ajax({
+                        type:"POST",
+                        context: document.body,
+                        url: '{{route('updateRedes')}}',
+                        data:formulario.serialize(),
+                        success: function(data){
+                            if (data=="exito")
+                                $(".cargando").removeClass("hidden");
+                        },
+                        error: function (data) {
 
-                    }
-                });
+                        }
+                    });
+//                }
             });
 
             $(".view").on('click', function () {
@@ -595,7 +596,6 @@
         });
 
         $("#facebook").on('blur', function(){
-
             if ($(this).val() != "") {
                 fbUrlCheck = /^(https?:\/\/)?(www\.)?facebook.com\/[a-zA-Z0-9(\.\?)?]/;
                 secondCheck = /home((\/)?\.[a-zA-Z0-9])?/;
@@ -604,13 +604,28 @@
                     validaRedes();
                 }
                 else{
-                    $(this).parent().addClass("has-error");
-                    // $(this).focus();
-                    // $("#submitRedes").attr("disabled", 'disabled');
+                    $(this).parent().addClass("has-error").attr("data-original-title", "Digita una URL valida");
+                    $(this).focus();
+                    $("#submitRedes").attr("disabled", 'disabled');
                     $(".cargando").addClass("hidden");
                 }
             }
         });
+
+        function validarFacebook(selector){
+            fbUrlCheck = /^(https?:\/\/)?(www\.)?facebook.com\/[a-zA-Z0-9(\.\?)?]/;
+            secondCheck = /home((\/)?\.[a-zA-Z0-9])?/;
+            if (fbUrlCheck.test($(this).val()) && !secondCheck.test($(this).val())) {
+                activarInput($(this));
+                validaRedes();
+            }
+            else{
+                $(this).parent().addClass("has-error").attr("data-original-title", "Digita una URL valida");
+                $(this).focus();
+                $("#submitRedes").attr("disabled", 'disabled');
+                $(".cargando").addClass("hidden");
+            }
+        }
 
         $("#twitter").on('blur', function(){
             if ($(this).val() != "") {
@@ -673,7 +688,7 @@
         }
 
         function validaRedes(){
-            if ($("#facebook").val() != "" && $("#twitter").val() != ""){
+            if ($("#facebook").val() != "" || $("#twitter").val() != ""){
                 $("#submitRedes").removeAttr("disabled");
 
             }

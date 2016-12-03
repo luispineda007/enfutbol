@@ -84,7 +84,7 @@
 
         .section-heading {
             padding-bottom: 5px;
-            margin-bottom: 5px;
+            margin-bottom: 25px;
 
         }
          #fh5co-work {
@@ -158,7 +158,7 @@
 
                     <div class="row">
                         <div class="col-md-8 col-md-offset-2 subtext to-animate">
-                            <h3>Encuentra en donde jugar solo Indicando</h3>
+                            <h3>Permítenos encontrar la cancha que necesitas:</h3>
                         </div>
                     </div>
                     <div class="row">
@@ -174,7 +174,7 @@
                                         <div class="input-group-addon">
                                             <i class="fa fa-clock-o"></i>
                                         </div>
-                                        {!!Form::select('tipo', ['11' => 'Futbol 11', '10' => 'Futbol 10', '9' => 'Futbol 9', '8' => 'Futbol 8', '7' => 'Futbol 7', '6' => 'Futbol 6', '5' => 'Futbol 5'], $tipo, ['class'=>"form-control",'placeholder' => 'Tipo de Cancha', 'required'])!!}
+                                        {!!Form::select('tipo', ['11' => 'Futbol 11', '10' => 'Futbol 10', '9' => 'Futbol 9', '8' => 'Futbol 8', '7' => 'Futbol 7', '6' => 'Futbol 6', '5' => 'Futbol 5'], $tipo, ['class'=>"form-control",'placeholder' => 'Selecciona un tipo..', 'required'])!!}
                                     </div>
                                     <!-- /.input group -->
                                 </div>
@@ -188,7 +188,7 @@
                                         <div class="input-group-addon">
                                             <i class="fa fa-calendar"></i>
                                         </div>
-                                        <input type="text" name="fecha" class="form-control pull-right manito" id="fecha" placeholder="Fecha" readonly value="{{$fecha}}">
+                                        <input type="text" name="fecha" class="form-control pull-right manito" id="fecha" placeholder="Fecha.." readonly value="{{$fecha}}">
 
                                     </div>
 
@@ -203,7 +203,7 @@
                                             <div class="input-group-addon">
                                                 <i class="fa fa-clock-o"></i>
                                             </div>
-                                            <input id="hora" name="hora" type="text" class="form-control timepicker manito" readonly placeholder="Hora" value="{{$hora}}" >
+                                            <input id="hora" name="hora" type="text" class="form-control timepicker manito" readonly placeholder="Hora.." value="{{$hora}}" >
                                         </div>
                                         <!-- /.input group -->
                                     </div>

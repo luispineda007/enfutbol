@@ -13,9 +13,12 @@
 
     <style>
 
-.cargando{
-    font-size: 16px;
-}
+        .cargando{
+            font-size: 16px;
+        }
+        .section-heading{
+            padding-bottom: 0;
+        }
 
 
     </style>
@@ -99,7 +102,7 @@
 
                             <div class="row">
                                 <div class="col-md-8 col-md-offset-2 subtext to-animate">
-                                    <h3>Encuentra el mejor sitio Indicando</h3>
+                                    <h3>Permítenos encontrar la cancha que necesitas:</h3>
                                 </div>
                             </div>
                             <div class="row">
@@ -113,9 +116,9 @@
 
                                             <div class="input-group">
                                                 <div class="input-group-addon">
-                                                    <i class="fa fa-clock-o"></i>
+                                                    <i class="fa fa-futbol-o"></i>
                                                 </div>
-                                                {!!Form::select('tipo', ['11' => 'Futbol 11', '10' => 'Futbol 10', '9' => 'Futbol 9', '8' => 'Futbol 8', '7' => 'Futbol 7', '6' => 'Futbol 6', '5' => 'Futbol 5'], null, ['class'=>"form-control",'placeholder' => 'Tipo de Cancha', 'required'])!!}
+                                                {!!Form::select('tipo', ['11' => 'Futbol 11', '10' => 'Futbol 10', '9' => 'Futbol 9', '8' => 'Futbol 8', '7' => 'Futbol 7', '6' => 'Futbol 6', '5' => 'Futbol 5'], null, ['class'=>"form-control",'placeholder' => 'Seleccionar tipo..', 'required'])!!}
                                             </div>
                                             <!-- /.input group -->
                                         </div>
@@ -129,7 +132,7 @@
                                                 <div class="input-group-addon">
                                                     <i class="fa fa-calendar"></i>
                                                 </div>
-                                                <input type="text" name="fecha" class="form-control pull-right manito" id="fecha" placeholder="Fecha" readonly>
+                                                <input type="text" name="fecha" class="form-control pull-right manito" id="fecha" placeholder="Fecha.." readonly>
                                             </div>
 
                                         </div>
@@ -143,7 +146,7 @@
                                                     <div class="input-group-addon">
                                                         <i class="fa fa-clock-o"></i>
                                                     </div>
-                                                    <input id="hora" name="hora" type="text" class="form-control timepicker manito" readonly placeholder="Hora">
+                                                    <input id="hora" name="hora" type="text" class="form-control timepicker manito" readonly placeholder="Hora..">
                                                 </div>
                                                 <!-- /.input group -->
                                             </div>
@@ -215,7 +218,7 @@
                     <h2 class="to-animate">Sitios recomendados para ti</h2>
                     <div class="row">
                         <div class="col-md-8 col-md-offset-2 subtext to-animate">
-                            <h3>las mejores canchas de la ciudad</h3>
+                            <h3>Nuestra lista de sugerencias</h3>
                         </div>
                     </div>
                    {{-- <div class="row">
@@ -490,7 +493,7 @@
             <div class="row">
                 <div class="col-md-4">
                     <div class="fh5co-person text-center to-animate">
-                        <figure><img src="images/cgh.png" alt="Image" style="width: 120px;height: 120px; "></figure>
+                        <figure><img src="images/aliado.jpg" alt="Image" style="width: 120px;height: 120px; "></figure>
                         <h3>Tu Empresa</h3>
                         <span class="fh5co-position">Patrocinador</span>
                         <p>Espacio publicitario disponible para tu marca empresa, consigue que mas personas conozcan tus actividades, productos y servicios.</p>
@@ -516,7 +519,7 @@
                 </div>
                 <div class="col-md-4">
                     <div class="fh5co-person text-center to-animate">
-                        <figure><img src="images/smart.png" alt="Image" style="width: 120px;height: 120px; "></figure>
+                        <figure><img src="images/aliado.jpg" alt="Image" style="width: 120px;height: 120px; "></figure>
                         <h3>Tu marca</h3>
                         <span class="fh5co-position">Patrocinador</span>
                         <p>Espacio publicitario disponible para tu marca empresa, consigue que mas personas conozcan tus actividades, productos y servicios.</p>
@@ -581,7 +584,7 @@
                     <h2 class="to-animate">Contacto</h2>
                     <div class="row">
                         <div class="col-md-8 col-md-offset-2 subtext to-animate">
-                            <h3>¿Tienes dudas? ¿deseas información adicional? escríbenos</h3>
+                            <h3>¿Tienes dudas? ¿deseas información adicional? escríbenos...</h3>
                         </div>
                     </div>
                 </div>
@@ -606,19 +609,19 @@
                     <h3>Formulario de Contacto</h3>
                     <div class="form-group ">
                         <label for="name" class="sr-only">Name</label>
-                        <input id="name" name="nombre" class="form-control" placeholder="Nombre" type="text" required>
+                        <input id="name" name="nombre" class="form-control" placeholder="Nombre.." type="text" required>
                     </div>
                     <div class="form-group ">
                         <label for="email" class="sr-only">Email</label>
-                        <input id="email" class="form-control" name="email" placeholder="Email" type="email" required>
+                        <input id="email" class="form-control" name="email" placeholder="E-mail.." type="email" required>
                     </div>
                     <div class="form-group ">
                         <label for="phone" class="sr-only">Phone</label>
-                        <input id="phone" name="telefono" class="form-control" placeholder="Telefono" type="text" required>
+                        <input id="phone" name="telefono" class="form-control" placeholder="Teléfono.." type="text" required>
                     </div>
                     <div class="form-group ">
                         <label for="message" class="sr-only">Message</label>
-                        <textarea name="mensaje" id="message" cols="30" rows="5" class="form-control" placeholder="Mensaje" required></textarea>
+                        <textarea name="mensaje" id="message" cols="30" rows="5" class="form-control" placeholder="Mensaje.." required></textarea>
                     </div>
 
                     <div id="alertContacto" class="form-group ">
