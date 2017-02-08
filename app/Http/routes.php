@@ -72,6 +72,12 @@ Route::group(['middleware' => ['auth', 'administrador']], function () {
     Route::post('socialUpdate', 'AdministradorController@updateRedes')->name('updateRedes');
     Route::get('disponibilidades','AdministradorController@planilla')->name('planilla');
     Route::post('getPlanillas','AdministradorController@getPlanillas')->name('getPlanillas');
+
+
+    Route::get('adminTorneos','TorneosController@index')->name('adminTorneos');
+    Route::get('nuevoTorneo','TorneosController@torneoNuevo')->name('torneoNuevo');
+    Route::post('insertTorneo','TorneosController@insertTorneo')->name('insertTorneo');
+
 });
 
 Route::group(['middleware' => ['auth']], function () {

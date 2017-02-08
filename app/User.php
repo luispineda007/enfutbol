@@ -70,6 +70,14 @@ class User extends Model implements AuthenticatableContract,
         $persona = Persona::where('identificacion',$this->persona)->first()->nombres;
         return $persona;
     }*/
+
+    /**
+     * @return Object_ token
+     */
+    public function getTorneos()
+    {
+        return $this->hasMany('App\Torneo', 'usuario_id');
+    }
     
     
 
