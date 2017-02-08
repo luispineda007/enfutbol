@@ -14,8 +14,11 @@ class Persona extends Model
     {
         return $this->belongsTo('App\User');
     }
-    
-    
-    
+
+    public function getMunicipio()
+    {
+        return $this->belongsTo('App\Municipio', 'id_municipio');
+    }
+
 
 }
