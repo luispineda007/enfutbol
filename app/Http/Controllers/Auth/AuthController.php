@@ -36,6 +36,7 @@ class AuthController extends Controller
         DB::select('CALL estado_pagos');
         DB::select('CALL estado_reservas_fecha');
         DB::select('CALL estado_reservas_hoy');
+        DB::select('CALL estado_pagos_torneos');
     }
 
     /**

@@ -36,7 +36,14 @@ Route::group(['middleware' => ['auth', 'superAdmin']], function () {
     Route::get('modalDetallesSitio/{id}','SuperAdminController@modalDetallesSitio')->name('modalDetallesSitio');
     Route::get('modalEditarCanchas/{id}','SuperAdminController@modalEditarCanchas')->name('modalEditarCanchas');
     Route::post('addPago','SuperAdminController@addPago')->name('addPago');
-    
+    Route::post('pagosTorneoUser','SuperAdminController@pagosTorneoUser')->name('pagosTorneoUser');
+
+    Route::get('superTorneos','SuperAdminController@superTorneos')->name('superTorneos');
+
+    Route::get('autoCompleUser','SuperAdminController@autoCompleUser')->name('autoCompleUser');
+
+
+
 });
 
 

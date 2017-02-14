@@ -41,6 +41,54 @@ END//
 
 DELIMITER ;
 
+------------------------------------Procedimineto para los pagos de los torneos --------------------------------------------------------
+
+
+DELIMITER //
+
+CREATE PROCEDURE estado_pagos_torneos()
+
+BEGIN
+
+-- Declaración de variables
+DECLARE _id INT;
+DECLARE _user_id INT;
+
+-- Definición de la consulta
+DECLARE fecha_cursor CURSOR FOR
+SELECT p.id,p.user_id FROM pagos_torneos p WHERE DATEDIFF(fecha_fin,CURDATE())<0 AND p.estado='X';
+
+-- Declaración de un manejador de error tipo NOT FOUND
+DECLARE CONTINUE HANDLER FOR NOT FOUND SET @hecho = TRUE;
+
+-- Abrimos el cursor
+OPEN fecha_cursor;
+
+-- Comenzamos nuestro bucle de lectura
+loop1: LOOP
+
+-- Obtenemos la primera fila en la variables correspondientes
+FETCH fecha_cursor INTO _id, _user_id;
+
+UPDATE pagos_torneos SET estado = '' WHERE pagos_torneos.id = _id;
+
+-- Si el cursor se quedó sin elementos,
+-- entonces nos salimos del bucle
+IF @hecho THEN
+LEAVE loop1;
+END IF;
+
+END LOOP loop1;
+
+-- Cerramos el cursor
+CLOSE fecha_cursor;
+
+END//
+
+DELIMITER ;
+
+
+
 ---------------------------------- procedimineto para actualizar las reservas que ya estan vencidas---------------------------------------
 
 

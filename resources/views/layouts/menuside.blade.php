@@ -74,6 +74,11 @@
                         <i class="fa fa-map-marker" aria-hidden="true"></i> <span>Sitios Registrados</span>
                     </a>
                 </li>
+                    <li class="{{ (\Request::route()->getName() == 'superTorneos') ? 'active' : '' }}">
+                        <a href="{{route('superTorneos')}}">
+                            <i class="fa fa-users" aria-hidden="true"></i> <span>Torneos</span>
+                        </a>
+                    </li>
                 <li class="treeview">
                     <a href="#">
                         <i class="fa fa-dashboard"></i> <span>Dashboard</span>

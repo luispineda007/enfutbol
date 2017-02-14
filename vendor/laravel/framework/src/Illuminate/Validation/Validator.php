@@ -1247,7 +1247,7 @@ class Validator implements ValidatorContract
     }
 
     /**
-     * Validate the MIME type of a file is an img MIME type.
+     * Validate the MIME type of a file is an image MIME type.
      *
      * @param  string  $attribute
      * @param  mixed   $value
