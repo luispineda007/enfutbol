@@ -26,6 +26,7 @@ return array(
     'CreatePersonasTable' => $baseDir . '/database/migrations/2014_10_11_153637_create_personas_table.php',
     'CreateReservasTable' => $baseDir . '/database/migrations/2016_07_18_162603_create_reservas_table.php',
     'CreateSitiosTable' => $baseDir . '/database/migrations/2016_07_18_160121_create_sitios_table.php',
+    'CreateSolicitudesInscripcionsTable' => $baseDir . '/database/migrations/2017_02_14_154710_create_solicitudes_inscripcions_table.php',
     'CreateTarjetasEncuentrosTable' => $baseDir . '/database/migrations/2017_02_03_175635_create_tarjetas_encuentros_table.php',
     'CreateTokensTable' => $baseDir . '/database/migrations/2016_07_18_162544_create_tokens_table.php',
     'CreateTorneosTable' => $baseDir . '/database/migrations/2017_02_03_155246_create_torneos_table.php',

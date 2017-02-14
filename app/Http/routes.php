@@ -84,6 +84,9 @@ Route::group(['middleware' => ['auth', 'administrador']], function () {
     Route::get('adminTorneos','TorneosController@index')->name('adminTorneos');
     Route::get('nuevoTorneo','TorneosController@torneoNuevo')->name('torneoNuevo');
     Route::post('insertTorneo','TorneosController@insertTorneo')->name('insertTorneo');
+    Route::post('deleteTorneo','TorneosController@deleteTorneo')->name('deleteTorneo');
+    Route::get('adminTorneo/{id}','TorneosController@adminTorneo')->name('adminTorneo');
+    Route::post('updateTorneo','TorneosController@updateTorneo')->name('updateTorneo');
 
 });
 
