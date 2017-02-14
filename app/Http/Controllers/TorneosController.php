@@ -15,19 +15,24 @@ use Illuminate\Support\Facades\DB;
 class TorneosController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Devuelve la vista principal de torneos de un usuaio.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
         $user = \Auth::user();
-        $data['torneos'] = $user->getTorneos;
+        $torneos = $user->getTorneos;
+        foreach ($torneos as $torneo){
+            $torneo->getEquipos;
+        }
+//        dd($torneos);
+        $data['torneos'] = $torneos;
         return view('torneos.index', $data);
     }
 
     /**
-     * Show the form for creating a new resource.
+     * SDevuelve la vista para crear un nuevo torneo.
      *
      * @return \Illuminate\Http\Response
      */
@@ -48,7 +53,7 @@ class TorneosController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Inserta un nuevo torneo y sus fases asociadas.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -104,45 +109,105 @@ class TorneosController extends Controller
                 $fase2->save();
             }
             DB::commit();
-            return "exito";
+            return ['estado' => true, 'mensaje' => $torneo->id];
         }catch(\Exception $e){
+            DB::rollBack();
+            return ['estado' => false, 'mensaje' => "Ha ocurrido el siguiente error: " . $e->getMessage()];
+        }
+    }
+
+    /**
+     * Elimina un torneo.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function deleteTorneo(Request $request)
+    {
+        DB::beginTransaction();
+        try{
+            $torneo = Torneo::find($request->id);
+            unlink('images/torneos/' . $torneo->url_logo);
+            $torneo->delete();
+            DB::commit();
+            return "exito";
+        }
+        catch(\Exception $e){
             DB::rollBack();
             return json_encode(array('error' => "Ha ocurrido el siguiente error: " . $e->getMessage()));
         }
     }
 
     /**
-     * Display the specified resource.
+     * Si tiene permiso, retorna la vista para administrar un torneo.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function adminTorneo($id)
     {
-        //
+        $torneo = Torneo::find($id);
+        if($torneo != null && $torneo->usuario_id == \Auth::user()->id){
+            if($torneo->privacidad == 'A' && $torneo->estado = "A"){
+                foreach($torneo->getSolicitudes as $solicitud) {
+                    $solicitud->getEquipo;
+                    $solicitud->getCapitan;
+                }
+
+            }
+            foreach ($torneo->getEquipos_torneo as $equipo)
+                $equipo->getEquipo;
+            $data['torneo'] = $torneo;
+//            dd($data);
+            return view('torneos.torneo', $data);
+        }
+        else{
+            return redirect()->back();
+        }
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
+     * Actualiza la informacion de un torneo.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function updateTorneo(Request $request)
     {
-        //
+//        dd($request->url_logo);
+        $torneo = Torneo::find($request->torneo_id);
+        if($torneo->usuario_id == \Auth::user()->id) {
+            DB::beginTransaction();
+            try{
+                $torneo->nombre = $request->nombre;
+                $torneo->descripcion = $request->descripcion;
+                $mensaje = 'exito';
+                if(isset($request->url_logo)){
+                    $foto = $request->file('url_logo');
+                    $extension = explode(".", $foto->getClientOriginalName());
+                    $cantidad = count($extension) - 1;
+                    $extension = $extension[$cantidad];
+                    $nombre = time() . $request->file_id . "." . $extension;
+                    $anterior =  $torneo->url_logo;
+
+                    $foto->move('images/torneos', utf8_decode($nombre));
+                    $torneo->url_logo = utf8_decode($nombre);
+                    unlink('images/torneos/' . $anterior);
+                    $mensaje=$nombre;
+                }
+                $torneo->save();
+                DB::commit();
+                return ['estado' => true, 'mensaje'=>$mensaje];
+            }
+            catch(\Exception $e){
+                DB::rollBack();
+                return ['estado' => false,'mensaje' => "Ha ocurrido el siguiente error: " . $e->getMessage()];
+            }
+        }
+        else{
+            return ['estado' => false,'mensaje' => "No tiene acceso para realizar esta accion!"];
+
+        }
     }
 
     /**

@@ -60,8 +60,8 @@
                         {!!Form::open(['id'=>'formTorneo', 'autocomplete'=>'off', 'class'=>'form-horizontal'])!!}
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="nombre" class="col-sm-2 control-label">Nombre</label>
-                                <div class="col-sm-10">
+                                <label for="nombre" class="col-md-2 control-label">Nombre</label>
+                                <div class="col-md-10">
                                     <div class="input-group date">
                                         <div class="input-group-addon">
                                             <i class="fa fa-trophy"></i>
@@ -72,8 +72,8 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="descripcion" class="col-sm-2 control-label">Descripción</label>
-                                <div class="col-sm-10">
+                                <label for="descripcion" class="col-md-2 control-label">Descripción</label>
+                                <div class="col-md-10">
                                     <div class="input-group date">
                                         <div class="input-group-addon">
                                             <i class="fa fa-comments"></i>
@@ -84,8 +84,8 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="max_equipos" class="col-sm-2 control-label">Equipos</label>
-                                <div class="col-sm-10">
+                                <label for="max_equipos" class="col-md-2 control-label">Equipos</label>
+                                <div class="col-md-10">
                                     <div class="input-group date">
                                         <div class="input-group-addon">
                                             <i class="fa fa-users"></i>
@@ -103,8 +103,8 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="max_jugadores" class="col-sm-2 control-label">Jugadores</label>
-                                <div class="col-sm-10">
+                                <label for="max_jugadores" class="col-md-2 control-label">Jugadores</label>
+                                <div class="col-md-10">
                                     <div class="input-group date">
                                         <div class="input-group-addon">
                                             <i class="fa fa-user"></i>
@@ -115,8 +115,8 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="vlr_inscripcion" class="col-sm-2 control-label">Inscripción</label>
-                                <div class="col-sm-10">
+                                <label for="vlr_inscripcion" class="col-md-2 control-label">Inscripción</label>
+                                <div class="col-md-10">
                                     <div class="input-group date">
                                         <div class="input-group-addon">
                                             <i class="fa fa-usd"></i>
@@ -134,8 +134,8 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="tipo_cancha" class="col-sm-2 control-label">Cancha</label>
-                                <div class="col-sm-10">
+                                <label for="tipo_cancha" class="col-md-2 control-label">Cancha</label>
+                                <div class="col-md-10">
                                     <div class="input-group date">
                                         <div class="input-group-addon">
                                             <i class="fa fa-futbol-o"></i>
@@ -161,8 +161,8 @@
 
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="privacidad" class="col-sm-2 control-label">Privacidad</label>
-                                <div class="col-sm-10">
+                                <label for="privacidad" class="col-md-2 control-label">Privacidad</label>
+                                <div class="col-md-10">
                                     <div class="checkbox">
                                         <label><input type="radio" name="privacidad" class="minimal" value="A" checked>Abierto</label>
                                     </div>
@@ -173,8 +173,8 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="url_logo" class="col-sm-2 control-label">Imagen</label>
-                                <div class="col-sm-10">
+                                <label for="url_logo" class="col-md-2 control-label">Imagen</label>
+                                <div class="col-md-10">
                                     <div class="input-group image-preview">
                                         <input type="text" class="form-control image-preview-filename" disabled="disabled">
                                         <span class="input-group-btn">
@@ -194,10 +194,10 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="premiacion" class="col-sm-2 control-label">Premiación</label>
-                                <div class="col-sm-10">
+                                <label for="premiacion" class="col-md-2 control-label">Premiación</label>
+                                <div class="col-md-10">
 
-                                    <label class="col-xs-1 col-lg-5 premiado"><input id="1" name="1" type="checkbox" class="form-control minimal" value="1" checked disabled> Campeon</label>
+                                    <label class="col-xs-12 col-lg-5 premiado"><input id="1" name="1" type="checkbox" class="form-control minimal" value="1" checked disabled> Campeon</label>
                                     <div class="col-xs-12 col-lg-7">
                                         <input class="form-control" type="text" name="campeon" id="campeon" required>
                                     </div>
@@ -324,7 +324,6 @@
                 autoclose: true,
                 todayHighlight:true,
                 startDate:'+3d',
-//                endDate:'+15d',
                 language: 'es'
             });
 
@@ -374,11 +373,32 @@
                 checkboxClass: 'icheckbox_minimal-blue',
                 radioClass: 'iradio_minimal-blue'
             });
+            $("#1").parent().removeClass('disabled');
+            $("#2").parent().removeClass('disabled');
+
+            $("#3").on('ifChecked', function(){
+                $("#4").removeAttr('disabled');
+                $("#4").parent().removeClass('disabled');
+                $("#4").parent().parent().attr('title', 'Premiar');
+            }).on('ifUnchecked', function(){
+                $("#4, #5").iCheck('uncheck').attr('disabled', 'true');
+                $("#4").parent().parent().attr('title', 'Requiere 3er Lugar');
+                $("#5").parent().parent().attr('title', 'Requiere 4to Lugar');
+            });
+
+            $("#4").on('ifChecked', function(){
+                $("#5").removeAttr('disabled');
+                $("#5").parent().removeClass('disabled');
+                $("#5").parent().parent().attr('title', 'Premiar');
+            }).on('ifUnchecked', function(){
+                $("#5").iCheck('uncheck');
+                $("#5").parent().parent().attr('title', 'Requiere 4to Lugar');
+            });
 
             $('#3, #4, #5').on('ifChecked', function(){
                 $("#p"+$(this).val()).removeAttr('disabled');
             }).on('ifUnchecked', function(){
-                $("#p"+$(this).val()).attr('disabled', 'true');
+                $("#p"+$(this).val()).attr('disabled', 'true').val('');
             });
 
             $('#fase2').on('ifChecked', function(){
@@ -430,7 +450,10 @@
                 processData: false,  // tell jQuery not to process the data
                 contentType: false,   // tell jQuery not to set contentType
                 success: function (data) {
-
+                    console.log(data.estado);
+                    if(data.estado){
+                        window.location = '/adminTorneo/'+data.mensaje;
+                    }
                 },
                 error: function () {
 
