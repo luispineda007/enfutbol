@@ -7,6 +7,7 @@ use App\Galeria;
 use App\Historial_Pago;
 use App\Horario;
 use App\PagosSitios;
+use App\PagosTorneo;
 use App\Token;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -231,7 +232,6 @@ class SuperAdminController extends Controller
         return view("superAdmin.ModalEditarCanchas",$data);
     }
 
-
     /**
      * @return string
      */
@@ -276,9 +276,7 @@ class SuperAdminController extends Controller
             return "eliminar solo las hijas";
         }
 
-
     }
-
 
     /**
      * @return string
@@ -300,7 +298,6 @@ class SuperAdminController extends Controller
      */
     public function determinarFechaInicio($id_sitio)
     {
-
         $date = Carbon::now();
         $fechaPago= PagosSitios::where('id_sitio',$id_sitio)->first()->fecha_fin;
         $datePago= Carbon::parse($fechaPago);
@@ -310,7 +307,6 @@ class SuperAdminController extends Controller
         }else{
             return $datePago->format('Y-m-d');
         }
-
     }
 
     /**
@@ -318,10 +314,16 @@ class SuperAdminController extends Controller
      */
     public function addPago(Request $request)
     {
-
         $date = Carbon::parse($this->determinarFechaInicio($request->id));
 
-        $pago = PagosSitios::find($request->id);
+        $pago = PagosSitios::where("id_sitio",$request->id)->first();
+        //dd(Sitio::find($pago->id_sitio)->id_usuario);
+        $historialPago = new Historial_Pago();
+        $historialPago->id_sitio=$pago->id_sitio;
+        $historialPago->fecha_inicio = $pago->fecha_inicio;
+        $historialPago->fecha_fin = $pago->fecha_fin;
+        $historialPago->valor = $pago->valor;
+        $historialPago->save();
 
         $pago->fecha_inicio= $date->format('Y-m-d');
         if(intval($request->meses)>0){
@@ -334,15 +336,107 @@ class SuperAdminController extends Controller
 
         $pago->save();
 
+        if($request->pagos_torneo){
+
+            $user_id = Sitio::find($pago->id_sitio)->id_usuario;
+
+            $pagoTorneo = PagosTorneo::where("user_id",$user_id)->first();
+
+            if($pagoTorneo==null){
+                $pagoTorneo = new PagosTorneo();
+            }
+                $pagoTorneo->user_id=$user_id;
+                $pagoTorneo->fecha_inicio = $pago->fecha_inicio;
+                $pagoTorneo->fecha_fin = $pago->fecha_fin;
+                $pagoTorneo->valor = $pago->valor;
+                $pagoTorneo->estado = "X";
+                $pagoTorneo->save();
+        }
 
         $sitio = Sitio::find($request->id);
         $sitio->estado_pago= "A";
         $sitio->save();
 
-
-
         return "exito";
     }
 
+
+    public function superTorneos()
+    {
+       //dd("hola") ;
+
+        $pagosTorneos = PagosTorneo::where("estado","X")->get();
+
+        $data["pagosTorneos"]=$pagosTorneos;
+
+        //dd($data);
+
+        return view("superAdmin.torneos",$data);
+    }
+
+
+    /**
+     *
+     */
+    public function autoCompleUser(Request $request)
+    {
+        $busqueda = $request->all()["query"];
+        $arrayUser = array();
+
+        $personas = Persona::where("identificacion", "like","%" . $busqueda . "%")->get();
+
+        if($personas->count()==0){
+            $users = User::where("user", "like", "%" . $busqueda . "%")->get();
+
+            if($users->count()>0) {
+                foreach ($users as $user) {
+                    $arrayUser[] = ["value" => $user->user, "data" => $user->id];
+                }
+            }else{
+                $data["bandera"]=false;
+                $data["suggestions"]=["No encontrado"];
+            }
+        }else{
+            foreach ($personas as $persona) {
+                $arrayUser[] = ["value"=>$persona->getUsuario->user,"data"=>$persona->getUsuario->id];
+            }
+        }
+        $data["query"]="Unit";
+        $data["suggestions"]=$arrayUser;
+        return $data;
+
+    }
+
+    public function pagosTorneoUser(Request $request)
+    {
+        $date = Carbon::now();
+        $user = User::where("user",$request->user)->first();
+
+        if($user!=null){
+            $pagoTorneo = PagosTorneo::where("user_id",$user->id)->first();
+
+            if($pagoTorneo==null){
+                $pagoTorneo = new PagosTorneo();
+                $pagoTorneo->user_id=$user->id;
+            }
+            $pagoTorneo->fecha_inicio = $date->format('Y-m-d');
+            $pagoTorneo->fecha_fin = $request->fecha_fin;
+            $pagoTorneo->valor = $request->valor;
+            $pagoTorneo->estado = "X";
+            $pagoTorneo->save();
+            $data["bandera"]=true;
+            $data["user"]=$user->user;
+            $data["rol"]=$user->rol;
+            $data["sitio"]=($user->getSitio==null)?"":$user->getSitio->nombre;
+            $data["fecha_fin"]=$request->fecha_fin;
+
+
+        }else{
+            $data["bandera"]=false;
+            $data["mensaje"]="El usuario ".$request->user." no existe en nuestros registros";
+        }
+
+        return $data;
+    }
 
 }

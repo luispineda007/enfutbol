@@ -72,7 +72,7 @@
                         </div>
                     </div>
                 </div>
-
+                <label class="col-xs-1 col-lg-5 premiado"><input id="pagos_torneo" name="pagos_torneo" type="checkbox" class="form-control minimal" value="1" > Servicio de Torneos</label>
             </div>
             <!-- /.box-body -->
 
@@ -83,6 +83,7 @@
 
                 </div>
             </div>
+
             {!!Form::close()!!}
         </div>
 
@@ -103,7 +104,7 @@
 
 
 
-
+{!!Html::script('plugins/iCheck/icheck.min.js')!!}
 <script type="text/javascript">
 
     $(function() {
@@ -173,7 +174,10 @@
         });
 
 
-
+        $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
+            checkboxClass: 'icheckbox_minimal-blue',
+            radioClass: 'iradio_minimal-blue'
+        });
 
     });
 

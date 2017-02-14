@@ -1,6 +1,7 @@
 @extends('layouts.principal')
 
 @section('css')
+    {!!Html::style('plugins/iCheck/all.css')!!}
     {!!Html::style('plugins/datatables/dataTables.bootstrap.css')!!}
 
     <style>

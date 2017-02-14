@@ -145,7 +145,10 @@ class ArgvInput extends Input
         $name = substr($token, 2);
 
         if (false !== $pos = strpos($name, '=')) {
-            $this->addLongOption(substr($name, 0, $pos), substr($name, $pos + 1));
+            if (0 === strlen($value = substr($name, $pos + 1))) {
+                array_unshift($this->parsed, null);
+            }
+            $this->addLongOption(substr($name, 0, $pos), $value);
         } else {
             $this->addLongOption($name, null);
         }
@@ -174,7 +177,12 @@ class ArgvInput extends Input
 
         // unexpected argument
         } else {
-            throw new \RuntimeException('Too many arguments.');
+            $all = $this->definition->getArguments();
+            if (count($all)) {
+                throw new \RuntimeException(sprintf('Too many arguments, expected arguments "%s".', implode('" "', array_keys($all))));
+            }
+
+            throw new \RuntimeException(sprintf('No arguments expected, got "%s".', $token));
         }
     }
 
@@ -227,7 +235,7 @@ class ArgvInput extends Input
             if (isset($next[0]) && '-' !== $next[0]) {
                 $value = $next;
             } elseif (empty($next)) {
-                $value = '';
+                $value = null;
             } else {
                 array_unshift($this->parsed, $next);
             }

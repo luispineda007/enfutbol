@@ -7,8 +7,8 @@ namespace Composer\Autoload;
 class ComposerStaticInit3772be3aaa4ab0b54268b92430b9dbc1
 {
     public static $files = array (
-        '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
         '1d1b89d124cc9cb8219922c9d5569199' => __DIR__ . '/..' . '/hamcrest/hamcrest-php/hamcrest/Hamcrest.php',
+        '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
         '667aeda72477189d0494fecd327c3641' => __DIR__ . '/..' . '/symfony/var-dumper/Resources/functions/dump.php',
         '2c102faa651ef8ea5874edb585946bce' => __DIR__ . '/..' . '/swiftmailer/swiftmailer/lib/swift_required.php',
         'bd9634f2d41831496de0d3dfe4c94881' => __DIR__ . '/..' . '/symfony/polyfill-php56/bootstrap.php',
@@ -57,6 +57,7 @@ class ComposerStaticInit3772be3aaa4ab0b54268b92430b9dbc1
         'P' => 
         array (
             'Psy\\' => 4,
+            'Psr\\Log\\' => 8,
             'PhpParser\\' => 10,
         ),
         'M' => 
@@ -85,6 +86,7 @@ class ComposerStaticInit3772be3aaa4ab0b54268b92430b9dbc1
         ),
         'C' => 
         array (
+            'Cron\\' => 5,
             'Collective\\Html\\' => 16,
             'ClassPreloader\\' => 15,
             'Carbon\\' => 7,
@@ -186,6 +188,10 @@ class ComposerStaticInit3772be3aaa4ab0b54268b92430b9dbc1
         array (
             0 => __DIR__ . '/..' . '/psy/psysh/src/Psy',
         ),
+        'Psr\\Log\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
+        ),
         'PhpParser\\' => 
         array (
             0 => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser',
@@ -214,6 +220,10 @@ class ComposerStaticInit3772be3aaa4ab0b54268b92430b9dbc1
         array (
             0 => __DIR__ . '/..' . '/doctrine/instantiator/src/Doctrine/Instantiator',
         ),
+        'Cron\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/mtdowling/cron-expression/src/Cron',
+        ),
         'Collective\\Html\\' => 
         array (
             0 => __DIR__ . '/..' . '/laravelcollective/html/src',
@@ -235,10 +245,6 @@ class ComposerStaticInit3772be3aaa4ab0b54268b92430b9dbc1
     public static $prefixesPsr0 = array (
         'P' => 
         array (
-            'Psr\\Log\\' => 
-            array (
-                0 => __DIR__ . '/..' . '/psr/log',
-            ),
             'Prophecy\\' => 
             array (
                 0 => __DIR__ . '/..' . '/phpspec/prophecy/src',
@@ -281,27 +287,33 @@ class ComposerStaticInit3772be3aaa4ab0b54268b92430b9dbc1
                 0 => __DIR__ . '/..' . '/phpspec/php-diff/lib',
             ),
         ),
-        'C' => 
-        array (
-            'Cron' => 
-            array (
-                0 => __DIR__ . '/..' . '/mtdowling/cron-expression/src',
-            ),
-        ),
     );
 
     public static $classMap = array (
         'CreateCanchasTable' => __DIR__ . '/../..' . '/database/migrations/2016_07_18_161805_create_canchas_table.php',
+        'CreateCodigosTorneosTable' => __DIR__ . '/../..' . '/database/migrations/2017_02_03_163735_create_codigos_torneos_table.php',
+        'CreateEncuentrosTable' => __DIR__ . '/../..' . '/database/migrations/2017_02_03_174852_create_encuentros_table.php',
+        'CreateEquiposGruposTable' => __DIR__ . '/../..' . '/database/migrations/2017_02_04_095023_create_equipos_grupos_table.php',
+        'CreateEquiposTable' => __DIR__ . '/../..' . '/database/migrations/2017_02_03_160812_create_equipos_table.php',
+        'CreateEquiposTorneosTable' => __DIR__ . '/../..' . '/database/migrations/2017_02_03_161444_create_equipos_torneos_table.php',
+        'CreateEscudosTable' => __DIR__ . '/../..' . '/database/migrations/2017_02_03_155247_create_escudos_table.php',
+        'CreateFasesTorneosTable' => __DIR__ . '/../..' . '/database/migrations/2017_02_03_164343_create_fases_torneos_table.php',
         'CreateGaleriasTable' => __DIR__ . '/../..' . '/database/migrations/2016_07_18_161743_create_galerias_table.php',
-        'CreateHistorialPagosTable' => __DIR__ . '/../..',
+        'CreateGolesEncuentrosTable' => __DIR__ . '/../..' . '/database/migrations/2017_02_04_093314_create_goles_encuentros_table.php',
+        'CreateGruposTable' => __DIR__ . '/../..' . '/database/migrations/2017_02_04_093633_create_grupos_table.php',
+        'CreateHistorialPagosTable' => __DIR__ . '/../..' . '/database/migrations/2016_09_22_150158_create_historial_pagos_table.php',
         'CreateHorariosTable' => __DIR__ . '/../..' . '/database/migrations/2016_08_18_160313_create_horarios_table.php',
+        'CreateJugadorsTable' => __DIR__ . '/../..' . '/database/migrations/2017_02_03_161837_create_jugadors_table.php',
         'CreatePagosSitiosTable' => __DIR__ . '/../..' . '/database/migrations/2016_07_26_202610_create_pagos_sitios_table.php',
+        'CreatePagosTorneosTable' => __DIR__ . '/../..' . '/database/migrations/2017_02_08_110345_create_pagos_torneos_table.php',
         'CreatePasswordResetsTable' => __DIR__ . '/../..' . '/database/migrations/2014_10_12_100000_create_password_resets_table.php',
         'CreatePersonasTable' => __DIR__ . '/../..' . '/database/migrations/2014_10_11_153637_create_personas_table.php',
         'CreateReservasTable' => __DIR__ . '/../..' . '/database/migrations/2016_07_18_162603_create_reservas_table.php',
         'CreateSitiosTable' => __DIR__ . '/../..' . '/database/migrations/2016_07_18_160121_create_sitios_table.php',
+        'CreateTarjetasEncuentrosTable' => __DIR__ . '/../..' . '/database/migrations/2017_02_03_175635_create_tarjetas_encuentros_table.php',
         'CreateTokensTable' => __DIR__ . '/../..' . '/database/migrations/2016_07_18_162544_create_tokens_table.php',
-        'CreateUsersTable' => __DIR__ . '/../..',
+        'CreateTorneosTable' => __DIR__ . '/../..' . '/database/migrations/2017_02_03_155246_create_torneos_table.php',
+        'CreateUsersTable' => __DIR__ . '/../..' . '/database/migrations/2014_10_11_000000_create_users_table.php',
         'DatabaseSeeder' => __DIR__ . '/../..' . '/database/seeds/DatabaseSeeder.php',
         'Departamentos' => __DIR__ . '/../..' . '/database/migrations/2014_10_10_154634_departamentos.php',
         'DepartamentosSeeder' => __DIR__ . '/../..' . '/database/seeds/DepartamentosSeeder.php',
@@ -379,6 +391,10 @@ class ComposerStaticInit3772be3aaa4ab0b54268b92430b9dbc1
         'IlluminateQueueClosure' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Queue/IlluminateQueueClosure.php',
         'Municipios' => __DIR__ . '/../..' . '/database/migrations/2014_10_10_154635_municipios.php',
         'MunicipiosSeeder' => __DIR__ . '/../..' . '/database/seeds/MunicipiosSeeder.php',
+        'PHPUnit\\Framework\\Assert' => __DIR__ . '/..' . '/phpunit/phpunit/src/ForwardCompatibility/Assert.php',
+        'PHPUnit\\Framework\\BaseTestListener' => __DIR__ . '/..' . '/phpunit/phpunit/src/ForwardCompatibility/BaseTestListener.php',
+        'PHPUnit\\Framework\\TestCase' => __DIR__ . '/..' . '/phpunit/phpunit/src/ForwardCompatibility/TestCase.php',
+        'PHPUnit\\Framework\\TestListener' => __DIR__ . '/..' . '/phpunit/phpunit/src/ForwardCompatibility/TestListener.php',
         'PHPUnit_Exception' => __DIR__ . '/..' . '/phpunit/phpunit/src/Exception.php',
         'PHPUnit_Extensions_GroupTestSuite' => __DIR__ . '/..' . '/phpunit/phpunit/src/Extensions/GroupTestSuite.php',
         'PHPUnit_Extensions_PhptTestCase' => __DIR__ . '/..' . '/phpunit/phpunit/src/Extensions/PhptTestCase.php',
@@ -743,6 +759,7 @@ class ComposerStaticInit3772be3aaa4ab0b54268b92430b9dbc1
         'PHP_Token_STRING' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_Token_STRING_CAST' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_Token_STRING_VARNAME' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
+        'PHP_Token_SUPER' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_Token_SWITCH' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_Token_Stream' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token/Stream.php',
         'PHP_Token_Stream_CachingFactory' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token/Stream/CachingFactory.php',
@@ -757,6 +774,7 @@ class ComposerStaticInit3772be3aaa4ab0b54268b92430b9dbc1
         'PHP_Token_UNSET' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_Token_UNSET_CAST' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_Token_USE' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
+        'PHP_Token_USE_FUNCTION' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_Token_VAR' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_Token_VARIABLE' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_Token_WHERE' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',

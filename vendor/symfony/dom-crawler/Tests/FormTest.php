@@ -13,7 +13,6 @@ namespace Symfony\Component\DomCrawler\Tests;
 
 use Symfony\Component\DomCrawler\Form;
 use Symfony\Component\DomCrawler\FormFieldRegistry;
-use Symfony\Component\DomCrawler\Field;
 
 class FormTest extends \PHPUnit_Framework_TestCase
 {
@@ -47,9 +46,9 @@ class FormTest extends \PHPUnit_Framework_TestCase
 
         try {
             $form = new Form($nodes->item(1), 'http://example.com');
-            $this->fail('__construct() throws a \\LogicException if the input type is not submit, button, or img');
+            $this->fail('__construct() throws a \\LogicException if the input type is not submit, button, or image');
         } catch (\LogicException $e) {
-            $this->assertTrue(true, '__construct() throws a \\LogicException if the input type is not submit, button, or img');
+            $this->assertTrue(true, '__construct() throws a \\LogicException if the input type is not submit, button, or image');
         }
 
         $nodes = $dom->getElementsByTagName('button');
@@ -189,7 +188,8 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $form = $this->createForm('<form>'.$form.'</form>');
         $this->assertEquals(
             $values,
-            array_map(function ($field) {
+            array_map(
+                function ($field) {
                     $class = get_class($field);
 
                     return array(substr($class, strrpos($class, '\\') + 1), $field->getValue());
@@ -238,8 +238,8 @@ class FormTest extends \PHPUnit_Framework_TestCase
                  array('foobar' => array('InputFormField', 'foobar')),
             ),
             array(
-                'turns an img input into x and y fields',
-                '<input type="img" name="bar" />',
+                'turns an image input into x and y fields',
+                '<input type="image" name="bar" />',
                 array('bar.x' => array('InputFormField', '0'), 'bar.y' => array('InputFormField', '0')),
             ),
             array(
@@ -665,8 +665,8 @@ class FormTest extends \PHPUnit_Framework_TestCase
     public function testTypeAttributeIsCaseInsensitive()
     {
         $form = $this->createForm('<form method="post"><input type="IMAGE" name="example" /></form>');
-        $this->assertTrue($form->has('example.x'), '->has() returns true if the img input was correctly turned into an x and a y fields');
-        $this->assertTrue($form->has('example.y'), '->has() returns true if the img input was correctly turned into an x and a y fields');
+        $this->assertTrue($form->has('example.x'), '->has() returns true if the image input was correctly turned into an x and a y fields');
+        $this->assertTrue($form->has('example.y'), '->has() returns true if the image input was correctly turned into an x and a y fields');
     }
 
     public function testFormFieldRegistryAcceptAnyNames()

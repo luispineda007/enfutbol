@@ -15,12 +15,12 @@ abstract class Swift_Mime_AbstractMimeEntityTest extends \SwiftMailerTestCase
 
     public function testContentTypeIsReturnedFromHeader()
     {
-        $ctype = $this->_createHeader('Content-Type', 'img/jpeg-test');
+        $ctype = $this->_createHeader('Content-Type', 'image/jpeg-test');
         $headers = $this->_createHeaderSet(array('Content-Type' => $ctype));
         $entity = $this->_createEntity($headers, $this->_createEncoder(),
             $this->_createCache()
             );
-        $this->assertEquals('img/jpeg-test', $entity->getContentType());
+        $this->assertEquals('image/jpeg-test', $entity->getContentType());
     }
 
     public function testContentTypeIsSetInHeader()
@@ -30,15 +30,15 @@ abstract class Swift_Mime_AbstractMimeEntityTest extends \SwiftMailerTestCase
 
         $ctype->shouldReceive('setFieldBodyModel')
               ->once()
-              ->with('img/jpeg');
+              ->with('image/jpeg');
         $ctype->shouldReceive('setFieldBodyModel')
               ->zeroOrMoreTimes()
-              ->with(\Mockery::not('img/jpeg'));
+              ->with(\Mockery::not('image/jpeg'));
 
         $entity = $this->_createEntity($headers, $this->_createEncoder(),
             $this->_createCache()
             );
-        $entity->setContentType('img/jpeg');
+        $entity->setContentType('image/jpeg');
     }
 
     public function testContentTypeHeaderIsAddedIfNoneSet()
@@ -46,14 +46,14 @@ abstract class Swift_Mime_AbstractMimeEntityTest extends \SwiftMailerTestCase
         $headers = $this->_createHeaderSet(array(), false);
         $headers->shouldReceive('addParameterizedHeader')
                 ->once()
-                ->with('Content-Type', 'img/jpeg');
+                ->with('Content-Type', 'image/jpeg');
         $headers->shouldReceive('addParameterizedHeader')
                 ->zeroOrMoreTimes();
 
         $entity = $this->_createEntity($headers, $this->_createEncoder(),
             $this->_createCache()
             );
-        $entity->setContentType('img/jpeg');
+        $entity->setContentType('image/jpeg');
     }
 
     public function testContentTypeCanBeSetViaSetBody()
@@ -195,7 +195,7 @@ abstract class Swift_Mime_AbstractMimeEntityTest extends \SwiftMailerTestCase
         /* -- RFC 2045, 8.
         The ability to associate some descriptive information with a given
         body is often desirable.  For example, it may be useful to mark an
-        "img" body as "a picture of the Space Shuttle Endeavor."  Such text
+        "image" body as "a picture of the Space Shuttle Endeavor."  Such text
         may be placed in the Content-Description header field.  This header
         field is always optional.
         */
@@ -747,13 +747,13 @@ abstract class Swift_Mime_AbstractMimeEntityTest extends \SwiftMailerTestCase
 
         $cType->shouldReceive('setFieldBodyModel')
               ->twice()
-              ->with('img/jpeg');
+              ->with('image/jpeg');
         $cType->shouldReceive('setFieldBodyModel')
               ->once()
               ->with('multipart/alternative');
         $cType->shouldReceive('setFieldBodyModel')
               ->zeroOrMoreTimes()
-              ->with(\Mockery::not('multipart/alternative', 'img/jpeg'));
+              ->with(\Mockery::not('multipart/alternative', 'image/jpeg'));
 
         $entity = $this->_createEntity($this->_createHeaderSet(array(
             'Content-Type' => $cType,
@@ -761,7 +761,7 @@ abstract class Swift_Mime_AbstractMimeEntityTest extends \SwiftMailerTestCase
             $this->_createEncoder(), $this->_createCache()
             );
 
-        $entity->setContentType('img/jpeg');
+        $entity->setContentType('image/jpeg');
         $entity->setChildren(array($child));
         $entity->setChildren(array());
     }
@@ -948,8 +948,6 @@ abstract class Swift_Mime_AbstractMimeEntityTest extends \SwiftMailerTestCase
             );
     }
 
-    // -- Private helpers
-
     abstract protected function _createEntity($headers, $encoder, $cache);
 
     protected function _createChild($level = null, $string = '', $stub = true)
@@ -969,7 +967,7 @@ abstract class Swift_Mime_AbstractMimeEntityTest extends \SwiftMailerTestCase
 
     protected function _createEncoder($name = 'quoted-printable', $stub = true)
     {
-        $encoder = $this->getMock('Swift_Mime_ContentEncoder');
+        $encoder = $this->getMockBuilder('Swift_Mime_ContentEncoder')->getMock();
         $encoder->expects($this->any())
                 ->method('getName')
                 ->will($this->returnValue($name));
@@ -1049,6 +1047,6 @@ abstract class Swift_Mime_AbstractMimeEntityTest extends \SwiftMailerTestCase
 
     protected function _createInputStream($stub = true)
     {
-        return $this->getMock('Swift_InputByteStream');
+        return $this->getMockBuilder('Swift_InputByteStream')->getMock();
     }
 }
