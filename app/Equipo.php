@@ -10,4 +10,9 @@ class Equipo extends Model
     {
         return $this->belongsTo('App\Escudo', 'escudo_id');
     }
+
+    public function getCapitan()
+    {
+        return $this->belongsTo('App\User', 'capitan_id');
+    }
 }

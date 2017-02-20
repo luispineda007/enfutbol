@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Departamento;
+use App\Equipos_torneo;
 use App\Fases_torneo;
 use App\SolicitudPago;
 use App\Torneo;
@@ -168,15 +169,13 @@ class TorneosController extends Controller
     {
         $torneo = Torneo::find($id);
         if($torneo != null && $torneo->usuario_id == \Auth::user()->id){
-            if($torneo->privacidad == 'A' && $torneo->estado = "A"){
-                foreach($torneo->getSolicitudes as $solicitud) {
-                    $solicitud->getEquipo;
-                    $solicitud->getCapitan;
+            foreach ($torneo->getEquipos_torneo as $equipo){
+                if($equipo->estado == 'P' || $equipo->estado == 'R'){
+                    $data['solicitudes'] = true;
+                    break;
                 }
-
             }
-            foreach ($torneo->getEquipos_torneo as $equipo)
-                $equipo->getEquipo;
+
             $data['torneo'] = $torneo;
 //            dd($data);
             return view('torneos.torneo', $data);
@@ -279,11 +278,72 @@ class TorneosController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function aceptarSolicitud(Request $request)
     {
-        //
+        $solicitud = Equipos_torneo::find($request->solicitud);
+        if($solicitud != null){
+            if($solicitud->torneo_id == $request->torneo){
+                DB::beginTransaction();
+                try{
+                    $solicitud->estado = 'A';
+                    $solicitud->save();
+                    DB::commit();
+                    $solicitud->getEquipo->getEscudo;
+                    return ['estado' => true, 'mensaje'=>$solicitud];
+                }
+                catch(\Exception $e){
+                    DB::rollBack();
+                    return ['estado' => false,'mensaje' => "Ha ocurrido el siguiente error: " . $e->getMessage()];
+                }
+            }
+            else{
+                return ['estado' => false, 'mensaje' => "No tienes permiso para realizar esta accion!"];
+            }
+        }
+        else{
+            return ['estado' => false, 'mensaje' => "No es posible realizar esta accaion!"];
+        }
+    }
+
+    public function rechazarSolicitud(Request $request)
+    {
+        $solicitud = Equipos_torneo::find($request->solicitud);
+        if($solicitud != null){
+            if($solicitud->torneo_id == $request->torneo){
+                DB::beginTransaction();
+                try{
+                    $solicitud->estado = 'R';
+                    $solicitud->save();
+                    DB::commit();
+                    $solicitud->getEquipo->getCapitan->getPersona;
+                    return ['estado' => true, 'mensaje'=>$solicitud];
+                }
+                catch(\Exception $e){
+                    DB::rollBack();
+                    return ['estado' => false,'mensaje' => "Ha ocurrido el siguiente error: " . $e->getMessage()];
+                }
+            }
+            else{
+                return ['estado' => false, 'mensaje' => "No tienes permiso para realizar esta acción!"];
+            }
+        }
+        else{
+            return ['estado' => false, 'mensaje' => "No tienes permiso para realizar esta acción!"];
+        }
+    }
+
+    public function adminEquipo($id)
+    {
+        $equipoTorneo = Equipos_torneo::find($id);
+        if($equipoTorneo != null){
+            $equipoTorneo->getEquipo;
+            $data['equipo'] = $equipoTorneo;
+            return view('torneos.editEquipo', $data);
+        }
+        else{
+            return redirect()->back();
+        }
     }
 }

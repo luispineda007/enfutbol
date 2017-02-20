@@ -14,8 +14,8 @@ class Torneo extends Model
         return $this->hasMany('App\Equipos_torneo');
     }
 
-    public function getSolicitudes()
+    public function getFases()
     {
-        return $this->hasMany('App\Solicitudes_inscripcion');
+        return $this->hasMany('App\Fases_torneo');
     }
 }

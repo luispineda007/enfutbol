@@ -56,15 +56,6 @@
             right: 10px;
             /*margin-right: 20px;*/
         }
-        .eliminar{
-            background-color: white;
-            border-radius: 50%;
-            padding: 5px;
-        }
-        .eliminar:hover{
-            background-color: rgb(251, 255, 255);
-            cursor: pointer;
-        }
         .panel-equipo{
             position: relative;
         }
@@ -93,6 +84,20 @@
             transform:scale(1.13);
             z-index: 1000000;
         }
+        .aceptar:hover{
+            color: green;
+        }
+        .rechazar:hover{
+            color: red;
+        }
+        .eliminar{
+            background-color: rgba(195, 195, 195, 0.46);
+            border-radius: 50%;
+            padding: 5px;
+        }
+        .eliminar:hover{
+            color: red;
+        }
     </style>
 @endsection
 
@@ -105,7 +110,7 @@
                     <h4>Administrar torneo</h4>
                 </div>
                 <div class="panel-body">
-                    @if($torneo->estado == 'A')
+                    @if($torneo->maxFecha_inscripcion > date('Y-m-d'))
                         {!!Form::open(['id'=>'formTorneo', 'autocomplete'=>'off', 'class'=>'form-horizontal'])!!}
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -165,76 +170,89 @@
                             </div>
                         {!!Form::close()!!}
                     @else
-                        {{--Mostrar administracion de fases de torneo--}}
+                        @if($torneo->estado == "A")
+                            @foreach($torneo->getFases as $fase)
+                                
+                            @endforeach
+                        @else
+
+                        @endif
+
                     @endif
 
-                    <div class="col-xs-12">
+                    <div class="col-xs-12" id="equipos_ins">
                         <h2 style="margin-bottom: 15px">Equipos inscritos</h2>
-                        <div class="col-xs-4 col-sm-4 col-md-2" id="padreNuevo">
-                            <div class="panel panel-default pointer nuevo">
-                                <div class="panel-body" style="padding: 49px 0;">
-                                    <center>
-                                        <i class="fa fa-plus-square fa-4x"></i>
-                                        <div style="padding-top: 5px">Registrar Equipo</div>
-                                    </center>
+                        @if($torneo->estado == "A")
+                            <div class="col-xs-4 col-sm-4 col-md-2" id="padreNuevo">
+                                <div class="panel panel-default pointer nuevo">
+                                    <div class="panel-body" style="padding: 49px 0;">
+                                        <center>
+                                            <i class="fa fa-plus-square fa-4x"></i>
+                                            <div style="padding-top: 5px">Registrar Equipo</div>
+                                        </center>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        @endif
                         @foreach($torneo->getEquipos_torneo as $equipo)
-                            <div class="col-xs-4 col-sm-4 col-md-2">
-                                <div class="panel pointer panel-equipo" data-equipo="{{$equipo->getEquipo->id}}">
+                            @if($equipo->estado == 'A')
+                                <div class="col-xs-4 col-sm-4 col-md-2 conte-equipo">
+                                    <div class="panel pointer panel-equipo" data-equipo="{{$equipo->id}}">
 
-                                    <div class="editProfPic">
-                                        <i class='fa fa-trash fa-2x eliminar manito' aria-hidden='true' data-toggle='confirmation' data-singleton="true" data-placement='left' title='Eliminar?'  data-content="Esta accion no se podra deshacer, continuar?:" data-btn-ok-label="Si" data-btn-cancel-label="No"></i>
-                                    </div>
+                                        @if($torneo->estado == "A")
+                                            <div class="editProfPic">
+                                                <i class='fa fa-trash fa-2x eliminar manito' aria-hidden='true' data-toggle='confirmation' data-singleton="true" data-placement='left' title='Eliminar?'  data-content="Esta accion no se podra deshacer, continuar?:" data-btn-ok-label="Si" data-btn-cancel-label="No"></i>
+                                            </div>
+                                        @endif
 
-                                    <div class="equipo">
-                                        <div class="panel-body" style="padding: 0;">
-                                            <center>
-                                                <img src="/images/torneos/escudos/{{$equipo->getEquipo->getEscudo->url}}" width="100%" height="140px">
-                                            </center>
-                                        </div>
-                                        <div class="panel-footer">
-                                            <b>{{$equipo->getEquipo->nombre}}</b><br>
+                                        <div class="equipo">
+                                            <div class="panel-body" style="padding: 0;">
+                                                <center>
+                                                    <img src="/images/torneos/escudos/{{$equipo->getEquipo->getEscudo->url}}" width="100%" height="140px">
+                                                </center>
+                                            </div>
+                                            <div class="panel-footer">
+                                                <b>{{$equipo->getEquipo->nombre}}</b><br>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            @endif
                         @endforeach
                     </div>
 
-                    @if(isset($torneo->getSolicitudes))
-                        @if(count($torneo->getSolicitudes) > 0)
-                            <div class="col-xs-12">
-                                <h2 style="margin-bottom: 15px">Solicitudes de inscripcion</h2>
+                    @if(isset($solicitudes))
+                        <div class="col-xs-12">
+                            <h2 style="margin-bottom: 15px">Solicitudes de inscripcion</h2>
 
-                                <table id="solicitudes" class="table table-bordered table-hover">
-                                    <thead>
-                                    <tr>
-                                        <th class="text-center">Equipo</th>
-                                        <th class="text-center">Capitan</th>
-                                        <th class="text-center">Estado</th>
-                                        <th class="text-center">Accion</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    @foreach($torneo->getSolicitudes as $solicitud)
-                                        <tr>
+                            <table id="solicitudes" class="table table-bordered table-hover">
+                                <thead>
+                                <tr>
+                                    <th class="text-center">Equipo</th>
+                                    <th class="text-center">Capitan</th>
+                                    <th class="text-center">Estado</th>
+                                    <th class="text-center">Accion</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($torneo->getEquipos_torneo as $solicitud)
+                                    @if($solicitud->estado == 'P' || $solicitud->estado == 'R')
+                                        <tr class="fila">
                                             <td>{{$solicitud->getEquipo->nombre}}</td>
-                                            <td>{{$solicitud->getCapitan->getPersona->nombres}}</td>
-                                            <td>{{($solicitud->estado == 'P')?'Pendiente':'Rechazada'}}</td>
+                                            <td>{{$solicitud->getEquipo->getCapitan->getPersona->nombres}}</td>
+                                            <td class="estado">{{($solicitud->estado == 'P')?'Pendiente':'Rechazada'}}</td>
                                             <td class="text-center" data-solicitud="{{$solicitud->id}}">
-                                                <i class="fa fa-check-circle-o fa-2x aceptar" title="Aceptar"></i>
+                                                <i class="fa fa-check-circle-o fa-2x aceptar" data-toggle='tooltip' data-popout='true' data-placement='top' title="Aceptar"></i>
                                                 @if($solicitud->estado == 'P')
-                                                    &nbsp;<i class="fa fa-times-circle-o fa-2x rechazar" title="Rechazar"></i>
+                                                    &nbsp;<i class="fa fa-times-circle-o fa-2x rechazar" data-toggle='tooltip' data-popout='true' data-placement='top' title="Rechazar"></i>
                                                 @endif
                                             </td>
                                         </tr>
-                                    @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                        @endif
+                                    @endif
+                                @endforeach
+                                </tbody>
+                            </table>
+                        </div>
                     @endif
                 </div>
             </div>
@@ -267,6 +285,8 @@
     {!!Html::script('plugins/datatables/dataTables.bootstrap.min.js')!!}
     <script>
         $(function() {
+            $('[data-toggle="tooltip"]').tooltip();
+
             $('#solicitudes').DataTable( {
                 "language": {
                     "lengthMenu": "Mostrar  _MENU_ Solicitudes por Página",
@@ -280,15 +300,7 @@
             $(".eliminar").each(function(){
                 $(this).confirmation({
                     onConfirm: function () {
-                        if($(this).parents('.panel-torneo').data('total') == 0)
-                            eliminarTorneo($(this).parents('.panel-torneo'));
-                        else{
-                            $("#modal-title").html("Atencion!").parents('.modal-header').addClass('alert-warning');
-                            $("#content").html('Este torneo ya contiene equipos inscritos para participar, para continuar con la eliminacion del torneo, primero se deben borrar los equipos participantes.');
-                            $("#botonModal").addClass('btn-warning');
-                            $("#notifModal").modal("show");
-                        }
-
+                        rechazarEquipo($(this).parents('.panel-equipo').data('equipo'), 'E', $(this).parents('.conte-equipo'));
                     }
                 });
             });
@@ -386,5 +398,112 @@
                     }
             );
         });
+
+        $("#solicitudes").on('click', '.aceptar', function () {
+            var elemento = $(this);
+            $.ajax({
+                type: "POST",
+                url: '{{route('aceptarSolicitud')}}',
+                data: {'solicitud':elemento.parent().data('solicitud'), 'torneo':'{{$torneo->id}}'},
+                success: function (data) {
+                    if(data.estado){
+                        elemento.parents('.fila').remove();
+                        var html = "<div class='col-xs-4 col-sm-4 col-md-2 conte-equipo'>" +
+                                        "<div class='panel pointer panel-equipo' data-equipo='"+data.mensaje['id']+"'>";
+                        if('{{$torneo->estado}}' == "A")
+                            html = html + "<div class='editProfPic'>" +
+                                    "<i class='fa fa-trash fa-2x eliminar manito' aria-hidden='true' data-toggle='confirmation' data-singleton='true' data-placement='left' title='Eliminar?'  data-content='Esta accion no se podra deshacer, continuar?:' data-btn-ok-label='Si' data-btn-cancel-label='No'></i>" +
+                                    "</div>" ;
+
+                        html = html + "<div class='equipo'>" +
+                                                "<div class='panel-body' style='padding: 0;'>" +
+                                                    "<center>" +
+                                                        "<img src='/images/torneos/escudos/"+data.mensaje['get_equipo']['get_escudo']['url']+"' width='100%'' height='140px'>" +
+                                                    "</center>" +
+                                                "</div>" +
+                                                "<div class='panel-footer'>" +
+                                                    "<b>"+data.mensaje['get_equipo']['nombre']+"</b><br>" +
+                                                "</div>" +
+                                            "</div>" +
+                                        "</div>" +
+                                    "</div>";
+                        $('#equipos_ins').append(html);
+                    }
+                    else {
+                        $("#modal-title").html("Atencion!").parents('.modal-header').addClass('alert-danger');
+                        $("#content").html(data.mensaje);
+                        $("#botonModal").addClass('btn-danger');
+                        $("#notifModal").modal("show");
+                    }
+                },
+                error: function () {
+
+                }
+            });
+        });
+
+        $("#solicitudes").on('click', '.rechazar', function () {
+            var elemento = $(this);
+            rechazarEquipo(elemento.parent().data('solicitud'), 'R', elemento);
+        });
+
+        $("#equipos_ins").on('click', '.eliminar', function(){
+            $(this).confirmation({
+                onConfirm: function () {
+                    rechazarEquipo($(this).parents('.panel-equipo').data('equipo'), 'E', $(this).parents('.conte-equipo'));
+                }
+            });
+        }).on('click', '.equipo', function(){
+            window.location = '/adminEquipo/' + $(this).parent().data('equipo');
+        });
+
+        function rechazarEquipo(id_solicitud, accion, elemento){
+            $.ajax({
+                type: "POST",
+                url: '{{route('rechazarSolicitud')}}',
+                data: {'solicitud':id_solicitud, 'torneo':'{{$torneo->id}}'},
+                success: function (data) {
+                    if(data.estado){
+                        if(accion == 'R'){
+                            elemento.parent().siblings('.estado').html('Rechazado');
+                            elemento.remove();
+                        }
+                        else {
+                            var html = "<tr class='fila'>" +
+                                            "<td>"+data.mensaje['get_equipo']['nombre']+"</td>" +
+                                            "<td>"+data.mensaje['get_equipo']['get_capitan']['get_persona']['nombres']+"</td>" +
+                                            "<td class='estado'>";
+                            if(data.mensaje['estado'] == 'P')
+                                html = html + "Pendiente";
+                            else
+                                html = html + "Rechazada";
+
+                            html = html + "</td>" +
+                                            "<td class='text-center' data-solicitud='"+data.mensaje['id']+"'>" +
+                                                "<i class='fa fa-check-circle-o fa-2x aceptar' data-toggle='tooltip' data-popout='true' data-placement='top' title='Aceptar'></i>";
+
+                            if(data.mensaje['estado'] == 'P')
+                                html = html + "&nbsp;<i class='fa fa-times-circle-o fa-2x rechazar' data-toggle='tooltip' data-popout='true' data-placement='top' title='Rechazar'></i>" +
+                                        "</td>" +
+                                        "</tr>";
+                            $('#solicitudes').children('tbody').append(html);
+                            elemento.remove();
+                        }
+                    }
+                    else {
+                        $("#modal-title").html("Atencion!").parents('.modal-header').addClass('alert-danger');
+                        $("#content").html(data.mensaje);
+                        $("#botonModal").addClass('btn-danger');
+                        $("#notifModal").modal("show");
+                    }
+                },
+                error: function (data) {
+                    $("#modal-title").html("Atencion!").parents('.modal-header').addClass('alert-danger');
+                    $("#content").html(data.mensaje);
+                    $("#botonModal").addClass('btn-danger');
+                    $("#notifModal").modal("show");
+                }
+            });
+        }
     </script>
 @endsection
