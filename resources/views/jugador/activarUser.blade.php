@@ -47,6 +47,13 @@
         .cargando{
             font-size: 16px;
         }
+        #fh5co-work a:hover {
+             color: #043e10;
+        }
+        #fh5co-work a {
+             color: #95c988;
+            text-decoration: underline;
+        }
     </style>
 
 @endsection

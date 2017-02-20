@@ -126,6 +126,11 @@
                             <i class="fa fa-bullhorn" aria-hidden="true"></i><span>Reserevas y sanciones</span>
                         </a>
                     </li>
+                    <li class="{{ (\Request::route()->getName() == 'adminTorneos') ? 'active' : '' }}">
+                        <a href="{{route('adminTorneos')}}">
+                            <i class="fa fa-gears" aria-hidden="true"></i><span>Torneos</span>
+                        </a>
+                    </li>
             @elseif(Auth::user()->rol =="jugador")
                     <li class="{{ (\Request::route()->getName() == 'canchasTipo') ? 'active' : '' }}">
                         <a href="{{route('canchasTipo')}}">

@@ -62,7 +62,7 @@ class UsuariosController extends Controller
 
             $marker = array();
             $marker['position'] = $sitio->geolocalizacion;
-            $marker['infowindow_content'] = '<h3 style="margin-bottom: 10px"> ' . $sitio->nombre . '</h3> Horario: Lunes a viernes 06:00 a 22:00 ';
+            $marker['infowindow_content'] = '<h3 style="margin-bottom: 10px"> <a href="'.route("getSitio",$sitio->id).'">' . $sitio->nombre . '</a> </h3> te esperamos, ven disfruta y juega';
             $marker['icon'] = 'dist/img/taggris1.png';
             \Gmaps::add_marker($marker);
 
@@ -124,11 +124,11 @@ class UsuariosController extends Controller
                 //Auth::login($user);
                 $data["tipo"]="success";
                 $data["tmsj"]="Perfecto";
-                $data["msj"]=$user->user.", tu cuenta fue activada satisfactoriamente. <strong>Inicia sesión</strong> y reserva las mejores canchas de la ciudad";
+                $data["msj"]=$user->user.", tu cuenta se ha activodo con exito. <strong><a href='".route('myLoginModal')."'   data-modal=''  ><span> <b>Inicia Sesión</b> </span></a></strong>, completa tu información personal y reserva las mejores canchas de la ciudad.";
             }else{
                 $data["tipo"]="warning";
                 $data["tmsj"]="Umm";
-                $data["msj"]=$user->user.", tu cuenta ya se encontraba activa. <strong>Inicia sesión</strong> y reserva las mejores canchas de la ciudad";
+                $data["msj"]=$user->user.", tu cuenta ya se encontraba activa. <strong>Inicia sesión</strong>, completa tu información personal y reserva las mejores canchas de la ciudad.";
 
             }
             return view('jugador.activarUser', $data);

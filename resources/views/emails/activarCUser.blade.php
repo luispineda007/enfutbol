@@ -19,6 +19,7 @@
             text-decoration: none;
         }
         #pie{
+            margin-top: 50px;
             font-size: 9px;
             color: #989898;
         }
@@ -32,9 +33,13 @@
 
 <h3>Bienvenido a Enfutbol.co</h3>
 
-
-<p>Para iniciar a disfrutar de los servicios de enFutbol.co es necesaria Activar tu cuanta a través del siguiente link </p>
+<p>Gracias por preferirnos. Para iniciar a disfrutar a disfrutar de los beneficios de nuestra plataforma, es necesario que actives tu cuenta, por favor haz click en el siguiente enlace para continuar: </p>
 <p> <strong><a class="lin" href="{!! $ruta !!}">{!! $ruta !!}</a></strong></p>
+<br>
+<p>Cordial Saludo.</p>
+<p><b>Equipo enFutbol.co</b></p>
+
+
 
 <p id="pie">Este e-mail se ha generado automáticamente. Por favor, no conteste a este e-mail.</p>
 
