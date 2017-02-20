@@ -46,12 +46,6 @@ Route::group(['middleware' => ['auth', 'superAdmin']], function () {
 
 });
 
-
-
-
-
-
-
 Route::group(['middleware' => ['auth', 'administrador']], function () {
     Route::get('administrador','AdministradorController@index')->name('administrador');
     Route:: POST('administrador/editDesc', 'AdministradorController@editarDescripcion')->name('editarDescripcion');
@@ -88,12 +82,13 @@ Route::group(['middleware' => ['auth', 'administrador']], function () {
     Route::get('adminTorneo/{id}','TorneosController@adminTorneo')->name('adminTorneo');
     Route::post('updateTorneo','TorneosController@updateTorneo')->name('updateTorneo');
 
+
 });
 
 Route::group(['middleware' => ['auth']], function () {
     Route::get('perfilUsuario','UsuariosController@perfilUsuario')->name('perfilUsuario');
 
-
+    Route::post('solicidarPago','TorneosController@solicidarPago')->name('solicidarPago');
 
 
 });

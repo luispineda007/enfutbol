@@ -52,11 +52,46 @@
             color: #0c0c0c;
             font-size: 13px;
         }
+
+        .info-box:hover{
+            opacity: 0.5;
+        }
+
+        .info-box-select{
+            box-shadow: 8px 8px 8px #646464;
+        }
+
     </style>
 @endsection
 
 
 @section('content')
+    <div class="row">
+        <div class="col-sm-8 col-sm-offset-2">
+        <div class="col-md-12">
+            <div class="box {{($dias>=30)?"box-success":(($dias<30&&$dias>10)?"box-warning":"box-danger")}} collapsed-box box-solid">
+                <div class="box-header with-border">
+                    <h3 class="box-title">suscripción a torneos {!!  ($dias<30)?"<small>(Quedan ".$dias." dias)</small>":""!!}  </h3>
+
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
+                        </button>
+                        <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                    </div>
+                    <!-- /.box-tools -->
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div class="col-sm-4" style="margin-top: 7px;">Valor suscripción: <b> ${{number_format($servicio->valor,2,",",".")}}</b></div>
+                    <div class="col-sm-4" style="margin-top: 7px;">Fecha vencimineto: <b>{{$servicio->fecha_fin}}</b></div>
+                    <div class="col-sm-4"><button id="solipago" type="button" class="btn btn-primary btn-flat">Solicitar un nuevo pago</button> </div>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+        </div></div>
+
     <div class="row">
         <div class="col-sm-10 col-sm-offset-1">
             <div class="panel panel-primary">
@@ -66,6 +101,8 @@
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-xs-12" id="albums">
+
+                            @if($servicio->estado=="X")
                             <div class="col-xs-6 col-sm-6 col-md-3" id="padreNuevo">
                                 <div class="panel panel-default pointer nuevo">
                                     <div class="panel-body" style="padding: 69px 0;">
@@ -99,6 +136,14 @@
                                     </div>
                                 </div>
                             @endforeach
+                                @else
+
+                                <div class="callout callout-danger">
+                                    <h4>Suscripción vencida!</h4>
+
+                                    <p>Para seguir utilizando el servicio de Torneos es necesario bla bla bla .</p>
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -122,6 +167,106 @@
             </div>
         </div>
     </div>
+
+
+    <div class="modal fade" id="solisitudPago" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title text-center" id="exampleModalLabel">Solicitud de póximo pago</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="row">
+                            <div class="col-xs-12" style="margin-bottom: 15px">
+                                Selecciona el plan que prefieras
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                <div class="info-box bg-red pointer info-box-select" data-plan="1 Mes">
+                                    <span class="info-box-icon"><i class="fa fa-hand-pointer-o"></i></span>
+                                    <div class="info-box-content">
+                                        <span class="info-box-text">1 Mes</span>
+                                        <span class="info-box-number">$50.000</span>
+                                        <div class="progress">
+                                            <div class="progress-bar" style="width: 70%"></div>
+                                        </div>
+                                        <span class="progress-description">
+                                            0% descuesto
+                                          </span>
+                                    </div><!-- /.info-box-content -->
+                                </div><!-- /.info-box -->
+                            </div>
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                <div class="info-box bg-aqua pointer" data-plan="3 Meses">
+                                    <span class="info-box-icon"><i class="fa fa-bookmark-o"></i></span>
+                                    <div class="info-box-content">
+                                        <span class="info-box-text">3 Meses</span>
+                                        <span class="info-box-number">$130.000</span>
+                                        <div class="progress">
+                                            <div class="progress-bar" style="width: 70%"></div>
+                                        </div>
+                                        <span class="progress-description">
+                                            2% descuesto
+                                          </span>
+                                    </div><!-- /.info-box-content -->
+                                </div><!-- /.info-box -->
+                            </div>
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                <div class="info-box bg-yellow pointer" data-plan="6 Meses">
+                                    <span class="info-box-icon"><i class="fa fa-bookmark-o"></i></span>
+                                    <div class="info-box-content">
+                                        <span class="info-box-text">6 Meses</span>
+                                        <span class="info-box-number">$260.000</span>
+                                        <div class="progress">
+                                            <div class="progress-bar" style="width: 70%"></div>
+                                        </div>
+                                        <span class="progress-description">
+                                            5% descuesto
+                                          </span>
+                                    </div><!-- /.info-box-content -->
+                                </div><!-- /.info-box -->
+                            </div>
+                            <div class="col-md-4 col-md-offset-4 col-sm-6 col-xs-12">
+                                <div class="info-box bg-green pointer" data-plan="12 Meses">
+                                    <span class="info-box-icon"><i class="fa fa-bookmark-o"></i></span>
+                                    <div class="info-box-content">
+                                        <span class="info-box-text">12 Meses</span>
+                                        <span class="info-box-number">$500.000</span>
+                                        <div class="progress">
+                                            <div class="progress-bar" style="width: 70%"></div>
+                                        </div>
+                                        <span class="progress-description">
+                                            10% descuesto
+                                          </span>
+                                    </div><!-- /.info-box-content -->
+                                </div><!-- /.info-box -->
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-12">
+                                El plan selecciona es de <b id="plan">1 Mes</b>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12" id="alertModal">
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" id="enviarSolicitud">Enviar Solicitud</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 @endsection
 
 
@@ -144,15 +289,57 @@
                             $("#botonModal").addClass('btn-warning');
                             $("#notifModal").modal("show");
                         }
+                    }
+                });
+            });
+
+            $("#solipago").click(function () {
+                $("#solisitudPago").modal("show");
+            });
+
+            var plan="1 Mes";
+            $(".info-box").click(function () {
+                $(".info-box").removeClass("info-box-select");
+                $(this).addClass("info-box-select");
+                $("#plan").html($(this).data("plan"));
+                plan=$(this).data("plan");
+
+            });
+
+            $("#enviarSolicitud").click(function () {
+                $.ajax({
+                    type:"POST",
+                    context: document.body,
+                    url: '{{route('solicidarPago')}}',
+                    data:{plan:plan},
+                    success: function(data){
+                        if(data.bandera){
+                            $("#solisitudPago").modal("hide");
+                        }else{
+
+                            var html = "<div class='alert alert-warning alert-dismissable'> " +
+                                "<a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a> " +
+                                "<strong>UPS!</strong> " +data.mensaje+
+                                "</div>";
+
+
+                            $("#alertModal").html(html);
+                        }
+
+                    },
+                    error: function (data) {
 
                     }
                 });
             });
-        });
+
+        });//fin Ready
 
         $("#padreNuevo").on('click', '.nuevo', function(){
             window.location = '{{route('torneoNuevo')}}';
         });
+
+
 
         function eliminarTorneo(elemento){
             $.ajax({

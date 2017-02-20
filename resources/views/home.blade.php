@@ -20,7 +20,16 @@
             padding-bottom: 0;
         }
 
+        @media screen and (min-width: 768px) {
+            .portada{
+                width: 100%;
+                height: 270px;
+            }
+        }
 
+        #textoLogo:hover{
+            color: #fee500;
+        }
     </style>
 
 
@@ -37,7 +46,7 @@
                 <div class="navbar-header">
                     <!-- Mobile Toggle Menu Button -->
                     <a href="#" class="js-fh5co-nav-toggle fh5co-nav-toggle " data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"><i></i></a>
-                    <a class="navbar-brand" href="{{route("home")}}">enFutbol</a>
+                    <a class="navbar-brand" href="{{route("home")}}" id="textoLogo">enFutbol</a>
                     @if(!Auth::guest())
                         <a href="#" onclick="return false;" class="perfilUserCol  perfilUser hidden-sm hidden-md hidden-lg pull-right" data-toggle="popover" title="{{Auth::user()->getPersona->nombres}}" tabindex="0">
                             @if(Auth::user()->rol=="admin")
@@ -58,7 +67,7 @@
                         <li><a href="#" onclick="return false;" data-nav-section="contact"><span>Contacto</span></a></li>
 
                         @if(Auth::guest())
-                            <li><a href="{{route('myLoginModal')}}"   data-modal=""  ><span>Iniciar Sesión</span></a></li>
+                            <li><a href="{{route('myLoginModal')}}"   data-modal=""  ><span> <b>Iniciar Sesión</b> </span></a></li>
                         @else
                             {{--<li class="hidden-xs hidden-sm"><a href="{{route('logout')}}"><span>Cerrar Sesión</span></a></li>--}}
                             {{--<li><a href="perfil" data-toggle="tooltip" data-placement="bottom" title="{{Auth::user()->getPersona->nombres}}"><img src="dist/img/avatar3.png" alt="..." class="img-circle" style="width: 30px;height: 30px;"></a></li>--}}

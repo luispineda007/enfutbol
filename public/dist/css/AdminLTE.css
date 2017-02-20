@@ -2044,7 +2044,7 @@ a:focus {
   display: block;
   float: left;
   height: 90px;
-  width: 90px;
+  width: 60px;
   text-align: center;
   font-size: 45px;
   line-height: 90px;
@@ -2055,7 +2055,7 @@ a:focus {
 }
 .info-box-content {
   padding: 5px 10px;
-  margin-left: 90px;
+  margin-left: 60px;
 }
 .info-box-number {
   display: block;
@@ -2399,7 +2399,7 @@ a:focus {
 }
 .alert a {
   color: #fff;
-  text-decoration: underline;
+  /*text-decoration: underline;*/
 }
 .alert-success {
   border-color: #008d4c;
@@ -4418,7 +4418,7 @@ table.text-center th {
 .callout.callout-warning,
 .alert-warning,
 .label-warning{
-  background-color: #edc789 !important;
+  background-color: #f39c12 !important;
 }
 
 .alert-warning

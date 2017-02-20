@@ -12,7 +12,7 @@ class Phpgmaps
     public $adsenseFormat = 'HALF_BANNER';            // The format of the AdUnit
     public $adsensePosition = 'TOP_CENTER';                // The position of the AdUnit
     public $adsensePublisherID = '';                        // Your Google AdSense publisher ID
-    public $apiKey = '';                        // If you've got an API key you can use it by passing this parameter. Setup an API key here: https://code.google.com/apis/console
+    public $apiKey = 'AIzaSyA1AUmEiXssHdvD3yAjE4VTh_pWQENfNUM';                        // If you've got an API key you can use it by passing this parameter. Setup an API key here: https://code.google.com/apis/console
     public $backgroundColor = '';                        // A hex color value shown as the map background when tiles have not yet loaded as the user pans
     public $bicyclingOverlay = false;                    // If set to TRUE will overlay bicycling information (ie. bike paths and suggested routes) onto the map by default
     public $center = '37.4419, -122.1419';        // Sets the default center location (lat/long co-ordinate or address) of the map. If defaulting to the users location set to "auto"
@@ -78,7 +78,8 @@ class Phpgmaps
     public $panoramioUser = '';                        // Restrict the set of Panoramio photos shown to those matching a particular user
     public $region = '';                        // Country code top-level domain (eg "uk") within which to search. Useful if supplying addresses rather than lat/longs
     public $scaleControlPosition = '';                        // The position of the Scale control, eg. 'BOTTOM_RIGHT'
-    public $scrollwheel = true;                        // If set to FALSE will disable zooming by scrolling of the mouse wheel
+    public $scrollwheel = false;                        // If set to FALSE will disable zooming by scrolling of the mouse wheel
+    public $sensor = false;                    // Set to TRUE if being used on a device that can detect a users location
     public $streetViewAddressControl = true;                        // If set to FALSE will hide the Address control
     public $streetViewAddressPosition = '';                        // The position of the Address control, eg. 'BOTTOM'
     public $streetViewControlPosition = '';                        // The position of the Street View control when viewing normal aerial map, eg. 'BOTTOM_RIGHT'
@@ -161,6 +162,12 @@ class Phpgmaps
             if (isset($this->$key)) {
                 $this->$key = $val;
             }
+        }
+
+        if ($this->sensor) {
+            $this->sensor = "true";
+        } else {
+            $this->sensor = "false";
         }
     }
 
@@ -1074,6 +1081,7 @@ class Phpgmaps
             } else {
                 $apiLocation = 'https://maps.google.com/maps/api/js?';
             }
+            $apiLocation .= 'sensor='.$this->sensor;
             if ($this->region != "" && strlen($this->region) == 2) {
                 $apiLocation .= '&region='.strtoupper($this->region);
             }
@@ -2203,7 +2211,7 @@ class Phpgmaps
             }
         }
 
-        $data_location = "https://maps.google.com/maps/api/geocode/json?address=".urlencode(utf8_encode($address));
+        $data_location = "https://maps.google.com/maps/api/geocode/json?address=".urlencode(utf8_encode($address))."&sensor=".$this->sensor;
         if ($this->region != "" && strlen($this->region) == 2) {
             $data_location .= "&region=".$this->region;
         }

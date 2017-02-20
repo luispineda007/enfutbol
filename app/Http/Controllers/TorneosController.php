@@ -4,13 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Departamento;
 use App\Fases_torneo;
+use App\SolicitudPago;
 use App\Torneo;
 use App\User;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class TorneosController extends Controller
 {
@@ -21,14 +24,31 @@ class TorneosController extends Controller
      */
     public function index()
     {
-        $user = \Auth::user();
-        $torneos = $user->getTorneos;
-        foreach ($torneos as $torneo){
-            $torneo->getEquipos;
+        $hoy = Carbon::today();
+        $user = Auth::user();
+        if($user->getPagoServiTorneo){
+
+            if($user->getPagoServiTorneo->estado=="X"){
+                $torneos = $user->getTorneos;
+                foreach ($torneos as $torneo){
+                    $torneo->getEquipos;
+                }
+
+                $data['torneos'] = $torneos;
+            }else{
+                $data['torneos'] = [];
+            }
+            $data["servicio"]= $user->getPagoServiTorneo;
+            $fecha_vence= Carbon::parse($user->getPagoServiTorneo->fecha_fin);
+            $data["dias"]=$hoy->diffInDays($fecha_vence);
+//            $data["hoy"]=$hoy;
+//            $data["vence"]=$fecha_vence;
+//            dd($data);
+            return view('torneos.index', $data);
+        }else{
+            return view('torneos.servicioTorneo');
         }
-//        dd($torneos);
-        $data['torneos'] = $torneos;
-        return view('torneos.index', $data);
+
     }
 
     /**
@@ -38,7 +58,7 @@ class TorneosController extends Controller
      */
     public function torneoNuevo()
     {
-        $usuario = \Auth::user();
+        $usuario = Auth::user();
         $data['municipio'] = $usuario->getPersona->getMunicipio->id;
         $data['departamento'] = $usuario->getPersona->getMunicipio->getDepartamento->id;
 
@@ -56,7 +76,7 @@ class TorneosController extends Controller
      * Inserta un nuevo torneo y sus fases asociadas.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return array
      */
     public function insertTorneo(Request $request)
     {
@@ -120,7 +140,7 @@ class TorneosController extends Controller
      * Elimina un torneo.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return string
      */
     public function deleteTorneo(Request $request)
     {
@@ -170,7 +190,7 @@ class TorneosController extends Controller
      * Actualiza la informacion de un torneo.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return array
      */
     public function updateTorneo(Request $request)
     {
@@ -209,6 +229,52 @@ class TorneosController extends Controller
 
         }
     }
+
+
+    public function solicidarPago(Request $request)
+    {
+        $date = Carbon::now();
+
+        $solicitudPago = SolicitudPago::where("user_id",Auth::user()->id)->get();
+
+        if($solicitudPago->count()==0){
+            $solicitud = new SolicitudPago($request->all());
+            $solicitud->user_id=Auth::user()->id;
+            $solicitud->servicio="torneo";
+            $solicitud->fecha= $date->format('Y-m-d');
+            $solicitud->estado="P";
+            $solicitud->save();
+            $data["bandera"]=true;
+        }else{
+            $bandera = true;
+
+            foreach ($solicitudPago as $item){
+                if($item->estado=="P"){
+                    $bandera=false;
+                }
+            }
+
+            if($bandera){
+                $solicitud = new SolicitudPago($request->all());
+                $solicitud->user_id=Auth::user()->id;
+                $solicitud->servicio="torneo";
+                $solicitud->fecha= $date->format('Y-m-d');
+                $solicitud->estado="P";
+                $solicitud->save();
+                $data["bandera"]=true;
+            }else{
+                $data["bandera"]=false;
+                $data["mensaje"]="Alcualmente existe una solicitud pendiente, espera una respuesta por parte del equipo de enFutbol.co";
+
+            }
+
+
+        }
+
+
+        return $data;
+    }
+
 
     /**
      * Remove the specified resource from storage.

@@ -54,7 +54,6 @@
         }
 
         @media screen and (min-width: 768px) {
-
             .portada{
                 width: 100%;
                 height: 270px;

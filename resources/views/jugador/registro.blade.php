@@ -184,6 +184,7 @@
                                     '<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>' +
                                     '<strong>Perfecto!</strong> El Usuario fue creado revisa tu correo electronico para activar tu cuenta.' +
                                     '</div>');
+                            formulario.reset();
                         }
                         else {
                             //alert("Se genero un error Interno");
