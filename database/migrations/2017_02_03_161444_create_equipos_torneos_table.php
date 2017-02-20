@@ -16,7 +16,7 @@ class CreateEquiposTorneosTable extends Migration
             $table->increments('id');
             $table->integer('torneo_id')->unsigned();
             $table->integer('equipo_id')->unsigned();
-            $table->enum('estado', ['A', 'C', 'P']); //A: El capitan puede modificar equipo, B: No puede modificar, P El equipo espera aprobacion en el torneo
+            $table->enum('estado', ['A', 'P', 'R']); //A: El capitan puede modificar equipo, P: Sin respuesta de solicitud, R: Solicitud rechazada
 
             $table->timestamps();
             $table->foreign('torneo_id')
