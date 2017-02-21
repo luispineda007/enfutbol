@@ -22,9 +22,9 @@ class CreateTorneosTable extends Migration
             $table->mediumText('descripcion'); //Contendra los datos relevantes y descriptivos del torneo
             $table->string('url_logo');
             $table->string('tipo_cancha');
+            $table->enum('genero', ['M', 'F']);
             $table->integer('vlr_inscripcion');
             $table->mediumText('premiacion'); //Almacenara los premios que se entregaran a cada lugar premiado
-            $table->string('premiados'); //Almacenara lugares premiados separados por ,
             $table->enum('estado',['A','C']); //A Si aun se pueden inscribir, C si ya pasaron inscripciones
             $table->enum('privacidad',['A','C']); //A si cualquiera puede inscribirse, C si solo se pueden inscribir mediante codigo
             $table->integer('municipio_id')->unsigned();

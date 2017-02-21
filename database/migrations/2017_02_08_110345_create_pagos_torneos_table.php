@@ -18,7 +18,7 @@ class CreatePagosTorneosTable extends Migration
             $table->date('fecha_inicio');
             $table->date('fecha_fin');
             $table->integer('valor');
-            $table->enun("estado","","X");
+            $table->enum("estado",["","X"]);
             $table->timestamps();
             $table->foreign('user_id')
                 ->references('id')
