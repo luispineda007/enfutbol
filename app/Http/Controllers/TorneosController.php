@@ -9,12 +9,11 @@ use App\SolicitudPago;
 use App\Torneo;
 use App\User;
 use Illuminate\Http\Request;
-
+use Carbon\Carbon;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Carbon\Carbon;
 
 class TorneosController extends Controller
 {
@@ -191,7 +190,13 @@ class TorneosController extends Controller
 
     public function adminFases($torneo_id){
 
-        
+        $fase = Fases_torneo::where("estado","C")->where("torneo_id",$torneo_id)->first();
+
+        if($fase){
+            return $fase;
+        }else{
+
+        }
 
         return "la fase es".$torneo_id;
     }

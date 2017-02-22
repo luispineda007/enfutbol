@@ -6,7 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Fases_torneo extends Model
 {
-  protected $table = 'canchas';
+  protected $table = 'fases_torneos';
 
-  protected $fillable = ['id_sitio', 'id_padre', 'nombre', 'tipo','foto','precio_base','precio_nocturno','precio_festivo','descripcion'];
+  protected $fillable = ['padre_id','torneo_id','numero_fase','nombre_fase','tipo_juego','estado'];
+
 }
