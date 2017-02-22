@@ -70,13 +70,13 @@
             color: #0c0c0c;
             font-size: 13px;
         }
-        .panel-equipo, .nuevo{
+        .panel-equipo, .nuevo, .planear {
             -webkit-transition:all .9s ease; /* Safari y Chrome */
             -moz-transition:all .9s ease; /* Firefox */
             -o-transition:all .9s ease; /* IE 9 */
             -ms-transition:all .9s ease;
         }
-        .panel-equipo:hover, .nuevo:hover{
+        .panel-equipo:hover, .nuevo:hover, .planear:hover{
             -webkit-transform:scale(1.13);
             -moz-transform:scale(1.13);
             -ms-transform:scale(1.13);
@@ -97,6 +97,13 @@
         }
         .eliminar:hover{
             color: red;
+        }
+        .titulo{
+            margin-bottom: 10px;
+            font-size: 17px;
+        }
+        .planear:hover > .resaltar{
+            text-decoration: underline;
         }
     </style>
 @endsection
@@ -171,9 +178,15 @@
                         {!!Form::close()!!}
                     @else
                         @if($torneo->estado == "A")
-                            @foreach($torneo->getFases as $fase)
-                                
-                            @endforeach
+                            <div class="col-sm-8 col-sm-offset-2">
+                                <div class="alert alert-warning text-center manito planear" role="alert">
+                                    <div class="titulo">
+                                        <b>ATENCION!</b>
+                                    </div>
+                                    El tiempo de inscripción al torneo, ha terminado <br>
+                                    <b class="resaltar">INICIAR PLANEACION</b>
+                                </div>
+                            </div>
                         @else
 
                         @endif
@@ -349,6 +362,28 @@
             });
 
 
+        });
+
+        $(".planear").on('click', function(){
+            $.ajax({
+                type: "POST",
+                url: '{{route('iniciarTorneo')}}',
+                data: {torneo:'{{$torneo->id}}'},
+                success: function (data) {
+                    if(data.estado){
+                        window.location = '{{route('adminFases', $torneo->id)}}';
+                    }
+                    else{
+                        $("#modal-title").html("Error!").parents('.modal-header').addClass('alert-danger');
+                        $("#content").html(data.mensaje);
+                        $("#botonModal").addClass('btn-danger');
+                        $("#notifModal").modal("show");
+                    }
+                },
+                error: function () {
+
+                }
+            });
         });
 
         $("#formTorneo").on('submit', function(e){

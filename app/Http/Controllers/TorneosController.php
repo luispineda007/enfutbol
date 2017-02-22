@@ -162,16 +162,21 @@ class TorneosController extends Controller
 
                 $torneo = Torneo::find($id);
                 if($torneo != null && $torneo->usuario_id == \Auth::user()->id){
-                    foreach ($torneo->getEquipos_torneo as $equipo){
-                        if($equipo->estado == 'P' || $equipo->estado == 'R'){
-                            $data['solicitudes'] = true;
-                            break;
+                    if($torneo->estado == "A"){
+                        foreach ($torneo->getEquipos_torneo as $equipo){
+                            if($equipo->estado == 'P' || $equipo->estado == 'R'){
+                                $data['solicitudes'] = true;
+                                break;
+                            }
                         }
-                    }
 
-                    $data['torneo'] = $torneo;
-//            dd($data);
-                    return view('torneos.torneo', $data);
+                        $data['torneo'] = $torneo;
+
+                        return view('torneos.torneo', $data);
+                    }
+                    else{
+                        return redirect()->route('adminFases', $torneo->id);
+                    }
                 }
                 else{
                     return redirect()->back();
@@ -212,7 +217,7 @@ class TorneosController extends Controller
     {
 //        dd($request->url_logo);
         $torneo = Torneo::find($request->torneo_id);
-        if($torneo->usuario_id == \Auth::user()->id) {
+        if($torneo!=null && $torneo->usuario_id == \Auth::user()->id) {
             DB::beginTransaction();
             try{
                 $torneo->nombre = $request->nombre;
@@ -282,11 +287,7 @@ class TorneosController extends Controller
                 $data["mensaje"]="Alcualmente existe una solicitud pendiente, espera una respuesta por parte del equipo de enFutbol.co";
 
             }
-
-
         }
-
-
         return $data;
     }
 
@@ -357,6 +358,59 @@ class TorneosController extends Controller
         }
         else{
             return redirect()->back();
+        }
+    }
+
+    public function iniciarTorneo(Request $request)
+    {
+        $torneo = Torneo::find($request->torneo);
+        if($torneo!=null && $torneo->usuario_id == \Auth::user()->id) {
+            $fase = $this->insertFase($torneo->id, '');
+            if ($fase['estado']){
+                DB::beginTransaction();
+                try{
+                    $torneo->estado = 'C';
+                    $torneo->save();
+                    DB::commit();
+                    return ['estado' => true];
+                }
+                catch(\Exception $e){
+                    DB::rollBack();
+                    return ['estado' => false,'mensaje' => "Ha ocurrido el siguiente error: " . $e->getMessage()];
+                }
+            }
+            else{
+                return ['estado' => false,'mensaje' => $fase['mensaje']];
+            }
+        }
+        else{
+            return ['estado' => false,'mensaje' => "No tiene permisos para realizar esta accion!"];
+
+        }
+        //actualizar torneo estado a C
+        //crear fase con consecutivo 1
+    }
+
+    public function insertFase($torneo_id, $consecutivo)
+    {
+        DB::beginTransaction();
+        try{
+            $fase = new Fases_torneo();
+            $fase->torneo_id = $torneo_id;
+            if($consecutivo != '')
+                $fase->numero_fase = $consecutivo+1;
+            else
+                $fase->numero_fase = '1';
+            $fase->nombre_fase = ' ';
+            $fase->tipo_juego = 'TvT';
+            $fase->estado = 'C';
+            $fase->save();
+            DB::commit();
+            return ['estado' => true];
+        }
+        catch(\Exception $e){
+            DB::rollBack();
+            return ['estado' => false,'mensaje' => "Ha ocurrido el siguiente error: " . $e->getMessage()];
         }
     }
 }
