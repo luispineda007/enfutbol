@@ -93,6 +93,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('aceptarSolicitud','TorneosController@aceptarSolicitud')->name('aceptarSolicitud');
     Route::post('rechazarSolicitud','TorneosController@rechazarSolicitud')->name('rechazarSolicitud');
 
+    Route::post('iniciarTorneo','TorneosController@iniciarTorneo')->name('iniciarTorneo');
+
     Route::get('adminEquipo/{id}','TorneosController@adminEquipo')->name('adminEquipo');
     //rutas para los torneos
     Route::get('adminTorneos/fase/{torneo_id}','TorneosController@adminFases')->name('adminFases');
