@@ -61,6 +61,11 @@
             box-shadow: 8px 8px 8px #646464;
         }
 
+        .h1 .small, .h1 small, .h2 .small, .h2 small, .h3 .small, .h3 small, .h4 .small, .h4 small, .h5 .small, .h5 small, .h6 .small, .h6 small, h1 .small, h1 small, h2 .small, h2 small, h3 .small, h3 small, h4 .small, h4 small, h5 .small, h5 small, h6 .small, h6 small {
+            font-weight: 400;
+            line-height: 1;
+            color: #98ea2f;
+        }
     </style>
 @endsection
 
@@ -71,7 +76,7 @@
         <div class="col-md-12">
             <div class="box {{($dias>=30)?"box-success":(($dias<30&&$dias>10)?"box-warning":"box-danger")}} collapsed-box box-solid">
                 <div class="box-header with-border">
-                    <h3 class="box-title">suscripción a torneos {!!  ($dias<30)?"<small>(Quedan ".$dias." dias)</small>":""!!}  </h3>
+                    <h3 class="box-title">suscripción a torneos {!!  ($dias<60)?(($dias<0)?"<small>( Vencida )</small>":"<small>( Quedan ".$dias." dias )</small>"):""!!}  </h3>
 
                     <div class="box-tools pull-right">
                         <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
@@ -356,5 +361,7 @@
                 }
             });
         }
+
+
     </script>
 @endsection

@@ -28,9 +28,9 @@ Route::group(['middleware' => ['auth', 'superAdmin']], function () {
     Route::post('addCancha','SuperAdminController@addCancha')->name('addCancha');
     Route::post('removeCancha','SuperAdminController@removeCancha')->name('removeCancha');
     Route::post('cambiarTipoCancha','SuperAdminController@cambiarTipoCancha')->name('cambiarTipoCancha');
-    
 
-    
+
+
     Route::get('sitiosRegistrados','SuperAdminController@sitiosRegistrados')->name('sitiosRegistrados');
     Route::get('modalHistorialPagos/{id}','SuperAdminController@modalHistorialPagos')->name('modalHistorialPagos');
     Route::get('modalDetallesSitio/{id}','SuperAdminController@modalDetallesSitio')->name('modalDetallesSitio');
@@ -94,6 +94,11 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('rechazarSolicitud','TorneosController@rechazarSolicitud')->name('rechazarSolicitud');
 
     Route::get('adminEquipo/{id}','TorneosController@adminEquipo')->name('adminEquipo');
+    //rutas para los torneos
+    Route::get('adminTorneos/fase/{torneo_id}','TorneosController@adminFases')->name('adminFases');
+
+
+
 });
 
 
@@ -109,7 +114,11 @@ Route::group(['middleware' => ['auth', 'jugador']], function () {
     Route::get('misReservas','UsuariosController@misReservas')->name('misReservas');
     Route::post('cancelReservaUser', 'UsuariosController@cancelReservaUser')->name('cancelReservaUser');
 
-    
+
+
+
+
+
 
 
 });
@@ -194,4 +203,3 @@ Route::get("prueba", function (){
     dd($map);
 
 });*/
-
