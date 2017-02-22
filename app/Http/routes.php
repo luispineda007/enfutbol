@@ -30,7 +30,6 @@ Route::group(['middleware' => ['auth', 'superAdmin']], function () {
     Route::post('cambiarTipoCancha','SuperAdminController@cambiarTipoCancha')->name('cambiarTipoCancha');
 
 
-
     Route::get('sitiosRegistrados','SuperAdminController@sitiosRegistrados')->name('sitiosRegistrados');
     Route::get('modalHistorialPagos/{id}','SuperAdminController@modalHistorialPagos')->name('modalHistorialPagos');
     Route::get('modalDetallesSitio/{id}','SuperAdminController@modalDetallesSitio')->name('modalDetallesSitio');
@@ -99,15 +98,10 @@ Route::group(['middleware' => ['auth']], function () {
     //rutas para los torneos
     Route::get('adminTorneos/fase/{torneo_id}','TorneosController@adminFases')->name('adminFases');
 
-
-
 });
 
 
-
-
 Route::group(['middleware' => ['auth', 'jugador']], function () {
-
 
     Route::post('validarPassword','UsuariosController@validarPassword')->name('validarPassword');
     Route::post('cambiarPassword','UsuariosController@cambiarPassword')->name('cambiarPassword');
@@ -116,16 +110,7 @@ Route::group(['middleware' => ['auth', 'jugador']], function () {
     Route::get('misReservas','UsuariosController@misReservas')->name('misReservas');
     Route::post('cancelReservaUser', 'UsuariosController@cancelReservaUser')->name('cancelReservaUser');
 
-
-
-
-
-
-
-
 });
-
-
 
 Route::get('/','UsuariosController@index')->name('home');
 Route::get('buscar','UsuariosController@buscar')->name('buscar');
@@ -136,11 +121,7 @@ Route::post('disponibilidades','UsuariosController@disponibilidad')->name('dispo
 Route::get('getInfoToken/{id_sitio}','UsuariosController@getInfoToken')->name('getInfoToken');
 Route::post('addNuevaReservaUsuario','UsuariosController@addNuevaReservaUsuario')->name('addNuevaReservaUsuario');
 
-
-
 Route::post('mail','MailController@enviar')->name('enviar');
-
-
 
 
 Route::get('password/email', 'Auth\PasswordController@getEmail')->name('getEmail');
@@ -150,13 +131,9 @@ Route::get('password/reset/{token}', 'Auth\PasswordController@getReset')->name('
 Route::post('password/reset/{token}', 'Auth\PasswordController@postReset')->name('postReset');
 
 
-
-
 Route::post('municipios','UsuariosController@getMunicipios')->name('municipios');
 Route::get('registro', 'UsuariosController@registrarJugador')->name('registrarJugador');
 Route::post('addJugador','UsuariosController@addJugador')->name('addJugador');
-
-
 
 
 Route::get('mapas', 'UsuariosController@geoLocalizacionMover')->name('geoLocalizacionMover');
@@ -167,7 +144,6 @@ Route::get('activaruser/{email}', 'UsuariosController@activarUser')->name('activ
 
 
 Route::get("prueba", function (){
-
 
     dd(\Auth::user());
 
