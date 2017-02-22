@@ -60,17 +60,28 @@ class TorneosController extends Controller
     public function torneoNuevo()
     {
         $usuario = Auth::user();
-        $data['municipio'] = $usuario->getPersona->getMunicipio->id;
-        $data['departamento'] = $usuario->getPersona->getMunicipio->getDepartamento->id;
+        if($usuario->getPagoServiTorneo) {
+            if ($usuario->getPagoServiTorneo->estado == "X") {
+                $data['municipio'] = $usuario->getPersona->getMunicipio->id;
+                $data['departamento'] = $usuario->getPersona->getMunicipio->getDepartamento->id;
 
-        $departamentos= Departamento::select('id','departamento')->get();
-        $arrayDepartamento = array();
-        foreach ($departamentos as $departamento){
-            $arrayDepartamento[$departamento->id]= $departamento->departamento;
+                $departamentos= Departamento::select('id','departamento')->get();
+                $arrayDepartamento = array();
+                foreach ($departamentos as $departamento){
+                    $arrayDepartamento[$departamento->id]= $departamento->departamento;
+                }
+                $data['arrayDepartamento'] = $arrayDepartamento;
+                return view('torneos.nuevo', $data);
+            }
+            else{
+                return redirect()->back();
+            }
         }
-        $data['arrayDepartamento'] = $arrayDepartamento;
-//        dd($data);
-        return view('torneos.nuevo', $data);
+        else{
+            return view('torneos.servicioTorneo');
+        }
+
+
     }
 
     /**
@@ -82,59 +93,38 @@ class TorneosController extends Controller
     public function insertTorneo(Request $request)
     {
         $usuario = \Auth::user();
-        DB::beginTransaction();
-        try{
-            $fotos = $request->file('url_logo');
-            $extension = explode(".", $fotos->getClientOriginalName());
-            $cantidad = count($extension) - 1;
-            $extension = $extension[$cantidad];
-            $nombre = time() . $request->file_id . "." . $extension;
-            $fotos->move('images/torneos', utf8_decode($nombre));
+        if ($usuario->getPagoServiTorneo) {
+            if ($usuario->getPagoServiTorneo->estado == "X") {
+                DB::beginTransaction();
+                try {
+                    $fotos = $request->file('url_logo');
+                    $extension = explode(".", $fotos->getClientOriginalName());
+                    $cantidad = count($extension) - 1;
+                    $extension = $extension[$cantidad];
+                    $nombre = time() . $request->file_id . "." . $extension;
+                    $fotos->move('images/torneos', utf8_decode($nombre));
 
-            $torneo = new Torneo($request->all());
-            $torneo->usuario_id = $usuario->id;
-            $torneo->url_logo = utf8_decode($nombre);
-            $torneo->estado = 'A';
-            $torneo->premiacion = 'Campeon: ' . $request->campeon . ',SubCampeon: ' . $request->subcampeon;
-            $torneo->premiados = '1,2';
+                    $torneo = new Torneo($request->all());
+                    $torneo->usuario_id = $usuario->id;
+                    $torneo->url_logo = utf8_decode($nombre);
+                    $torneo->estado = 'A';
+                    $torneo->premiacion = 'Campeon: ' . $request->campeon . ',SubCampeon: ' . $request->subcampeon . ', 3er Lugar: ' . $request->p3;
+                    $torneo->genero = $request->genero;
 
-            if(isset($request->p3)){
-                $torneo->premiacion =  $torneo->premiacion . ',3er lugar: ' . $request->p3;
-                $torneo->premiados = $torneo->premiados . ',3';
+                    $torneo->save();
+                    DB::commit();
+                    return ['estado' => true, 'mensaje' => $torneo->id];
+                } catch (\Exception $e) {
+                    DB::rollBack();
+                    return ['estado' => false, 'mensaje' => "Ha ocurrido el siguiente error: " . $e->getMessage()];
+                }
+            } else {
+                return ['estado' => false, 'mensaje' => "Tu suscripcion a Torneos ha caducado, contactanos para renovarla."];
             }
-            if(isset($request->p4)){
-                $torneo->premiacion =  $torneo->premiacion . ',4to lugar: ' . $request->p4;
-                $torneo->premiados = $torneo->premiados . ',4';
-            }
-            if(isset($request->p5)){
-                $torneo->premiacion =  $torneo->premiacion . ',5to lugar: ' . $request->p5;
-                $torneo->premiados = $torneo->premiados . ',5';
-            }
-
-            $torneo->save();
-//            dd($torneo);
-
-            $fase1 = new Fases_torneo();
-            $fase1->torneo_id = $torneo->id;
-            $fase1->numero_fase = '1';
-            $fase1->nombre_fase = $request->nombreF1;
-            $fase1->tipo_juego = $request->tipoF1;
-            $fase1->save();
-
-            if(isset($fase2)){
-                $fase2 = new Fases_torneo();
-                $fase2->torneo_id = $torneo->id;
-                $fase2->numero_fase = '2';
-                $fase2->nombre_fase = $request->nombreF2;
-                $fase2->tipo_juego = $request->tipoF2;
-                $fase2->save();
-            }
-            DB::commit();
-            return ['estado' => true, 'mensaje' => $torneo->id];
-        }catch(\Exception $e){
-            DB::rollBack();
-            return ['estado' => false, 'mensaje' => "Ha ocurrido el siguiente error: " . $e->getMessage()];
+        } else {
+            return ['estado' => false, 'mensaje' => "Adquiere una suscripcion a torneos para continuar esta operacion."];
         }
+
     }
 
     /**
@@ -167,21 +157,34 @@ class TorneosController extends Controller
      */
     public function adminTorneo($id)
     {
-        $torneo = Torneo::find($id);
-        if($torneo != null && $torneo->usuario_id == \Auth::user()->id){
-            foreach ($torneo->getEquipos_torneo as $equipo){
-                if($equipo->estado == 'P' || $equipo->estado == 'R'){
-                    $data['solicitudes'] = true;
-                    break;
-                }
-            }
+        $usuario = \Auth::user();
+        if ($usuario->getPagoServiTorneo) {
+            if ($usuario->getPagoServiTorneo->estado == "X") {
 
-            $data['torneo'] = $torneo;
+                $torneo = Torneo::find($id);
+                if($torneo != null && $torneo->usuario_id == \Auth::user()->id){
+                    foreach ($torneo->getEquipos_torneo as $equipo){
+                        if($equipo->estado == 'P' || $equipo->estado == 'R'){
+                            $data['solicitudes'] = true;
+                            break;
+                        }
+                    }
+
+                    $data['torneo'] = $torneo;
 //            dd($data);
-            return view('torneos.torneo', $data);
+                    return view('torneos.torneo', $data);
+                }
+                else{
+                    return redirect()->back();
+                }
+
+            }
+            else{
+                return view('torneos.index');
+            }
         }
         else{
-            return redirect()->back();
+            return view('torneos.servicioTorneo');
         }
     }
 

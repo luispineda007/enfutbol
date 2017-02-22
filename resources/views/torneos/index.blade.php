@@ -129,7 +129,7 @@
                                                 </center>
                                             </div>
                                             <div class="panel-footer">
-                                                <b>{{$torneo->nombre}}</b><br>
+                                                <b>{{$torneo->nombre}}</b> {{($torneo->genero=='M')?'(Masculino)':'(Femenino)'}}<br>
                                                 Estado: {{($torneo->estado == 'A')?'Abierto':'Cerrado'}}
                                             </div>
                                         </div>

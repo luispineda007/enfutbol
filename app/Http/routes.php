@@ -75,6 +75,14 @@ Route::group(['middleware' => ['auth', 'administrador']], function () {
     Route::post('getPlanillas','AdministradorController@getPlanillas')->name('getPlanillas');
 
 
+});
+
+Route::group(['middleware' => ['auth']], function () {
+    Route::get('perfilUsuario','UsuariosController@perfilUsuario')->name('perfilUsuario');
+
+    Route::post('solicidarPago','TorneosController@solicidarPago')->name('solicidarPago');
+
+
     Route::get('adminTorneos','TorneosController@index')->name('adminTorneos');
     Route::get('nuevoTorneo','TorneosController@torneoNuevo')->name('torneoNuevo');
     Route::post('insertTorneo','TorneosController@insertTorneo')->name('insertTorneo');
@@ -86,15 +94,6 @@ Route::group(['middleware' => ['auth', 'administrador']], function () {
     Route::post('rechazarSolicitud','TorneosController@rechazarSolicitud')->name('rechazarSolicitud');
 
     Route::get('adminEquipo/{id}','TorneosController@adminEquipo')->name('adminEquipo');
-
-});
-
-Route::group(['middleware' => ['auth']], function () {
-    Route::get('perfilUsuario','UsuariosController@perfilUsuario')->name('perfilUsuario');
-
-    Route::post('solicidarPago','TorneosController@solicidarPago')->name('solicidarPago');
-
-
 });
 
 

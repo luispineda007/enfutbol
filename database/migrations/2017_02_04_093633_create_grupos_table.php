@@ -16,6 +16,7 @@ class CreateGruposTable extends Migration
             $table->increments('id');
             $table->string('nombre');
             $table->integer('fase_id')->unsigned();
+            $table->integer('num_clasificados'); //Almacenara el numero total de clasificados por grupo
 
             $table->timestamps();
             $table->foreign('fase_id')

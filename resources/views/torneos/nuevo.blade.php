@@ -78,7 +78,7 @@
                                         <div class="input-group-addon">
                                             <i class="fa fa-comments"></i>
                                         </div>
-                                        <textarea class="form-control" name="descripcion" id="descripcion" rows="4" placeholder="Caracteristicas del torneo.." required></textarea>
+                                        <textarea class="form-control" name="descripcion" id="descripcion" rows="3" placeholder="Caracteristicas del torneo.." required></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -156,18 +156,29 @@
                         </div>
 
                         <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="nombre" class="col-md-2 control-label">Genero</label>
+                                <div class="col-md-10">
+                                    <div class="input-group date">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-venus-mars"></i>
+                                        </div>
+                                        <select class="form-control" id="genero" name="genero" required>
+                                            <option value="M">Masculino</option>
+                                            <option value="F">Femenino</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
 
-                        </div>
-
-                        <div class="col-md-6">
                             <div class="form-group">
                                 <label for="privacidad" class="col-md-2 control-label">Privacidad</label>
                                 <div class="col-md-10">
                                     <div class="checkbox">
-                                        <label><input type="radio" name="privacidad" class="minimal" value="A" checked>Abierto</label>
+                                        <label><input type="radio" name="privacidad" class="minimal" value="A" checked>&nbsp; Abierto</label>
                                     </div>
                                     <div class="checkbox">
-                                        <label><input type="radio" name="privacidad" class="minimal" value="C">Cerrado</label>
+                                        <label><input type="radio" name="privacidad" class="minimal" value="C"> &nbsp;Cerrado</label>
                                     </div>
                                 </div>
                             </div>
@@ -197,29 +208,19 @@
                                 <label for="premiacion" class="col-md-2 control-label">Premiación</label>
                                 <div class="col-md-10">
 
-                                    <label class="col-xs-12 col-lg-5 premiado"><input id="1" name="1" type="checkbox" class="form-control minimal" value="1" checked disabled> Campeon</label>
+                                    <label class="col-xs-12 col-lg-5 premiado text-center" for="campeon"><i class="fa fa-circle"></i>&nbsp; Campeon</label>
                                     <div class="col-xs-12 col-lg-7">
                                         <input class="form-control" type="text" name="campeon" id="campeon" required>
                                     </div>
 
-                                    <label class="col-xs-12 col-lg-5 premiado"><input id="2" name="2" type="checkbox" class="form-control minimal" value="2" checked disabled> 2do Lugar</label>
+                                    <label class="col-xs-12 col-lg-5 premiado text-center" for="subcampeon"><i class="fa fa-circle"></i>&nbsp; 2do Lugar</label>
                                     <div class="col-xs-12 col-lg-7">
                                         <input class="form-control" type="text" name="subcampeon" id="subcampeon" required>
                                     </div>
 
-                                    <label class="col-xs-12 col-lg-5 premiado"><input id="3" name="3" type="checkbox" class="form-control minimal" value="3"> 3er Lugar</label>
+                                    <label class="col-xs-12 col-lg-5 premiado text-center" for="p3"><i class="fa fa-circle"></i>&nbsp; 3er Lugar</label>
                                     <div class="col-xs-12 col-lg-7">
-                                        <input class="form-control" type="text" name="p3" id="p3" required disabled>
-                                    </div>
-
-                                    <label class="col-xs-12 col-lg-5 premiado" title="Requiere 3er lugar"><input id="4" name="4" type="checkbox" class="form-control minimal" value="4" disabled> 4to Lugar</label>
-                                    <div class="col-xs-12 col-lg-7">
-                                        <input class="form-control" type="text" name="p4" id="p4" required disabled>
-                                    </div>
-
-                                    <label class="col-xs-12 col-lg-5 premiado" title="Requiere 4to lugar"><input id="5" name="5" type="checkbox" class="form-control minimal" value="5" disabled> 5to Lugar</label>
-                                    <div class="col-xs-12 col-lg-7">
-                                        <input class="form-control" type="text" name="p5" id="p5" required disabled>
+                                        <input class="form-control" type="text" name="p3" id="p3" required>
                                     </div>
                                 </div>
                             </div>
@@ -234,62 +235,62 @@
 
                         </div>
 
-                        <div class="col-sm-12">
-                            <h2>Reglas del torneo</h2>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="panel panel-default">
-                                        <div class="panel-heading text-center"><label style="font-size: 15px;">Fase 1</label></div>
-                                        <div class="panel-body">
-                                            <div class="form-group">
-                                                <label for="nombreF1" class="col-sm-3 control-label">Nombre</label>
-                                                <div class="col-sm-9">
-                                                    <input type="text" name="nombreF1" id="nombreF1" class="form-control" required>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="tipoF1" class="col-sm-3 control-label">Tipo</label>
-                                                <div class="col-sm-9">
-                                                    <select class="form-control" id="tipoF1" name="tipoF1" required>
-                                                        <option value="TvT">Todos vs Todos</option>
-                                                        <option value="D">Eliminación Directa</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="panel panel-default">
-                                        <div class="panel-heading text-center">
-                                            <label title="Activar fase"><input type="checkbox" name="fase2" id="fase2" class="minimal">&nbsp;&nbsp;&nbsp;Fase 2</label>
-                                        </div>
-                                        <div class="panel-body">
-                                            <div class="form-group">
-                                                <label for="nombreF2" class="col-sm-3 control-label">Nombre</label>
-                                                <div class="col-sm-9">
-                                                    <input type="text" name="nombreF2" id="nombreF2" class="form-control F2" required disabled>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="tipoF2" class="col-sm-3 control-label">Tipo</label>
-                                                <div class="col-sm-9">
-                                                    <select class="form-control F2" id="tipoF2" name="tipoF2" required disabled>
-                                                        <option value="TvT">Todos vs Todos</option>
-                                                        <option value="D">Eliminación Directa</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        {{--<div class="col-sm-12">--}}
+                            {{--<h2>Reglas del torneo</h2>--}}
+                            {{--<div class="row">--}}
+                                {{--<div class="col-md-6">--}}
+                                    {{--<div class="panel panel-default">--}}
+                                        {{--<div class="panel-heading text-center"><label style="font-size: 15px;">Fase 1</label></div>--}}
+                                        {{--<div class="panel-body">--}}
+                                            {{--<div class="form-group">--}}
+                                                {{--<label for="nombreF1" class="col-sm-3 control-label">Nombre</label>--}}
+                                                {{--<div class="col-sm-9">--}}
+                                                    {{--<input type="text" name="nombreF1" id="nombreF1" class="form-control" required>--}}
+                                                {{--</div>--}}
+                                            {{--</div>--}}
+                                            {{--<div class="form-group">--}}
+                                                {{--<label for="tipoF1" class="col-sm-3 control-label">Tipo</label>--}}
+                                                {{--<div class="col-sm-9">--}}
+                                                    {{--<select class="form-control" id="tipoF1" name="tipoF1" required>--}}
+                                                        {{--<option value="TvT">Todos vs Todos</option>--}}
+                                                        {{--<option value="D">Eliminación Directa</option>--}}
+                                                    {{--</select>--}}
+                                                {{--</div>--}}
+                                            {{--</div>--}}
+                                        {{--</div>--}}
+                                    {{--</div>--}}
+                                {{--</div>--}}
+                                {{--<div class="col-md-6">--}}
+                                    {{--<div class="panel panel-default">--}}
+                                        {{--<div class="panel-heading text-center">--}}
+                                            {{--<label title="Activar fase"><input type="checkbox" name="fase2" id="fase2" class="minimal">&nbsp;&nbsp;&nbsp;Fase 2</label>--}}
+                                        {{--</div>--}}
+                                        {{--<div class="panel-body">--}}
+                                            {{--<div class="form-group">--}}
+                                                {{--<label for="nombreF2" class="col-sm-3 control-label">Nombre</label>--}}
+                                                {{--<div class="col-sm-9">--}}
+                                                    {{--<input type="text" name="nombreF2" id="nombreF2" class="form-control F2" required disabled>--}}
+                                                {{--</div>--}}
+                                            {{--</div>--}}
+                                            {{--<div class="form-group">--}}
+                                                {{--<label for="tipoF2" class="col-sm-3 control-label">Tipo</label>--}}
+                                                {{--<div class="col-sm-9">--}}
+                                                    {{--<select class="form-control F2" id="tipoF2" name="tipoF2" required disabled>--}}
+                                                        {{--<option value="TvT">Todos vs Todos</option>--}}
+                                                        {{--<option value="D">Eliminación Directa</option>--}}
+                                                    {{--</select>--}}
+                                                {{--</div>--}}
+                                            {{--</div>--}}
+                                        {{--</div>--}}
+                                    {{--</div>--}}
+                                {{--</div>--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
 
 
                         <div class="form-group">
-                            <div class="col-sm-offset-2 col-sm-10">
-                                <button type="submit" class="btn btn-default">Crear</button>
+                            <div class="col-sm-12 text-center" style="margin-top: 25px;">
+                                <button type="submit" class="btn btn-primary">Guardar</button>
                             </div>
                         </div>
                         {!!Form::close()!!}
@@ -372,51 +373,6 @@
             $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
                 checkboxClass: 'icheckbox_minimal-blue',
                 radioClass: 'iradio_minimal-blue'
-            });
-            $("#1").parent().removeClass('disabled');
-            $("#2").parent().removeClass('disabled');
-
-            $("#3").on('ifChecked', function(){
-                $("#4").removeAttr('disabled');
-                $("#4").parent().removeClass('disabled');
-                $("#4").parent().parent().attr('title', 'Premiar');
-            }).on('ifUnchecked', function(){
-                $("#4, #5").iCheck('uncheck').attr('disabled', 'true');
-                $("#4").parent().parent().attr('title', 'Requiere 3er Lugar');
-                $("#5").parent().parent().attr('title', 'Requiere 4to Lugar');
-            });
-
-            $("#4").on('ifChecked', function(){
-                $("#5").removeAttr('disabled');
-                $("#5").parent().removeClass('disabled');
-                $("#5").parent().parent().attr('title', 'Premiar');
-            }).on('ifUnchecked', function(){
-                $("#5").iCheck('uncheck');
-                $("#5").parent().parent().attr('title', 'Requiere 4to Lugar');
-            });
-
-            $('#3, #4, #5').on('ifChecked', function(){
-                $("#p"+$(this).val()).removeAttr('disabled');
-            }).on('ifUnchecked', function(){
-                $("#p"+$(this).val()).attr('disabled', 'true').val('');
-            });
-
-            $('#fase2').on('ifChecked', function(){
-                $(".F2").removeAttr('disabled');
-            }).on('ifUnchecked', function(){
-                $(".F2").attr('disabled', 'true');
-            });
-
-            $("#tipoF1").change(function(){
-                if($(this).val() == 'D'){
-                    $('#fase2').iCheck('uncheck').attr('disabled', 'true');
-                    $('#fase2').parent().parent().attr('title', 'No permitido por fase anterior');
-                    $('#nombreF2').val('');
-                }
-                else {
-                    $('#fase2').removeAttr('disabled');
-                    $('#fase2').parent().parent().attr('title', 'Activar fase')
-                }
             });
 
             llenarMunicipios();

@@ -15,11 +15,11 @@ class CreateFasesTorneosTable extends Migration
         Schema::create('fases_torneos', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('torneo_id')->unsigned();
-            $table->char('numero_fase'); //Almacenara el numero de la fase 1 , 2, 3, ... n
+            $table->char('numero_fase'); //Almacenara el numero de la fase 1, 2, 3, ... n
             $table->string('nombre_fase'); //Almacenara el nombre de la fase Ej: Eliminatorias, clasificacion
-            $table->integer('num_clasificados'); //Almacenara el numero total de clasificados por grupo o por fase
+
             $table->enum('tipo_juego', ['TvT', 'TvTG', 'D']);
-            $table->integer('num_grupos');
+            $table->enum('estado', ['C', 'E', 'T']);
 
             $table->timestamps();
             $table->foreign('torneo_id')

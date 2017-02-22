@@ -14,17 +14,18 @@ class CreateEncuentrosTable extends Migration
     {
         Schema::create('encuentros', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('torneo_id')->unsigned();
+            $table->integer('fase_id')->unsigned();
             $table->date('fecha');
             $table->string('hora');
             $table->integer('equipo1_id')->unsigned();
             $table->integer('equipo2_id')->unsigned();
             $table->string('lugar');
+            $table->integer('cancha_id')->unsigned();
 
             $table->timestamps();
-            $table->foreign('torneo_id')
+            $table->foreign('fase_id')
                 ->references('id')
-                ->on('torneos')
+                ->on('fases_torneos')
                 ->onDelete('cascade');
         });
     }
