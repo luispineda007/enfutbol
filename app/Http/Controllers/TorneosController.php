@@ -41,7 +41,7 @@ class TorneosController extends Controller
             }
             $data["servicio"]= $user->getPagoServiTorneo;
             $fecha_vence= Carbon::parse($user->getPagoServiTorneo->fecha_fin);
-            $data["dias"]=$hoy->diffInDays($fecha_vence);
+            $data["dias"]=$hoy->diffInDays($fecha_vence, false);
 //            $data["hoy"]=$hoy;
 //            $data["vence"]=$fecha_vence;
 //            dd($data);
@@ -188,6 +188,15 @@ class TorneosController extends Controller
         }
     }
 
+
+    public function adminFases($torneo_id){
+
+        
+
+        return "la fase es".$torneo_id;
+    }
+
+
     /**
      * Actualiza la informacion de un torneo.
      *
@@ -233,8 +242,7 @@ class TorneosController extends Controller
     }
 
 
-    public function solicidarPago(Request $request)
-    {
+    public function solicidarPago(Request $request){
         $date = Carbon::now();
 
         $solicitudPago = SolicitudPago::where("user_id",Auth::user()->id)->get();
@@ -283,8 +291,7 @@ class TorneosController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function aceptarSolicitud(Request $request)
-    {
+    public function aceptarSolicitud(Request $request){
         $solicitud = Equipos_torneo::find($request->solicitud);
         if($solicitud != null){
             if($solicitud->torneo_id == $request->torneo){
@@ -310,8 +317,7 @@ class TorneosController extends Controller
         }
     }
 
-    public function rechazarSolicitud(Request $request)
-    {
+    public function rechazarSolicitud(Request $request){
         $solicitud = Equipos_torneo::find($request->solicitud);
         if($solicitud != null){
             if($solicitud->torneo_id == $request->torneo){
@@ -337,8 +343,7 @@ class TorneosController extends Controller
         }
     }
 
-    public function adminEquipo($id)
-    {
+    public function adminEquipo($id){
         $equipoTorneo = Equipos_torneo::find($id);
         if($equipoTorneo != null){
             $equipoTorneo->getEquipo;

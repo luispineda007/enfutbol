@@ -9,7 +9,7 @@ $.ajaxSetup({
 var modalBs = $('#modalBs');
 var modalBsContent = $('#modalBs').find(".modal-content");
 $(function(){
-   
+
 handleAjaxModal();
 });
 
@@ -18,7 +18,7 @@ handleAjaxModal();
 
 function handleAjaxModal() {
 
-    
+
     // Limpia los eventos asociados para elementos ya existentes, asi evita duplicación
     $("a[data-modal]").unbind("click");
     // Evita cachear las transaccione Ajax previas
