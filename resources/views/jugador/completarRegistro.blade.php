@@ -233,16 +233,19 @@
                     url: '{{route('completarRegistro')}}',
                     data:formulario.serialize(),
                     success: function(data){
-                        if (data=="exito") {
+                        if (data.bandera) {
                             $(".cargando").addClass("hidden");
                             $("#error").html('<div class="alert alert-success">' +
                                     '<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>' +
                                     '<strong>Perfecto!</strong> Los datos de tu cuenta fueron almacenados correctamente.' +
                                     '</div>');
+                        }else{
+                            $("#error").html('<div class="alert alert-danger">' +
+                                '<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>' +
+                                '<strong>Error!</strong> ' +data.mensaje+
+                                '</div>');
                         }
-                        else {
-                            //alert("Se genero un error Interno");
-                        }
+
                     },
                     error: function (data) {
                         var respuesta =JSON.parse(data.responseText);

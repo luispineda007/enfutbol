@@ -401,6 +401,7 @@ class SuperAdminController extends Controller
                 $arrayUser[] = ["value"=>$persona->getUsuario->user,"data"=>$persona->getUsuario->id];
             }
         }
+
         $data["query"]="Unit";
         $data["suggestions"]=$arrayUser;
         return $data;

@@ -198,7 +198,7 @@ class TorneosController extends Controller
         $fase = Fases_torneo::where("estado","C")->where("torneo_id",$torneo_id)->first();
 
         if($fase){
-            return $fase;
+            return view('torneos.configurarFase');
         }else{
 
         }
@@ -295,7 +295,7 @@ class TorneosController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @return \Illuminate\Http\Response
+     * @return array
      */
     public function aceptarSolicitud(Request $request){
         $solicitud = Equipos_torneo::find($request->solicitud);
