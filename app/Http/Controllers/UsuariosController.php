@@ -649,8 +649,19 @@ class UsuariosController extends Controller
     public function completarRegistro(Request $request){
 
         $persona = Auth::user()->getPersona;
-        $persona->update($request->all());
-        return "exito";
+
+//falta cuadrar no duplicado de cedula
+
+        $personaIdExiste = Persona::where("identificacion",$request->identificacion)->first();
+
+        if($personaIdExiste==null){
+            $persona->update($request->all());
+
+            return ["bandera"=>true];
+        }else{
+            return ["bandera"=>false, "mensaje"=>"ya existe una persona registrada con este número de cedula. Si no eres el propietario de dicha cuenta, envianos un correo con tus datos a <b>informacion.enfutbol.co@gmail.com</b>, validaremos tu identidad y continuaremos con tu registro. disculpa las molestias"];
+        }
+
 
     }
     

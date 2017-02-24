@@ -54,12 +54,7 @@ class User extends Model implements AuthenticatableContract,
     {
         return $this->hasOne('App\Sitio','id_usuario');
     }
-    
-    /**
-     * esta funcion solo debe ser usada para obtener los tokens de un usuario administrador
-     * 
-     * @return Object_ token
-     */
+
     public function getToken()
     {
         return $this->hasOne('App\Token','id_usuario');
