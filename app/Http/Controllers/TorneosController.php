@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Departamento;
 use App\Equipos_torneo;
 use App\Fases_torneo;
+use App\Plantilla;
 use App\SolicitudPago;
 use App\Torneo;
 use App\User;
@@ -411,6 +412,26 @@ class TorneosController extends Controller
         catch(\Exception $e){
             DB::rollBack();
             return ['estado' => false,'mensaje' => "Ha ocurrido el siguiente error: " . $e->getMessage()];
+        }
+    }
+
+    public function adminPlantillas()
+    {
+        $user = Auth::user();
+        $data['plantillas'] = $user->getPlantillas;
+
+        return view('torneos.plantillas', $data);
+    }
+
+    public function getPlantilla(Request $request)
+    {
+        $plantilla = Plantilla::find($request->plantilla);
+        if($plantilla != null && $plantilla->usuario_id==\Auth::user()->id){
+            $data['plantilla'] = $plantilla;
+            return response()->json(view('torneos.editPlantilla', $data)->render());
+        }
+        else{
+            return 'error';
         }
     }
 }

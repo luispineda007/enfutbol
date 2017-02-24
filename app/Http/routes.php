@@ -98,6 +98,12 @@ Route::group(['middleware' => ['auth']], function () {
     //rutas para los torneos
     Route::get('adminTorneos/fase/{torneo_id}','TorneosController@adminFases')->name('adminFases');
 
+    Route::get('adminPlantillas','TorneosController@adminPlantillas')->name('adminPlantillas');
+    Route::post('getPlantilla','TorneosController@getPlantilla')->name('getPlantilla');
+//    Route::get("prueba", function (){
+//        return view('torneos.planillas');
+//
+//    });
 });
 
 
@@ -143,11 +149,7 @@ Route::post('completarRegistro', 'UsuariosController@completarRegistro')->name('
 Route::get('activaruser/{email}', 'UsuariosController@activarUser')->name('activarUser');
 
 
-Route::get("prueba", function (){
 
-    dd(\Auth::user());
-
-});
 
 
 /*Route::get('mapas', function(){

@@ -235,59 +235,6 @@
 
                         </div>
 
-                        {{--<div class="col-sm-12">--}}
-                            {{--<h2>Reglas del torneo</h2>--}}
-                            {{--<div class="row">--}}
-                                {{--<div class="col-md-6">--}}
-                                    {{--<div class="panel panel-default">--}}
-                                        {{--<div class="panel-heading text-center"><label style="font-size: 15px;">Fase 1</label></div>--}}
-                                        {{--<div class="panel-body">--}}
-                                            {{--<div class="form-group">--}}
-                                                {{--<label for="nombreF1" class="col-sm-3 control-label">Nombre</label>--}}
-                                                {{--<div class="col-sm-9">--}}
-                                                    {{--<input type="text" name="nombreF1" id="nombreF1" class="form-control" required>--}}
-                                                {{--</div>--}}
-                                            {{--</div>--}}
-                                            {{--<div class="form-group">--}}
-                                                {{--<label for="tipoF1" class="col-sm-3 control-label">Tipo</label>--}}
-                                                {{--<div class="col-sm-9">--}}
-                                                    {{--<select class="form-control" id="tipoF1" name="tipoF1" required>--}}
-                                                        {{--<option value="TvT">Todos vs Todos</option>--}}
-                                                        {{--<option value="D">Eliminación Directa</option>--}}
-                                                    {{--</select>--}}
-                                                {{--</div>--}}
-                                            {{--</div>--}}
-                                        {{--</div>--}}
-                                    {{--</div>--}}
-                                {{--</div>--}}
-                                {{--<div class="col-md-6">--}}
-                                    {{--<div class="panel panel-default">--}}
-                                        {{--<div class="panel-heading text-center">--}}
-                                            {{--<label title="Activar fase"><input type="checkbox" name="fase2" id="fase2" class="minimal">&nbsp;&nbsp;&nbsp;Fase 2</label>--}}
-                                        {{--</div>--}}
-                                        {{--<div class="panel-body">--}}
-                                            {{--<div class="form-group">--}}
-                                                {{--<label for="nombreF2" class="col-sm-3 control-label">Nombre</label>--}}
-                                                {{--<div class="col-sm-9">--}}
-                                                    {{--<input type="text" name="nombreF2" id="nombreF2" class="form-control F2" required disabled>--}}
-                                                {{--</div>--}}
-                                            {{--</div>--}}
-                                            {{--<div class="form-group">--}}
-                                                {{--<label for="tipoF2" class="col-sm-3 control-label">Tipo</label>--}}
-                                                {{--<div class="col-sm-9">--}}
-                                                    {{--<select class="form-control F2" id="tipoF2" name="tipoF2" required disabled>--}}
-                                                        {{--<option value="TvT">Todos vs Todos</option>--}}
-                                                        {{--<option value="D">Eliminación Directa</option>--}}
-                                                    {{--</select>--}}
-                                                {{--</div>--}}
-                                            {{--</div>--}}
-                                        {{--</div>--}}
-                                    {{--</div>--}}
-                                {{--</div>--}}
-                            {{--</div>--}}
-                        {{--</div>--}}
-
-
                         <div class="form-group">
                             <div class="col-sm-12 text-center" style="margin-top: 25px;">
                                 <button type="submit" class="btn btn-primary">Guardar</button>
