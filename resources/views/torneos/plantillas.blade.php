@@ -107,6 +107,24 @@
             </div>
         </div>
     </div>
+
+
+    <div class="modal fade" id="notifModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="modal-title"></h4>
+                </div>
+                <div class="modal-body" id="content">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn" data-dismiss="modal" id="botonModal">Entendido!</button>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 
@@ -128,6 +146,8 @@
                 }, 500);
             }
 
+
+
 //           $('#participantes').DataTable( {
 //                "language": {
 //                    "lengthMenu": "Mostrar  _MENU_ Solicitudes por Página",
@@ -147,7 +167,7 @@
                 data: {plantilla:plantilla_id},
                 success: function(data) {
                     $("#contePlantillas").html(data);
-//                    iniciarAutoComplete();
+                    iniciarAutoComplete();
                 },
                 error: function (data) {
                 }
@@ -162,13 +182,74 @@
                     return re.test(suggestion.value);
                 },
                 onSelect: function(suggestion) {
+                    $("#iconoIntegrante").removeClass("hidden");
+                    $("#user_id").val(suggestion.data);
                     console.log('You selected: ' + suggestion.value + ', ' + suggestion.data);
                 },
                 onHint: function (hint) {
                     $('#autocomplete-ajax-x').val(hint);
                 },
                 onInvalidateSelection: function() {
-                    console.log('You selected: none');
+                    $("#iconoIntegrante").addClass("hidden");
+                    $("#user_id").val("");
+                }
+            });
+        }
+
+        $("#contePlantillas").on('click', '#iconoIntegrante', function(){
+            if($("#user_id").val() != ''){
+                $.ajax({
+                    type:"POST",
+                    context: document.body,
+                    url: '{{route('addJugadorPlanilla')}}',
+                    data: {usuario_id:$("#user_id").val(), plantilla:$("#autocompletar").data('plantilla')},
+                    success: function(data){
+                        if(data.estado){
+                            $("#participantes").append('<tr class="fila">' +
+                                                            '<td>' + data.mensaje['get_usuario']['get_persona']['identificacion'] + '</td>' +
+                                                            '<td>' + data.mensaje['get_usuario']['get_persona']['nombres'] + '</td>' +
+                                                            '<td class="text-center" data-integrante="' + data.mensaje['id'] + '">' +
+                                                                '<i class="fa fa-times-circle-o fa-2x eliminar pointer" aria-hidden="true" data-toggle="confirmation" data-singleton="true" data-placement="top" title="Eliminar?"></i>' +
+                                                            '</td>' +
+                                                        '</tr>');
+                        }
+                        else {
+                            $("#modal-title").html("Error!").parents('.modal-header').addClass('alert-danger');
+                            $("#content").html(data.mensaje);
+                            $("#botonModal").addClass('btn-danger');
+                            $("#notifModal").modal("show");
+                        }
+                        $("#autocompletar").val("");
+                        $("#iconoIntegrante").addClass("hidden");
+                        $("#user_id").val("");
+                    },
+                    error: function(data){
+
+                    }
+                });
+            }
+        }).on('click', '#btnPlantilla', function(){
+            $("#formPlantilla").submit();
+        });
+        
+        function eliminarJugador(elemento){
+            $.ajax({
+                type:"POST",
+                context: document.body,
+                url: '{{route('delJugadorPlanilla')}}',
+                data:{plantilla:elemento.parents('#participantes').data('torneo'), jugador:elemento.data('integrante')},
+                success: function(data){
+                    if (data.estado)
+                        elemento.parents('.fila').remove();
+                    else {
+                        $("#modal-title").html("Error!").parents('.modal-header').addClass('alert-danger');
+                        $("#content").html(data.mensaje);
+                        $("#botonModal").addClass('btn-danger');
+                        $("#notifModal").modal("show");
+                    }
+                },
+                error: function (data) {
+
                 }
             });
         }

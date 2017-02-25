@@ -39,7 +39,7 @@ Route::group(['middleware' => ['auth', 'superAdmin']], function () {
 
     Route::get('superTorneos','SuperAdminController@superTorneos')->name('superTorneos');
 
-    Route::get('autoCompleUser','SuperAdminController@autoCompleUser')->name('autoCompleUser');
+
 
 
 
@@ -100,10 +100,14 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('adminPlantillas','TorneosController@adminPlantillas')->name('adminPlantillas');
     Route::post('getPlantilla','TorneosController@getPlantilla')->name('getPlantilla');
+    Route::post('addJugadorPlanilla','TorneosController@addJugadorPlanilla')->name('addJugadorPlanilla');
+    Route::post('delJugadorPlanilla','TorneosController@delJugadorPlanilla')->name('delJugadorPlanilla');
 //    Route::get("prueba", function (){
 //        return view('torneos.planillas');
 //
 //    });
+
+    Route::get('autoCompleUser','SuperAdminController@autoCompleUser')->name('autoCompleUser');
 });
 
 

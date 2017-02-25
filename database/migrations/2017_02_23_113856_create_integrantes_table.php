@@ -16,7 +16,6 @@ class CreateIntegrantesTable extends Migration
             $table->increments('id');
             $table->integer('usuario_id')->unsigned();
             $table->integer('plantilla_id')->unsigned();
-            $table->string('posicion');
 
             $table->timestamps();
             $table->foreign('usuario_id')
