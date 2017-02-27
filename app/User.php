@@ -76,6 +76,11 @@ class User extends Model implements AuthenticatableContract,
     {
         return $this->hasMany('App\Torneo', 'usuario_id');
     }
+
+    public function getPlantillas()
+    {
+        return $this->hasMany('App\Plantilla', 'usuario_id');
+    }
     
     
 

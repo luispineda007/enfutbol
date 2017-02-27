@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Departamento;
 use App\Equipos_torneo;
 use App\Fases_torneo;
+use App\Integrante;
+use App\Plantilla;
 use App\SolicitudPago;
 use App\Torneo;
 use App\User;
@@ -411,6 +413,84 @@ class TorneosController extends Controller
         catch(\Exception $e){
             DB::rollBack();
             return ['estado' => false,'mensaje' => "Ha ocurrido el siguiente error: " . $e->getMessage()];
+        }
+    }
+
+    public function adminPlantillas()
+    {
+        $user = Auth::user();
+        $data['plantillas'] = $user->getPlantillas;
+
+        return view('torneos.plantillas', $data);
+    }
+
+    public function getPlantilla(Request $request)
+    {
+        $plantilla = Plantilla::find($request->plantilla);
+        if($plantilla != null && $plantilla->usuario_id==\Auth::user()->id){
+            $data['plantilla'] = $plantilla;
+            return response()->json(view('torneos.editPlantilla', $data)->render());
+        }
+        else{
+            return 'error';
+        }
+    }
+
+    public function addJugadorPlanilla(Request $request)
+    {
+        $usuario = User::find($request->usuario_id);
+        $plantilla = Plantilla::find($request->plantilla);
+        if($usuario != null && $plantilla!= null && $plantilla->usuario_id==\Auth::user()->id){
+            $añadir = true;
+            foreach($plantilla->getJugadores as $jugador){
+                if($jugador->usuario_id == $usuario->id){
+                    $añadir = false;
+                    break;
+                }
+            }
+            if($añadir){
+                DB::beginTransaction();
+                try{
+                    $integrante = new Integrante();
+                    $integrante->usuario_id = $usuario->id;
+                    $integrante->plantilla_id = $plantilla->id;
+                    $integrante->save();
+                    DB::commit();
+                    $integrante->getUsuario->getPersona;
+                    return ['estado' => true, 'mensaje' => $integrante];
+                }
+                catch(\Exception $e){
+                    DB::rollBack();
+                    return ['estado' => false,'mensaje' => "Lo sentimos, ha ocurrido el siguiente error: " . $e->getMessage()];
+                }
+            }
+            else{
+                return ['estado' => false,'mensaje' => "El usuario seleccionado ya existe en esta plantilla, por favor ingresa uno diferente."];
+            }
+        }
+        else{
+            return ['estado' => false,'mensaje' => "No tienes permisos para completar esta acción."];
+        }
+    }
+
+    public function delJugadorPlanilla(Request $request)
+    {
+        $participante = Integrante::find($request->jugador);
+        $plantilla = Plantilla::find($request->plantilla);
+        if($participante != null && $plantilla != null && $plantilla->usuario_id==\Auth::user()->id && $participante->plantilla_id==$plantilla->id){
+            DB::beginTransaction();
+            try{
+                $participante->delete();
+                DB::commit();
+                return ['estado' => true];
+            }
+            catch(\Exception $e){
+                DB::rollBack();
+                return ['estado' => false,'mensaje' => "Lo sentimos, ha ocurrido el siguiente error: " . $e->getMessage()];
+            }
+        }
+        else{
+            return ['estado' => false,'mensaje' => "No tienes permisos para completar esta acción."];
         }
     }
 }

@@ -39,7 +39,7 @@ Route::group(['middleware' => ['auth', 'superAdmin']], function () {
 
     Route::get('superTorneos','SuperAdminController@superTorneos')->name('superTorneos');
 
-    Route::get('autoCompleUser','SuperAdminController@autoCompleUser')->name('autoCompleUser');
+
 
 
 
@@ -98,6 +98,16 @@ Route::group(['middleware' => ['auth']], function () {
     //rutas para los torneos
     Route::get('adminTorneos/fase/{torneo_id}','TorneosController@adminFases')->name('adminFases');
 
+    Route::get('adminPlantillas','TorneosController@adminPlantillas')->name('adminPlantillas');
+    Route::post('getPlantilla','TorneosController@getPlantilla')->name('getPlantilla');
+    Route::post('addJugadorPlanilla','TorneosController@addJugadorPlanilla')->name('addJugadorPlanilla');
+    Route::post('delJugadorPlanilla','TorneosController@delJugadorPlanilla')->name('delJugadorPlanilla');
+//    Route::get("prueba", function (){
+//        return view('torneos.planillas');
+//
+//    });
+
+    Route::get('autoCompleUser','SuperAdminController@autoCompleUser')->name('autoCompleUser');
 });
 
 
@@ -143,11 +153,7 @@ Route::post('completarRegistro', 'UsuariosController@completarRegistro')->name('
 Route::get('activaruser/{email}', 'UsuariosController@activarUser')->name('activarUser');
 
 
-Route::get("prueba", function (){
 
-    dd(\Auth::user());
-
-});
 
 
 /*Route::get('mapas', function(){
