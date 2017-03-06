@@ -82,7 +82,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('solicidarPago','TorneosController@solicidarPago')->name('solicidarPago');
 
 
-    Route::get('adminTorneos','TorneosController@index')->name('adminTorneos');
     Route::get('nuevoTorneo','TorneosController@torneoNuevo')->name('torneoNuevo');
     Route::post('insertTorneo','TorneosController@insertTorneo')->name('insertTorneo');
     Route::post('deleteTorneo','TorneosController@deleteTorneo')->name('deleteTorneo');
@@ -102,13 +101,23 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('getPlantilla','TorneosController@getPlantilla')->name('getPlantilla');
     Route::post('addJugadorPlanilla','TorneosController@addJugadorPlanilla')->name('addJugadorPlanilla');
     Route::post('delJugadorPlanilla','TorneosController@delJugadorPlanilla')->name('delJugadorPlanilla');
+    Route::post('nuevaPlantilla','TorneosController@nuevaPlantilla')->name('nuevaPlantilla');
+
 //    Route::get("prueba", function (){
 //        return view('torneos.planillas');
-//
 //    });
 
     Route::get('autoCompleUser','SuperAdminController@autoCompleUser')->name('autoCompleUser');
 });
+
+
+Route::get('adminTorneos','TorneosController@index')->name('adminTorneos');
+Route::get('buscarTorneos','TorneosController@buscarTorneos')->name('buscarTorneos');
+Route::post('getTorneos','TorneosController@getTorneos')->name('getTorneos');
+Route::get('detalleTorneo/{torneo}','TorneosController@detalleTorneo')->name('detalleTorneo');
+
+
+
 
 
 Route::group(['middleware' => ['auth', 'jugador']], function () {

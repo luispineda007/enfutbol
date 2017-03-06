@@ -14,15 +14,10 @@ class CreateJugadorsTable extends Migration
     {
         Schema::create('jugadors', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('usuario_id')->unsigned();
+            $table->integer('identificacion')->unsigned();
             $table->integer('equipo_id')->unsigned();
             $table->string('posicion');
-
             $table->timestamps();
-            $table->foreign('usuario_id')
-                ->references('id')
-                ->on('users')
-                ->onDelete('cascade');
             $table->foreign('equipo_id')
                 ->references('id')
                 ->on('equipos')

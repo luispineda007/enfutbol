@@ -14,12 +14,12 @@
    * @type Array
    */
   var my_skins = [
+      "skin-green",
     "skin-blue",
     "skin-black",
     "skin-red",
     "skin-yellow",
     "skin-purple",
-    "skin-green",
     "skin-blue-light",
     "skin-black-light",
     "skin-red-light",

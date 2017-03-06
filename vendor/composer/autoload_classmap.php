@@ -25,6 +25,7 @@ return array(
     'CreatePagosTorneosTable' => $baseDir . '/database/migrations/2017_02_08_110345_create_pagos_torneos_table.php',
     'CreatePasswordResetsTable' => $baseDir . '/database/migrations/2014_10_12_100000_create_password_resets_table.php',
     'CreatePersonasTable' => $baseDir . '/database/migrations/2014_10_11_153637_create_personas_table.php',
+    'CreatePesonasExternasTable' => $baseDir . '/database/migrations/2017_03_01_143427_create_pesonas_externas_table.php',
     'CreatePlantillasTable' => $baseDir . '/database/migrations/2017_02_23_113804_create_plantillas_table.php',
     'CreateReservasTable' => $baseDir . '/database/migrations/2016_07_18_162603_create_reservas_table.php',
     'CreateResultadosEncuentrosTable' => $baseDir . '/database/migrations/2017_02_16_161102_create_resultados_encuentros_table.php',

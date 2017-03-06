@@ -21,9 +21,19 @@
   <!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
   {!!Html::style('dist/css/skins/_all-skins.min.css')!!}
+
   {!!Html::style('css/style.css')!!}
+  {!!Html::style('dist/css/skins/skin-green.css')!!}
 @yield('css')
 
+  <style>
+    .treeview-menu .active>a.active{
+      border-left: #06a106 3px solid;
+    }
+    .logoAdmin{
+      margin: 20px 0;
+    }
+  </style>
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
   <!--[if lt IE 9]>
@@ -31,7 +41,11 @@
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
 </head>
-<body class="hold-transition skin-blue sidebar-mini fixed">
+@if(Auth::guest())
+  <body class="hold-transition skin-green-light sidebar-mini fixed">
+@else
+  <body class="hold-transition skin-{{(Auth::user()->rol=="jugador")?'green-light':'blue'}} sidebar-mini fixed">
+  @endif
 <div class="wrapper">
 
   <header class="main-header">
@@ -276,7 +290,7 @@
 <!-- SlimScroll 1.3.0 -->
 {!!Html::script('plugins/slimScroll/jquery.slimscroll.min.js')!!}
 <!-- AdminLTE for demo purposes -->
-{!!Html::script('dist/js/demo.js')!!}
+{{--{!!Html::script('dist/js/demo.js')!!}--}}
 
 
 <!-- Modal Bootstrap-->
@@ -290,6 +304,18 @@
 
 {!!Html::script('js/inicio.js')!!}
 @yield('js')
+
+<script>
+    $(function () {
+        var CURRENT_URL = window.location.href;
+        // console.log(CURRENT_URL);
+        var contador = 1;
+        if(CURRENT_URL.split("/")[3]=="")
+            CURRENT_URL = CURRENT_URL.substring(0,CURRENT_URL.length-1);
+
+        $(".sidebar-menu").find('a[href="' + CURRENT_URL + '"]').parents("li").addClass("active").children("a").addClass("active");
+    });
+</script>
 
 </body>
 </html>

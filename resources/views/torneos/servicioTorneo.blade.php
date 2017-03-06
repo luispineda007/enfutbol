@@ -19,52 +19,57 @@
 @endsection
 @section('content')
 
-    <section id="introduction">
-        <h2 class="page-header"><a href="#introduction">Introductión</a></h2>
-        <p class="lead">
-            En <b>enFutbol.co</b> encontrarás el servicio de crear y administrar tornos, en donde los usuarios registraran a sus equipos
-            para poder participar en los torneos, dependiendo de la privacidad del torneo los usuarios enviaran invitaciones para ser aceptadas
-            por el administrador del torneo o el administrador le entregara un código único con el que podrá inscribir su equipo al torneo
+    <div class="row">
+        <div class="col-xs-offset-1 col-xs-10">
+            <div class="panel panel-default">
+                <div class="panel-body">
+
+                    <section id="introduction">
+                        <h2 class="page-header"><a href="#introduction">Introductión</a></h2>
+                        <p class="lead">
+                            En <b>enFutbol.co</b> encontrarás el servicio de crear y administrar tornos, en donde los usuarios registraran a sus equipos
+                            para poder participar en los torneos, dependiendo de la privacidad del torneo los usuarios enviaran invitaciones para ser aceptadas
+                            por el administrador del torneo o el administrador le entregara un código único con el que podrá inscribir su equipo al torneo
 
 
-        </p>
-    </section><!-- /#introduction -->
+                        </p>
+                    </section><!-- /#introduction -->
 
 
-    <!-- ============================================================= -->
+                    <!-- ============================================================= -->
 
-    <section id="download">
-        <h2 class="page-header"><a href="#download">Tipos de Competición</a></h2>
-        <p class="lead">
-            AdminLTE can be downloaded in two different versions, each appealing to different skill levels and use case.
-        </p>
-        <div class="row">
-            <div class="col-sm-6">
-                <div class="box box-primary">
-                    <div class="box-header with-border">
-                        <h3 class="box-title">Todos contra todos </h3>
-                        <span class="label label-primary pull-right"><i class="fa fa-html5"></i></span>
-                    </div><!-- /.box-header -->
-                    <div class="box-body">
-                        <p>Compiled and ready to use in production. Download this version if you don't want to customize AdminLTE's LESS files.</p>
+                    <section id="download">
+                        <h2 class="page-header"><a href="#download">Tipos de Competición</a></h2>
+                        <p class="lead">
+                            AdminLTE can be downloaded in two different versions, each appealing to different skill levels and use case.
+                        </p>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="box box-primary">
+                                    <div class="box-header with-border">
+                                        <h3 class="box-title">Todos contra todos </h3>
+                                        <span class="label label-primary pull-right"><i class="fa fa-html5"></i></span>
+                                    </div><!-- /.box-header -->
+                                    <div class="box-body">
+                                        <p>Compiled and ready to use in production. Download this version if you don't want to customize AdminLTE's LESS files.</p>
 
-                    </div><!-- /.box-body -->
-                </div><!-- /.box -->
-            </div><!-- /.col -->
-            <div class="col-sm-6">
-                <div class="box box-danger">
-                    <div class="box-header with-border">
-                        <h3 class="box-title">Eliminacion directa</h3>
-                        <span class="label label-danger pull-right"><i class="fa fa-database"></i></span>
-                    </div><!-- /.box-header -->
-                    <div class="box-body">
-                        <p>All files including the compiled CSS. Download this version if you plan on customizing the template. <b>Requires a LESS compiler.</b></p>
+                                    </div><!-- /.box-body -->
+                                </div><!-- /.box -->
+                            </div><!-- /.col -->
+                            <div class="col-sm-6">
+                                <div class="box box-danger">
+                                    <div class="box-header with-border">
+                                        <h3 class="box-title">Eliminacion directa</h3>
+                                        <span class="label label-danger pull-right"><i class="fa fa-database"></i></span>
+                                    </div><!-- /.box-header -->
+                                    <div class="box-body">
+                                        <p>All files including the compiled CSS. Download this version if you plan on customizing the template. <b>Requires a LESS compiler.</b></p>
 
-                    </div><!-- /.box-body -->
-                </div><!-- /.box -->
-            </div><!-- /.col -->
-        </div><!-- /.row -->
-        <pre class="hierarchy bring-up"><code class="language-bash" data-lang="bash">File Hierarchy of the Source Code Package
+                                    </div><!-- /.box-body -->
+                                </div><!-- /.box -->
+                            </div><!-- /.col -->
+                        </div><!-- /.row -->
+                        <pre class="hierarchy bring-up"><code class="language-bash" data-lang="bash">File Hierarchy of the Source Code Package
 
 AdminLTE/
 ├── dist/
@@ -80,8 +85,13 @@ AdminLTE/
 │       ├── mixins.less
 └── plugins/
     ├── All the customized plugins CSS and JS files</code></pre>
-    </section>
+                    </section>
 
+
+                </div>
+            </div>
+        </div>
+    </div>
 
 @endsection
 
