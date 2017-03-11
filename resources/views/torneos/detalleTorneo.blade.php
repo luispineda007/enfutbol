@@ -76,7 +76,44 @@
 
                 </div>{{--fin panel body--}}
                 <div class="row text-center" style="margin-bottom: 20px;">
-                    <input type="submit" class="btn btn-{{(Auth::guest())?"success":((Auth::user()->rol=="admin")?"primary":"success")}}" value="Iniciar Fase" id="">
+
+                @if(Auth::guest())
+                        <a class="btn btn-success" href="{{route('myLoginModal')}}"   data-modal=""  >
+                            <i class="fa fa-user" aria-hidden="true"></i>
+                            <span class="hidden-xs"> Iniciar Sesión </span>
+                        </a>
+
+                @else
+
+                    @if(empty($participo))
+
+                        {!!Form::open(['route'=>'inscribeTuEquipo','class'=>'form-horizontal'])!!}
+                            <input type="hidden" name="torneo" value="{{$torneo->id}}">
+                            <input type="submit" class="btn btn-{{(Auth::guest())?"success":((Auth::user()->rol=="admin")?"primary":"success")}}" value="INSCRIBE TU EQUIPO" id="">
+
+                        {!!Form::close()!!}
+
+                    @else
+
+                            <div class="row">
+                                <div class="col-xs-8 col-xs-offset-2">
+                                    <div class="alert alert-success alert-dismissable">
+                                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                        <strong>Perfecto!</strong> Ya estas participando en este campeonato con el equipo ( <b>{{$participo->nombre}}</b> ).
+                                    </div>
+                                </div>
+                            </div>
+
+
+                    @endif
+
+
+
+
+                @endif
+
+
+
                 </div>
             </div>
 

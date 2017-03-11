@@ -108,6 +108,17 @@ Route::group(['middleware' => ['auth']], function () {
 //    });
 
     Route::get('autoCompleUser','SuperAdminController@autoCompleUser')->name('autoCompleUser');
+
+
+    Route::get('inscribeTuEquipo','TorneosController@inscribeTuEquipo')->name('inscribeTuEquipo');
+    Route::post('inscribeTuEquipo','TorneosController@inscribeTuEquipo')->name('inscribeTuEquipo');
+    Route::post('addPersonaExterna','TorneosController@addPersonaExterna')->name('addPersonaExterna');
+    Route::post('exisPersona','TorneosController@exisPersona')->name('exisPersona');
+
+
+
+
+
 });
 
 

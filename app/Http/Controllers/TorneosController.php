@@ -7,6 +7,8 @@ use App\Equipos_torneo;
 use App\Fases_torneo;
 use App\Integrante;
 use App\Jugador;
+use App\Persona;
+use App\PesonasExterna;
 use App\Plantilla;
 use App\SolicitudPago;
 use App\Torneo;
@@ -584,7 +586,10 @@ class TorneosController extends Controller
         if($torneo){
             $data["torneo"] = $torneo;
             $data["torneos"] = $torneos;
-
+            if(!Auth::guest()) {
+                $jugador = new Jugador();
+                $data["participo"] = $jugador->participaEnTorneo($torneo->id, Auth::user()->getPersona->identificacion);
+            }
             return view('torneos.detalleTorneo',$data);
         }else{
             return redirect()->back();
@@ -592,5 +597,73 @@ class TorneosController extends Controller
 
 
     }
+
+        /**
+         * funcion para landar la vista para inscribir un equipo a un torneo.
+         *
+         * @return array
+         */
+        public function inscribeTuEquipo (Request $request){
+
+            if($request->torneo){
+                $data["torneo"]=$torneo = Torneo::find($request->torneo);
+            }else{
+                $data["torneo"]=[];
+            }
+            $data["planillas"] = Plantilla::where("usuario_id",Auth::user()->id)->get();
+
+            $arrayDepartamento = array();
+            $departamentos = Departamento::select('id', 'departamento')->get();
+
+            foreach ($departamentos as $departamento) {
+                $arrayDepartamento[$departamento->id] = $departamento->departamento;
+            }
+
+            $data["arrayDepartamento"] = $arrayDepartamento;
+
+           // dd($data);
+            return view('torneos.inscribeTuEquipo', $data);
+        }
+
+
+            /**
+             * funcion encargada de validar la existencia de personas en el sistema y poder registrar personas externas .
+             *
+             * @return array
+             */
+            public function addPersonaExterna(Request $request){
+
+                $persona = Persona::where("identificacion",$request->identificacion)->first();
+
+                dd($persona);
+                return ;
+            }
+
+            /**
+             * funcion encargada de validar la existencia de personas en el sistema y poder registrar personas externas .
+             *
+             * @return array
+             */
+            public function exisPersona(Request $request){
+
+                $persona = Persona::where("identificacion",$request->identificacion)->first();
+
+                if($persona){
+                    $data["bandera"]=true;
+                    $data["nombres"]= $persona->nombres;
+                }else{
+                    $persona = PesonasExterna::where("identificacion",$request->identificacion)->first();
+                    if($persona){
+                        $data["bandera"]=true;
+                        $data["nombres"]= $persona->nombres;
+                    }else {
+
+                        $data["bandera"] = false;
+                    }
+                }
+                return $data;
+            }
+
+
 }
 

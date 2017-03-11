@@ -242,7 +242,7 @@
             equipos.push({id:7,escudo:"{{url('images/torneos/escudos')}}/CHELSEA.png" ,nombre:"Chelsea"});
             equipos.push({id:8,escudo:"{{url('images/torneos/escudos')}}/everton.png" ,nombre:"Everton"});
             
-            console.log(equipos);
+            //console.log(equipos);
 
             
             $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({

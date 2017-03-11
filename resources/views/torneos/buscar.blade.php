@@ -33,7 +33,7 @@
                             <div class="box box-{{(Auth::guest())?"success":((Auth::user()->rol=="admin")?"primary":"success")}}">
                                 <div class="box-header with-border">
                                     <h3 class="box-title text-center">Torneos en donde participo </h3>
-                                    <span class="label label-primary pull-right"><i class="fa fa-html5"></i></span>
+                                    <span class="label label-{{(Auth::guest())?"success":((Auth::user()->rol=="admin")?"primary":"success")}} pull-right"><i class="fa fa-html5"></i></span>
                                 </div><!-- /.box-header -->
                                 <div class="box-body">
                                     @foreach($mistorneos as $mistorneo)
