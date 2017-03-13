@@ -62,6 +62,7 @@
                     <ul class="nav navbar-nav navbar-right">
                         <li class="active"><a href="#" onclick="return false;" data-nav-section="home"><span>Inicio</span></a></li>
                         <li><a href="{{route("buscar")}}"  ><span>Buscar</span></a></li>
+                        <li><a href="{{route("buscarTorneos")}}"  ><span>Torneos</span></a></li>
                         {{--<li class="hidden-md"><a href="#" onclick="return false;" data-nav-section="services"><span>Servicios</span></a></li>--}}
                         <li><a href="#" onclick="return false;" data-nav-section="about"><span>Aliados</span></a></li>
                         <li><a href="#" onclick="return false;" data-nav-section="contact"><span>Contacto</span></a></li>

@@ -14,7 +14,7 @@ class CreateFasesTorneosTable extends Migration
     {
         Schema::create('fases_torneos', function (Blueprint $table) {
             $table->increments('id');
-            $table->intiger('padre_id')->unsigned();
+            $table->integer('padre_id')->unsigned();
             $table->integer('torneo_id')->unsigned();
             $table->char('numero_fase'); //Almacenara el numero de la fase 1, 2, 3, ... n
             $table->string('nombre_fase'); //Almacenara el nombre de la fase Ej: Eliminatorias, clasificacion

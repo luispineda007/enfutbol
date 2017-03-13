@@ -6,6 +6,9 @@ use App\Departamento;
 use App\Equipos_torneo;
 use App\Fases_torneo;
 use App\Integrante;
+use App\Jugador;
+use App\Persona;
+use App\PesonasExterna;
 use App\Plantilla;
 use App\SolicitudPago;
 use App\Torneo;
@@ -27,28 +30,34 @@ class TorneosController extends Controller
     public function index()
     {
         $hoy = Carbon::today();
-        $user = Auth::user();
-        if($user->getPagoServiTorneo){
 
-            if($user->getPagoServiTorneo->estado=="X"){
-                $torneos = $user->getTorneos;
-                foreach ($torneos as $torneo){
-                    $torneo->getEquipos;
+        if(Auth::guest()){
+            return view('torneos.servicioTorneo');
+        }else{
+            $user = Auth::user();
+            if($user->getPagoServiTorneo){
+
+                if($user->getPagoServiTorneo->estado=="X"){
+                    $torneos = $user->getTorneos;
+                    foreach ($torneos as $torneo){
+                        $torneo->getEquipos;
+                    }
+
+                    $data['torneos'] = $torneos;
+                }else{
+                    $data['torneos'] = [];
                 }
-
-                $data['torneos'] = $torneos;
-            }else{
-                $data['torneos'] = [];
-            }
-            $data["servicio"]= $user->getPagoServiTorneo;
-            $fecha_vence= Carbon::parse($user->getPagoServiTorneo->fecha_fin);
-            $data["dias"]=$hoy->diffInDays($fecha_vence, false);
+                $data["servicio"]= $user->getPagoServiTorneo;
+                $fecha_vence= Carbon::parse($user->getPagoServiTorneo->fecha_fin);
+                $data["dias"]=$hoy->diffInDays($fecha_vence, false);
 //            $data["hoy"]=$hoy;
 //            $data["vence"]=$fecha_vence;
 //            dd($data);
-            return view('torneos.index', $data);
-        }else{
-            return view('torneos.servicioTorneo');
+                return view('torneos.index', $data);
+            }else{
+                return view('torneos.servicioTorneo');
+            }
+
         }
 
     }
@@ -419,10 +428,37 @@ class TorneosController extends Controller
     public function adminPlantillas()
     {
         $user = Auth::user();
+
         $data['plantillas'] = $user->getPlantillas;
+
+//        dd($data);
 
         return view('torneos.plantillas', $data);
     }
+
+
+        /**
+         * .
+         *
+         * @return array
+         */
+        public function nuevaPlantilla (Request $request){
+            $data= array();
+            $totalPlantillas = Auth::user()->getPlantillas->count();
+            if($totalPlantillas<5){
+                $plantilla = new Plantilla($request->all());
+                $plantilla->usuario_id= Auth::user()->id;
+                $plantilla->save();
+                $data["bandera"]= true;
+                $data["mensaje"]="exito";
+                $data["nombre"]= (strlen($plantilla->nombre) <= 10)?$plantilla->nombre:substr($plantilla->nombre, 0, 10).'...';
+                $data["genero"]= $plantilla->genero;
+                $data["id"]=$plantilla->id;
+                $data["totalPlantillas"] = $totalPlantillas;
+            }
+
+            return $data;
+        }
 
     public function getPlantilla(Request $request)
     {
@@ -493,4 +529,141 @@ class TorneosController extends Controller
             return ['estado' => false,'mensaje' => "No tienes permisos para completar esta acción."];
         }
     }
+
+        /**
+         * funcion encargada de lanzar la vista para buscar los torneos en el sistema.
+         *
+         * @return array
+         */
+        public function buscarTorneos(Request $request){
+            $data = array();
+            $data["mistorneos"]=[];
+            if(!Auth::guest()){
+                $jugador = new Jugador();
+                $torneos = $jugador->getMisTorneos(Auth::user()->getPersona->identificacion);
+                $arrayMisTorneos = array();
+
+                foreach ($torneos as $torneo){
+                    $objTorneo = Torneo::find($torneo->id);
+                    $objTorneo->municipio=$objTorneo->getMunicipio->municipio;
+                    $arrayMisTorneos[] = $objTorneo;
+                }
+                $data["mistorneos"]=$arrayMisTorneos;
+            }
+            if($request->nombre!=null)
+                $nombre = $request->nombre;
+            else
+                $nombre = "";
+            if($request->estado!=null)
+                $estado = $request->estado;
+            else
+                $estado = "A";
+
+                $torneos = Torneo::where("nombre", "like","%" . $nombre. "%")->where("estado",$estado)->paginate(8);
+
+            //dd($request->estado);
+
+            $data["torneos"] = $torneos;
+
+            if($request->ajax()){
+                return response()->json(view('torneos.torneos', $data)->render());
+            }
+            //dd($data);
+
+            return view('torneos.buscar', $data);
+        }
+    /**
+     * funcion encargada de mostrar los detalles de los torneos
+     *
+     * @return array
+     */
+    public function detalleTorneo($torneo){
+
+        $torneo = Torneo::find($torneo);
+        $torneos = Torneo::where("estado","A")->paginate(4);
+        $data = array();
+
+        if($torneo){
+            $data["torneo"] = $torneo;
+            $data["torneos"] = $torneos;
+            if(!Auth::guest()) {
+                $jugador = new Jugador();
+                $data["participo"] = $jugador->participaEnTorneo($torneo->id, Auth::user()->getPersona->identificacion);
+            }
+            return view('torneos.detalleTorneo',$data);
+        }else{
+            return redirect()->back();
+        }
+
+
+    }
+
+        /**
+         * funcion para landar la vista para inscribir un equipo a un torneo.
+         *
+         * @return array
+         */
+        public function inscribeTuEquipo (Request $request){
+
+            if($request->torneo){
+                $data["torneo"]=$torneo = Torneo::find($request->torneo);
+            }else{
+                $data["torneo"]=[];
+            }
+            $data["planillas"] = Plantilla::where("usuario_id",Auth::user()->id)->get();
+
+            $arrayDepartamento = array();
+            $departamentos = Departamento::select('id', 'departamento')->get();
+
+            foreach ($departamentos as $departamento) {
+                $arrayDepartamento[$departamento->id] = $departamento->departamento;
+            }
+
+            $data["arrayDepartamento"] = $arrayDepartamento;
+
+           // dd($data);
+            return view('torneos.inscribeTuEquipo', $data);
+        }
+
+
+            /**
+             * funcion encargada de validar la existencia de personas en el sistema y poder registrar personas externas .
+             *
+             * @return array
+             */
+            public function addPersonaExterna(Request $request){
+
+                $persona = Persona::where("identificacion",$request->identificacion)->first();
+
+                dd($persona);
+                return ;
+            }
+
+            /**
+             * funcion encargada de validar la existencia de personas en el sistema y poder registrar personas externas .
+             *
+             * @return array
+             */
+            public function exisPersona(Request $request){
+
+                $persona = Persona::where("identificacion",$request->identificacion)->first();
+
+                if($persona){
+                    $data["bandera"]=true;
+                    $data["nombres"]= $persona->nombres;
+                }else{
+                    $persona = PesonasExterna::where("identificacion",$request->identificacion)->first();
+                    if($persona){
+                        $data["bandera"]=true;
+                        $data["nombres"]= $persona->nombres;
+                    }else {
+
+                        $data["bandera"] = false;
+                    }
+                }
+                return $data;
+            }
+
+
 }
+
