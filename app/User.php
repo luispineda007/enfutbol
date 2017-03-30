@@ -60,14 +60,6 @@ class User extends Model implements AuthenticatableContract,
         return $this->hasOne('App\Token','id_usuario');
     }
 
-   /**
-     * @return array
-     */
-/*    public function getNombres()
-    {
-        $persona = Persona::where('identificacion',$this->persona)->first()->nombres;
-        return $persona;
-    }*/
 
     /**
      * @return Object_ token
@@ -80,6 +72,20 @@ class User extends Model implements AuthenticatableContract,
     public function getPlantillas()
     {
         return $this->hasMany('App\Plantilla', 'usuario_id');
+    }
+
+    public function capitanEnTorneo( $torneo_id , $identificacion ){
+        $torneos = DB::table('torneos')
+            ->select('equipos.id', 'equipos.nombre', DB::raw('equipos_torneos.id as equipoTorneo'))
+            ->join('equipos_torneos', 'equipos_torneos.torneo_id', '=', 'torneos.id')
+            ->join('equipos', 'equipos.id', '=', 'equipos_torneos.equipo_id')
+//            ->join('jugadors', 'jugadors.equipo_id', '=', 'equipos.id')
+            ->where('torneos.estado', '<>', "T")
+            ->where('equipos.capitan_id', '=', $identificacion)
+            ->where('torneos.id', '=', $torneo_id)
+            ->first();
+        return $torneos;
+
     }
     
     

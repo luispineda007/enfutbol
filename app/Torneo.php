@@ -33,4 +33,11 @@ class Torneo extends Model
     {
         return $this->belongsTo('App\User','usuario_id');
     }
+
+    public function getCodigosTorneo()
+    {
+        return $this->hasMany('App\Codigos_torneo');
+    }
+
+
 }

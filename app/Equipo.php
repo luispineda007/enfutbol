@@ -15,4 +15,14 @@ class Equipo extends Model
     {
         return $this->belongsTo('App\User', 'capitan_id');
     }
+
+    public function getJugadores()
+    {
+        return $this->hasMany('App\Jugador');
+    }
+
+    public function getEquipoTorneo()
+    {
+        return $this->hasOne('App\Equipos_torneo');
+    }
 }

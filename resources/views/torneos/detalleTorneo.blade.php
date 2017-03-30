@@ -14,6 +14,63 @@
             margin-top: 2px;
             margin-bottom: 2px;
         }
+        .codigo{
+            color: #fd4937;
+            cursor: default;
+        }
+        #divFoto{
+            padding-top: 18px;
+        }
+        @media (min-width: 300px) and (max-width: 449px){
+            #divFoto{
+                text-align: center;
+                margin-bottom: 15px;
+            }
+            #foto{
+                width: 200px;
+                height: 200px;
+            }
+            h2.text-center{
+                margin-bottom: 15px;
+            }
+        }
+        @media (min-width: 450px) and (max-width: 991px) {
+            #divFoto{
+                text-align: center;
+                margin-bottom: 15px;
+            }
+            #foto{
+                width: 250px;
+                height: 250px;
+            }
+            h2.text-center{
+                margin-bottom: 15px;
+            }
+        }
+        @media (min-width: 992px){
+            .detalles{
+                border-top: solid 2px #0040FF;
+            }
+        }
+        .izq{
+            text-align: right;
+            font-weight: 900;
+            padding-right: 8px;
+            background-color: #d6e8f3;
+            padding-left: 20px;
+        }
+        .der{
+            text-align: left;
+            padding-left: 4px;
+            padding-right: 20px;
+        }
+        td{
+            border-bottom: 1px solid black;
+        }
+        .detalles{
+            margin-top:20px;
+            padding-bottom: 15px;
+        }
     </style>
 @endsection
 
@@ -22,98 +79,107 @@
     <div class="row">
         <div class="col-sm-10 col-sm-offset-1">
             <div class="panel panel-{{(Auth::guest())?"success":((Auth::user()->rol=="admin")?"primary":"success")}}">
-
                 <div class="panel-body">
+                    <h2 class="text-center" style="margin-bottom: 15px">Torneo: <b>{{$torneo->nombre}}</b></h2>
 
-                    <h2 class="text-center" style="margin-bottom: 30px"> {{$torneo->nombre}}</h2>
-
-                    <div class="col-md-6">
-                        <img src="{{url("images/torneos/".$torneo->url_logo)}}" alt="" class="img-responsive">
-                    </div>
-                    <div class="col-md-6">
-                        <div class="box box-solid">
-                            <div class="box-header with-border">
-                                <i class="fa fa-text-width"></i>
-
-                                <h3 class="box-title">Descripción del Torneo</h3>
-                            </div>
-                            <!-- /.box-header -->
-                            <div class="box-body">
-                                <dl class="dl-horizontal">
-                                    <dt>Ciudad:</dt>
-                                    <dd>{{$torneo->getMunicipio->municipio}}</dd>
-                                    <dt>Lugar:</dt>
-                                    <dd>{{($torneo->sitio_id!=0)?$torneo->getSitio->nombre:$torneo->lugar}}</dd>
-                                    <dt>Responsable:</dt>
-                                    <dd>{{$torneo->getUsuario->getPersona->nombres}}</dd>
-                                    <dt>Maximo de equipos:</dt>
-                                    <dd>{{$torneo->max_equipos}}</dd>
-                                    <dt>jugadores por equipos:</dt>
-                                    <dd>{{$torneo->max_jugadores}}</dd>
-                                    <dt>tipo de cancha:</dt>
-                                    <dd>Futbol {{$torneo->tipo_cancha}}</dd>
-                                    <dt>tipo de Inscrpción:</dt>
-                                    <dd>{{($torneo->privacidad=="A")?"Abierta":"Cerrada (inspriccion con código)"}}</dd>
-                                    <dt>Fecha de Inscripciones</dt>
-                                    <dd> hasta el <b>{{$torneo->maxFecha_inscripcion}}</b></dd>
-                                    <dt>Genero:</dt>
-                                    <dd>{{($torneo->genero=="M"?"Masculino":"Femenino")}}</dd>
-                                    <dt>Premiacion:</dt>
-                                    <dd>{{$torneo->premiacion}}</dd>
-                                    <dt>Valor inscripción:</dt>
-                                    <dd><b style="font-size: 18px">${{number_format ($torneo->vlr_inscripcion,0,",",".")}}</b></dd>
-                                </dl>
-                            </div>
-                            <!-- /.box-body -->
+                    <div class="row">
+                        <div class="col-xs-12 col-md-6 text-right" id="divFoto">
+                            <img src="{{url("images/torneos/".$torneo->url_logo)}}" alt="" height="278px" width="278px" id="foto">
                         </div>
-                        <!-- /.box -->
+
+                        <div class="col-xs-6 col-xs-offset-3 col-md-6 col-md-offset-0">
+                            <div class="text-center">
+                                <table>
+                                    <tr>
+                                        <td class="izq">Ciudad</td>
+                                        <td class="der">{{$torneo->getMunicipio->municipio}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="izq">Lugar</td>
+                                        <td class="der">{{($torneo->sitio_id!=0)?$torneo->getSitio->nombre:$torneo->lugar}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="izq">Responsable</td>
+                                        <td class="der">{{$torneo->getUsuario->getPersona->nombres}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="izq">Cant. equipos</td>
+                                        <td class="der">{{$torneo->max_equipos}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="izq">Jugadores <br>equipo</td>
+                                        <td class="der">{{$torneo->max_jugadores}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="izq">Tipo de cancha</td>
+                                        <td class="der">Futbol {{$torneo->tipo_cancha}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="izq">Tipo inscripcion</td>
+                                        @if($torneo->privacidad=="C")
+                                            <td class="der codigo" data-toggle="tooltip" data-placement="left" title="Debes solicitar un código de inscripción al administrador del torneo."><b>Con codigo</b></td>
+                                        @else
+                                            <td>Libre</td>
+                                        @endif
+                                    </tr>
+                                    <tr>
+                                        <td class="izq">Cierre <br> Inscripciónes</td>
+                                        <td class="der"><b>{{$torneo->maxFecha_inscripcion}}</b></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="izq">Genero</td>
+                                        <td class="der">{{($torneo->genero=="M"?"Masculino":"Femenino")}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="izq">Premiación</td>
+                                        <td class="der">
+                                            @foreach(explode(',', $torneo->premiacion) as $premio)
+                                                {{$premio}}<br>
+                                            @endforeach
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="izq">Valor inscripción</td>
+                                        <td class="der"><b style="font-size: 18px">{{number_format ($torneo->vlr_inscripcion,0,",",".")}}</b></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="col-xs-12 col-md-6 col-md-offset-3 detalles">
+                            <h4><b>Detalles del torneo</b></h4>
+                            {{$torneo->descripcion}}
+                        </div>
                     </div>
 
-                <div class="col-md-12">
-                    <h4>Detalles del torneo</h4>
-                    {{$torneo->descripcion}}
                 </div>
 
-                </div>{{--fin panel body--}}
                 <div class="row text-center" style="margin-bottom: 20px;">
-
-                @if(Auth::guest())
-                        <a class="btn btn-success" href="{{route('myLoginModal')}}"   data-modal=""  >
+                    @if(Auth::guest())
+                        <a class="btn btn-success" href="{{route('myLoginModal')}}"   data-modal="" data-toggle="tooltip" data-placement="bottom" title="Inscribir tu equipo al torneo">
                             <i class="fa fa-user" aria-hidden="true"></i>
-                            <span class="hidden-xs"> Iniciar Sesión </span>
+                            <span class="hidden-xs"> Inscribirme! </span>
                         </a>
-
-                @else
-
-                    @if(empty($participo))
-
-                        {!!Form::open(['route'=>'inscribeTuEquipo','class'=>'form-horizontal'])!!}
-                            <input type="hidden" name="torneo" value="{{$torneo->id}}">
-                            <input type="submit" class="btn btn-{{(Auth::guest())?"success":((Auth::user()->rol=="admin")?"primary":"success")}}" value="INSCRIBE TU EQUIPO" id="">
-
-                        {!!Form::close()!!}
-
                     @else
-
+                        @if($participo==null && $capitan==null)
+                            {!!Form::open(['route'=>'inscribeTuEquipo','class'=>'form-horizontal'])!!}
+                                <input type="hidden" name="torneo" value="{{$torneo->id}}">
+                                <input type="submit" class="btn btn-{{(Auth::guest())?"success":((Auth::user()->rol=="admin")?"primary":"success")}}" value="PARTICIPAR!" data-toggle="tooltip" data-placement="bottom" title="Inscribir tu equipo al torneo">
+                            {!!Form::close()!!}
+                        @else
                             <div class="row">
                                 <div class="col-xs-8 col-xs-offset-2">
                                     <div class="alert alert-success alert-dismissable">
                                         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                                        <strong>Perfecto!</strong> Ya estas participando en este campeonato con el equipo ( <b>{{$participo->nombre}}</b> ).
+                                        <strong>Perfecto!</strong> Ya estas participando en este campeonato con el equipo ( <b>{{($participo)?$participo->nombre:$capitan->nombre}}</b> ).
                                     </div>
                                 </div>
                             </div>
-
-
+                            @if($capitan != null && $torneo->estado =='A')
+                                <input type="button" class="btn btn-success" value="Editar Equipo" id="editarEquipo">
+                            @endif
+                        @endif
                     @endif
-
-
-
-
-                @endif
-
-
-
                 </div>
             </div>
 
@@ -181,6 +247,7 @@
             page = $(this).attr('href').split('page=')[1];
             getTorneos();
         });
+
         function getTorneos() {
             $.ajax({
                 type:"GET",
@@ -195,5 +262,11 @@
                 }
             });
         }
+
+        $("#editarEquipo").click(function(){
+            @if(isset($capitan))
+                    window.location = '/adminEquipo/{{$capitan->equipoTorneo}}';
+            @endif
+        });
     </script>
 @endsection

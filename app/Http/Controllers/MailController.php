@@ -86,5 +86,23 @@ class MailController extends Controller
         //Session::flash('message','Mensaje fue enviado correctamente');
         return "exito";
     }
+    
+    /**
+     * Envia email con codigo para inscripcion en torneo.
+     *
+     * @return array
+     */
+    public static function enviarCodigo($data){
+        global  $email;
+        $email = $data["email"];
+        Mail::send("emails.codigoTorneo",$data,function ($msj){
+            global  $email;
+            $msj->subject("Codigo para inscripcion a Ttorneo");
+            $msj->to($email);
+            $msj->replyTo("informacion.enfutbol.co@gmail.com", $name = "enfutbol");
+
+        });
+        return "exito";
+    }
 
 }

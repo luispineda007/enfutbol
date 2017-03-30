@@ -87,11 +87,20 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('deleteTorneo','TorneosController@deleteTorneo')->name('deleteTorneo');
     Route::get('adminTorneo/{id}','TorneosController@adminTorneo')->name('adminTorneo');
     Route::post('updateTorneo','TorneosController@updateTorneo')->name('updateTorneo');
+    Route::post('addEquipoTorneo','TorneosController@addEquipoTorneo')->name('addEquipoTorneo');
+    Route::post('generarCodigo','TorneosController@generarCodigo')->name('generarCodigo');
 
     Route::post('aceptarSolicitud','TorneosController@aceptarSolicitud')->name('aceptarSolicitud');
     Route::post('rechazarSolicitud','TorneosController@rechazarSolicitud')->name('rechazarSolicitud');
 
     Route::post('iniciarTorneo','TorneosController@iniciarTorneo')->name('iniciarTorneo');
+
+
+    Route::post('getEscudosDisponibles','TorneosController@getEscudosDisponibles')->name('getEscudosDisponibles');
+    Route::post('actualizarEscudo','TorneosController@actualizarEscudo')->name('actualizarEscudo');
+    Route::post('UpdateEquipo','TorneosController@UpdateEquipo')->name('UpdateEquipo');
+    Route::post('addJugadorEquipo','TorneosController@addJugadorEquipo')->name('addJugadorEquipo');
+
 
     Route::get('adminEquipo/{id}','TorneosController@adminEquipo')->name('adminEquipo');
     //rutas para los torneos
@@ -114,6 +123,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('inscribeTuEquipo','TorneosController@inscribeTuEquipo')->name('inscribeTuEquipo');
     Route::post('addPersonaExterna','TorneosController@addPersonaExterna')->name('addPersonaExterna');
     Route::post('exisPersona','TorneosController@exisPersona')->name('exisPersona');
+
+    Route::post('addJugadorEquipo','TorneosController@addJugadorEquipo')->name('addJugadorEquipo');
+    Route::post('borrarJugadores','TorneosController@borrarJugadores')->name('borrarJugadores');
+    Route::post('inscribirEquipo','TorneosController@inscribirEquipo')->name('inscribirEquipo');
 
 
 
