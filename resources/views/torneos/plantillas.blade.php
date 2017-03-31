@@ -196,20 +196,9 @@
 
 
             $(".nuevaPlantilla").click(function(){
-                console.log("nueva");
                 nuevaPlantilla();
             });
 
-
-//           $('#participantes').DataTable( {
-//                "language": {
-//                    "lengthMenu": "Mostrar  _MENU_ Solicitudes por Página",
-//                    "zeroRecords": "Ningun registro",
-//                    "info": "Mostrando pagina _PAGE_ de _PAGES_",
-//                    "infoEmpty": "No hay solicitudes",
-//                    "infoFiltered": "(filtered from _MAX_ total records)"
-//                }
-//            });
         }); //FIN de ready
 
 

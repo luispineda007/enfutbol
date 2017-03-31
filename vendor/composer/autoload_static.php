@@ -394,6 +394,7 @@ class ComposerStaticInit3772be3aaa4ab0b54268b92430b9dbc1
         'Hamcrest\\Util' => __DIR__ . '/..' . '/hamcrest/hamcrest-php/hamcrest/Hamcrest/Util.php',
         'Hamcrest\\Xml\\HasXPath' => __DIR__ . '/..' . '/hamcrest/hamcrest-php/hamcrest/Hamcrest/Xml/HasXPath.php',
         'IlluminateQueueClosure' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Queue/IlluminateQueueClosure.php',
+        'JugadoresSeeder' => __DIR__ . '/../..' . '/database/seeds/JugadoresSeeder.php',
         'Municipios' => __DIR__ . '/../..' . '/database/migrations/2014_10_10_154635_municipios.php',
         'MunicipiosSeeder' => __DIR__ . '/../..' . '/database/seeds/MunicipiosSeeder.php',
         'PHPUnit\\Framework\\Assert' => __DIR__ . '/..' . '/phpunit/phpunit/src/ForwardCompatibility/Assert.php',
