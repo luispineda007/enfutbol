@@ -320,8 +320,8 @@
 
                                     {!!Form::open(['id'=>'formIntegrante','class'=>'form-horizontal','autocomplete'=>'off'])!!}
                                         <div class="form-group" style="margin-bottom: 20px">
-                                            {!! Form::label('autocompletar', 'Capitan',['class'=>'col-md-2 control-label']) !!}
-                                            <div class="col-md-10">
+                                            {!! Form::label('autocompletar', 'Capitan',['class'=>'col-sm-2 control-label']) !!}
+                                            <div class="col-sm-10">
                                                 {!!Form::text('user',null,['id'=>'autocompletar','class'=>'form-control nuevoEquipo autocompletar','placeholder'=>"Identificacion o usuario", 'required'])!!}
                                             </div>
                                             {!!Form::text('user_id',null,['id'=>'user_id','class'=>'form-control hidden user_id'])!!}
@@ -341,8 +341,8 @@
                                 <div class="form-horizontal" style="margin-top: 15px">
                                     {!!Form::open(['id'=>'formIntegrante','class'=>'form-horizontal','autocomplete'=>'off'])!!}
                                         <div class="form-group" style="margin-bottom: 20px">
-                                            {!! Form::label('autocompletar', 'Capitan',['class'=>'col-md-2 control-label']) !!}
-                                            <div class="col-md-10">
+                                            {!! Form::label('autocompletar', 'Capitan',['class'=>'col-sm-2 control-label']) !!}
+                                            <div class="col-sm-10">
                                                 {!!Form::text('user',null,['id'=>'user','class'=>'form-control autocompletar','placeholder'=>"Identificacion o usuario", 'required'])!!}
                                             </div>
                                             {!!Form::text('capitan',null,['id'=>'capitan','class'=>'form-control hidden user_id'])!!}
@@ -380,8 +380,8 @@
 
                             {!!Form::open(['id'=>'formIntegrante','class'=>'form-horizontal','autocomplete'=>'off'])!!}
                             <div class="form-group" style="margin-bottom: 20px">
-                                {!! Form::label('autocompletar', 'Capitan',['class'=>'col-md-2 control-label']) !!}
-                                <div class="col-md-10">
+                                {!! Form::label('autocompletar', 'Capitan',['class'=>'col-sm-2 control-label']) !!}
+                                <div class="col-sm-10">
                                     {!!Form::text('user',null,['id'=>'autocompletar','class'=>'form-control nuevoEquipo autocompletar','placeholder'=>"Identificacion o usuario", 'required'])!!}
                                 </div>
                                 {!!Form::text('user_id',null,['id'=>'user_id','class'=>'form-control hidden user_id'])!!}

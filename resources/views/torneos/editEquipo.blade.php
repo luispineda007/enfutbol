@@ -2,7 +2,9 @@
 
 @section('css')
     <style>
-
+        .icon i{
+            margin: 0 4px;
+        }
     </style>
 @endsection
 
@@ -19,7 +21,11 @@
                     <div class="row">
                         {!!Form::open(['id'=>'formEquipo', 'autocomplete'=>'off', 'class'=>'form-horizontal'])!!}
                         <div class="col-xs-12 col-md-6 text-right" id="divFoto">
-                            <img src="/images/torneos/escudos/{!!$equipo->getEscudo->url!!}" width="180px" height="180px" id="escudo" class="manito img-bordered" data-toggle='tooltip' data-placement='bottom' title="Cambiar Escudo">
+                            @if($torneo->estado == 'A')
+                                <img src="/images/torneos/escudos/{!!$equipo->getEscudo->url!!}" width="165px" height="165px" id="escudo" class="manito img-bordered" data-toggle='tooltip' data-placement='bottom' title="Cambiar Escudo">
+                            @else
+                                <img src="/images/torneos/escudos/{!!$equipo->getEscudo->url!!}" width="165px" height="165px" class="img-bordered">
+                            @endif
                         </div>
 
                         <div class="col-xs-12 col-xs-offset-3 col-md-6 col-md-offset-0">
@@ -41,8 +47,8 @@
                             <div class="form-group">
                                 <label for="nombre" class="col-md-3 control-label">Equipo:</label>
                                 @if($torneo->estado == "A")
-                                    <div class="col-sm-6">
-                                        <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre del torneo.." value="{{$equipo->nombre}}" required>
+                                    <div class="col-sm-6 col-md-5">
+                                        <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre del equipo.." value="{{$equipo->nombre}}" required>
                                     </div>
                                 @else
                                     <label class="col-sm-9 control-label" style="text-align: left">{{$equipo->nombre}}</label>
@@ -50,16 +56,18 @@
                             </div>
                         </div>
 
-                        <div class="col-xs-12 text-center" style="margin-top:15px">
-                            <div class="form-group">
-                                <button type="submit" class="btn btn-primary">Guardar <i class="fa fa-check hidden" id="icono"></i></button>
+                        @if($torneo->estado == "A")
+                            <div class="col-xs-12 text-center" style="margin-top:15px">
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-primary">Guardar <i class="fa fa-check hidden" id="icono"></i></button>
+                                </div>
                             </div>
-                        </div>
+                        @endif
                         {!!Form::close()!!}
                     </div>
 
                     <div class="row">
-                        <div class="col-md-10 col-md-offset-1" style="margin-top: 15px" id="seccionJugadores">
+                        <div class="col-md-10 col-md-offset-1" style="margin-top: 25px" id="seccionJugadores">
                             <div class="box box-primary">
                                 <div class="box-header with-border">
                                     <h3 class="box-title"> <b> Jugadores del equipo <small>(Max. {{$torneo->max_jugadores}})</small></b> </h3>

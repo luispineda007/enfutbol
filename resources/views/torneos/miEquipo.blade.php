@@ -2,7 +2,9 @@
 
 @section('css')
     <style>
-
+        span>i{
+            padding:4px 0;
+        }
     </style>
 @endsection
 
