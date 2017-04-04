@@ -2,6 +2,7 @@
 
 @section('css')
     {!!Html::style('plugins/datatables/dataTables.bootstrap.css')!!}
+    {!!Html::style('plugins/autocompletar/autocompletar.css')!!}
     <style>
         .nuevo:hover{
             color: blue;
@@ -91,7 +92,7 @@
             color: red;
         }
         .eliminar{
-            background-color: rgba(195, 195, 195, 0.46);
+            background-color: white;
             border-radius: 50%;
             padding: 5px;
         }
@@ -105,6 +106,9 @@
         .planear:hover > .resaltar{
             text-decoration: underline;
         }
+        .question:hover{
+            color: #003eff;
+        }
     </style>
 @endsection
 
@@ -113,7 +117,7 @@
     <div class="row">
         <div class="col-sm-10 col-sm-offset-1">
             <div class="panel panel-primary">
-                <div class="panel-heading">
+                <div class="panel-heading text-center">
                     <h4>Administrar torneo</h4>
                 </div>
                 <div class="panel-body">
@@ -147,7 +151,7 @@
                                     <label for="url_logo" class="col-md-2 control-label">Imagen</label>
                                     <div class="col-md-10">
                                         <div class="input-group image-preview">
-                                            <input type="text" class="form-control image-preview-filename" disabled="disabled">
+                                            <input type="text" class="form-control image-preview-filename" placeholder="Selecciona una nueva imagen &#10140;" disabled="disabled">
                                         <span class="input-group-btn">
                                             <!-- image-preview-clear button -->
                                             <button type="button" class="btn btn-default image-preview-clear" style="display:none;">
@@ -289,6 +293,122 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="registrarEquipo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="exampleModalLabel">Inscribir equipo</h4>
+                </div>
+                <div class="modal-body">
+                    @if($torneo->privacidad == 'C')
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a data-toggle="tab" href="#crear">Crear Equipo &nbsp;<i class="fa fa-question-circle question" data-toggle='tooltip' data-popout='true' data-placement='bottom' title="Crea un nuevo equipo e inscribelo directamente al torneo."></i></a></li>
+                            <li><a data-toggle="tab" href="#codigo">Generar Codigo &nbsp;<i class="fa fa-question-circle question" data-toggle='tooltip' data-popout='true' data-placement='bottom' title="Invita a un usuario a inscribir a su equipo mediante un codigo."></i></a></li>
+                        </ul>
+
+                        <div class="tab-content">
+                            <div id="crear" class="tab-pane fade in active">
+                                <div class="form-horizontal" style="margin-top: 15px">
+                                    <div class="form-group">
+                                        <label for="equipo" class="col-sm-2 control-label">Nombre</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control nuevoEquipo" id="equipo" placeholder="Nombre equipo.." required>
+                                        </div>
+                                    </div>
+
+                                    {!!Form::open(['id'=>'formIntegrante','class'=>'form-horizontal','autocomplete'=>'off'])!!}
+                                        <div class="form-group" style="margin-bottom: 20px">
+                                            {!! Form::label('autocompletar', 'Capitan',['class'=>'col-sm-2 control-label']) !!}
+                                            <div class="col-sm-10">
+                                                {!!Form::text('user',null,['id'=>'autocompletar','class'=>'form-control nuevoEquipo autocompletar','placeholder'=>"Identificacion o usuario", 'required'])!!}
+                                            </div>
+                                            {!!Form::text('user_id',null,['id'=>'user_id','class'=>'form-control hidden user_id'])!!}
+                                        </div>
+                                    {!!Form::close()!!}
+
+                                    <div class="form-group text-right">
+                                        <div class="col-md-12">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                                            <button type="button" class="btn btn-primary" id="creaEquipo" disabled>Terminar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="codigo" class="tab-pane fade">
+                                <div class="form-horizontal" style="margin-top: 15px">
+                                    {!!Form::open(['id'=>'formIntegrante','class'=>'form-horizontal','autocomplete'=>'off'])!!}
+                                        <div class="form-group" style="margin-bottom: 20px">
+                                            {!! Form::label('autocompletar', 'Capitan',['class'=>'col-sm-2 control-label']) !!}
+                                            <div class="col-sm-10">
+                                                {!!Form::text('user',null,['id'=>'user','class'=>'form-control autocompletar','placeholder'=>"Identificacion o usuario", 'required'])!!}
+                                            </div>
+                                            {!!Form::text('capitan',null,['id'=>'capitan','class'=>'form-control hidden user_id'])!!}
+                                        </div>
+                                    {!!Form::close()!!}
+
+                                    <div class="form-group">
+                                        <label for="serieCodigo" class="col-sm-2 control-label">Codigo</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control " id="serieCodigo" disabled>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <button type="button" class="btn btn-default" id="generar">Generar</button>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group text-right">
+                                        <div class="col-md-12">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                                            <button type="button" class="btn btn-primary" id="creaCodigo" disabled>Enviar</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    @else
+                        <div class="form-horizontal" style="margin-top: 15px">
+                            <div class="form-group">
+                                <label for="equipo" class="col-sm-2 control-label">Nombre</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control nuevoEquipo" id="equipo" placeholder="Nombre equipo.." required>
+                                </div>
+                            </div>
+
+                            {!!Form::open(['id'=>'formIntegrante','class'=>'form-horizontal','autocomplete'=>'off'])!!}
+                            <div class="form-group" style="margin-bottom: 20px">
+                                {!! Form::label('autocompletar', 'Capitan',['class'=>'col-sm-2 control-label']) !!}
+                                <div class="col-sm-10">
+                                    {!!Form::text('user',null,['id'=>'autocompletar','class'=>'form-control nuevoEquipo autocompletar','placeholder'=>"Identificacion o usuario", 'required'])!!}
+                                </div>
+                                {!!Form::text('user_id',null,['id'=>'user_id','class'=>'form-control hidden user_id'])!!}
+                            </div>
+                            {!!Form::close()!!}
+
+                            <div class="form-group text-right">
+                                <div class="col-md-12">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                                    <button type="button" class="btn btn-primary" id="creaEquipo" disabled>Terminar</button>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+
+
+                    <div class="alert alert-danger alert-dismissable hidden" id="notificar">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                        <strong>Atencion!</strong>&nbsp;<span id="mensaje"></span>
+                    </div>
+                </div>
+                {{--<div class="modal-footer">--}}
+                    {{----}}
+                {{--</div>--}}
+            </div>
+        </div>
+    </div>
 @endsection
 
 
@@ -296,6 +416,8 @@
     {!!Html::script('plugins/bootstrapConfirmation/bootstrap-confirmation.min.js')!!}
     {!!Html::script('plugins/datatables/jquery.dataTables.min.js')!!}
     {!!Html::script('plugins/datatables/dataTables.bootstrap.min.js')!!}
+    {!!Html::script('plugins/autocompletar/jquery.mockjax.js')!!}
+    {!!Html::script('plugins/autocompletar/jquery.autocomplete.js')!!}
     <script>
         $(function() {
             $('[data-toggle="tooltip"]').tooltip();
@@ -540,5 +662,156 @@
                 }
             });
         }
+        
+        $('#padreNuevo').on('click', function(){
+            $("#registrarEquipo").modal("show");
+            iniciarAutoComplete();
+        });
+
+        function iniciarAutoComplete(){
+            $('.autocompletar').autocomplete({
+                serviceUrl: '{{route("autoCompleUser")}}',
+                lookupFilter: function(suggestion, originalQuery, queryLowerCase) {
+                    var re = new RegExp('\\b' + $.Autocomplete.utils.escapeRegExChars(queryLowerCase), 'gi');
+                    return re.test(suggestion.value);
+                },
+                onSelect: function(suggestion) {
+                    $(".user_id").val(suggestion.data);
+                },
+                onHint: function (hint) {
+                    $('#autocomplete-ajax-x').val(hint);
+                },
+                onInvalidateSelection: function() {
+                    $(".user_id").val("");
+                }
+            });
+        }
+        
+        $("#creaEquipo").on('click', function(){
+            if($("#equipo").val() != "" && $("#user_id").val() != ""){
+                var torneo_id='{{$torneo->id}}';
+                $.ajax({
+                    type:"POST",
+                    context: document.body,
+                    url: '{{route('addEquipoTorneo')}}',
+                    data: {equipo:$("#equipo").val(), capitan:$("#user_id").val(), torneo_id:torneo_id},
+                    success: function(data){
+                        if(data.estado){
+                            var html = '<div class="col-xs-4 col-sm-4 col-md-2 conte-equipo">' +
+                                            '<div class="panel pointer panel-equipo" data-equipo="'+data.mensaje['id']+'">';
+                            if('{{$torneo->estado}}' == "A"){
+                                html = html + '<div class="editProfPic">' +
+                                                    '<i class="fa fa-trash fa-2x eliminar manito" aria-hidden="true" data-toggle="confirmation" data-singleton="true" data-placement="left" title="Eliminar?"  data-content="Esta accion no se podra deshacer, continuar?:" data-btn-ok-label="Si" data-btn-cancel-label="No"></i>' +
+                                                '</div>';
+                            }
+
+                            html = html + '<div class="equipo">' +
+                                            '<div class="panel-body" style="padding:0;">' +
+                                                '<center>' +
+                                                    '<img src="/images/torneos/escudos/'+data.mensaje['get_equipo']['get_escudo']['url']+'" width="100%" height="140px">' +
+                                                '</center>' +
+                                            '</div>' +
+                                            '<div class="panel-footer">' +
+                                                '<b>'+data.mensaje['get_equipo']['nombre']+'</b><br>' +
+                                            '</div>' +
+                                            '</div>' +
+                                            '</div>' +
+                                            '</div>';
+                            $("#equipos_ins").append(html);
+                            $("#equipo").val('');
+                            $('#registrarEquipo').modal('toggle');
+                        }
+                        else {
+                            $("#mensaje").html(data.mensaje);
+                            $("#notificar").removeClass('hidden');
+                            $("#creaEquipo").attr('disabled', true);
+                        }
+                        $("#autocompletar").val('');
+                        $("#user_id").val('');
+                    },
+                    error: function(data){
+
+                    }
+                });
+            }
+        });
+        
+        $('.nuevoEquipo').on('blur', function(){
+            if($("#equipo").val()!='' && $("#user_id").val()!=''){
+                $("#creaEquipo").removeAttr('disabled');
+            }
+            else{
+                $("#creaEquipo").attr('disabled', true);
+            }
+        });
+
+        $("#user").on('blur', function(){
+            if($("#capitan").val()!='' && $("#serieCodigo").val()!='')
+                $("#creaCodigo").removeAttr('disabled');
+            else
+                $("#creaCodigo").attr('disabled', true);
+        });
+
+        $("#registrarEquipo").on('hidden.bs.modal', function(){
+            $("#equipo").val('');
+            $("#autocompletar").val('');
+            $("#user").val('');
+            $("#serieCodigo").val('');
+            $(".user_id").val('');
+            $("#mensaje").html('');
+            $("#generar").parent().removeClass('hidden');
+            $("#notificar").addClass('hidden').removeClass('alert-success').addClass('alert-danger');
+
+            $("#creaEquipo").attr('disabled', true);
+            $("#creaCodigo").attr('disabled', true);
+        });
+
+        function createCode(){
+            var code = "";
+            var posibilidades = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            for( var i=0; i < 6; i++ )
+                code += posibilidades.charAt(Math.floor(Math.random() * posibilidades.length));
+            return code;
+        }
+
+        $("#generar").on('click', function(){
+            $("#serieCodigo").val(createCode());
+            $("#generar").parent().addClass('hidden');
+            if($("#capitan").val() != ''){
+                $("#creaCodigo").removeAttr('disabled');
+            }
+        });
+
+        $("#creaCodigo").on('click', function(){
+            if($("#capitan").val() != ""){
+                var torneo_id='{{$torneo->id}}';
+                var codigo = $("#serieCodigo").val();
+                $.ajax({
+                    type:"POST",
+                    context: document.body,
+                    url: '{{route('generarCodigo')}}',
+                    data: {capitan:$("#capitan").val(), torneo_id:torneo_id, codigo:codigo},
+                    success: function(data){
+                        if(data.estado){
+                            $("#mensaje").html('El codigo para inscripcion de equipo fue enviado exitosamente al usuario!');
+                            $("#notificar").removeClass('hidden').removeClass('alert-danger').addClass('alert-success');
+                            setTimeout(function(){
+                                $('#registrarEquipo').modal('toggle');
+                            }, 5000);
+                        }
+                        else {
+                            $("#mensaje").html(data.mensaje);
+                            $("#notificar").removeClass('hidden');
+                            $("#creaCodigo").attr('disabled', true);
+                        }
+                        $("#user").val('');
+                        $("#capitan").val('');
+                    },
+                    error: function(data){
+
+                    }
+                });
+            }
+        });
     </script>
 @endsection

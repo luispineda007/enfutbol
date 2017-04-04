@@ -14,6 +14,9 @@
             margin-top: 2px;
             margin-bottom: 2px;
         }
+        .tituloTorneo{
+            margin: 7px 0 15px 0;
+        }
     </style>
 @endsection
 {{------end css--}}
@@ -37,7 +40,6 @@
                                 </div><!-- /.box-header -->
                                 <div class="box-body">
                                     @foreach($mistorneos as $mistorneo)
-
                                         <div class="col-sm-6 col-md-3 product-grid">
                                             <div class="thumbnail manito" data-torneo="{{$mistorneo->id}}">
                                                 <div class="product-location text-center">
@@ -134,16 +136,22 @@
                                 <div class="col-sm-6 col-md-3 product-grid">
                                     <div class="thumbnail manito" data-torneo="{{$torneo->id}}">
                                         <div class="product-location text-center">
-                                            <span class="fa-map-marker fa"></span> {{$torneo->getMunicipio->municipio}}
-                                            <h4>{{($torneo->sitio_id!=0)?$torneo->getSitio->nombre:$torneo->lugar}}</h4>
+                                            <h3 class="tituloTorneo">{{$torneo->nombre}}</h3>
                                         </div>
                                         <img src="/images/torneos/{{$torneo->url_logo}}" alt="..." >
                                         <div class="caption">
-                                            <small>{{$torneo->created_at}}</small>
-                                            <small class="pull-right">
-                                                <span class="fa-venus-mars fa"></span><b> {{$torneo->genero}}</b>
-                                            </small>
-                                            <h4>{{$torneo->nombre}}</h4>
+                                            <div style="margin-bottom: 7px">
+                                                <small class="pull-right">
+                                                    <span class="fa-venus-mars fa"></span><b> {{$torneo->genero}}</b>
+                                                </small>
+                                                <div style="font-size: 15px;">{{($torneo->sitio_id!=0)?$torneo->getSitio->nombre:$torneo->lugar}}</div>
+                                                <span class="fa-map-marker fa"></span> {{ucwords(strtolower($torneo->getMunicipio->municipio))}}
+                                            </div>
+
+
+                                            <small>{{explode(" ",$torneo->created_at)[0]}}</small>
+
+                                            {{--<h4>{{$torneo->nombre}}</h4>--}}
                                         </div>
                                     </div>
                                 </div>

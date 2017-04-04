@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Faker\Provider\fr_CH\Person;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
@@ -35,7 +36,15 @@ class Jugador extends Model
             ->where('torneos.id', '=', $torneo_id)
             ->first();
         return $torneos;
-
     }
 
+    public function getUsuarioJugador($id)
+    {
+        $persona = Persona::where('identificacion', '=', $id)->get();
+        if(count($persona) == 0) {
+            $persona = PesonasExterna::where('identificacion', '=', $id)->get();
+        }
+
+        return $persona;
+    }
 }

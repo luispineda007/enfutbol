@@ -76,7 +76,7 @@
         <div class="col-md-12">
             <div class="box {{($dias>=30)?"box-success":(($dias<30&&$dias>10)?"box-warning":"box-danger")}} collapsed-box box-solid">
                 <div class="box-header with-border">
-                    <h3 class="box-title">suscripción a torneos {!!  ($dias<60)?(($dias<0)?"<small>( Vencida )</small>":"<small>( Quedan ".$dias." dias )</small>"):""!!}  </h3>
+                    <h3 class="box-title">Suscripción a torneos {!!  ($dias<60)?(($dias<0)?"<small>( Vencida )</small>":"<small>( Quedan ".$dias." dias )</small>"):""!!}  </h3>
 
                     <div class="box-tools pull-right">
                         <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
@@ -272,6 +272,34 @@
         </div>
     </div>
 
+    <div class="modal fade" id="modalEscudos" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title text-center">Cambiar escudo</h4>
+                </div>
+                <div class="modal-body">
+                    Selecciona el nuevo escudo para tu equipo:
+                    <div id="escudos" class="row" style="margin-top: 15px">
+
+                    </div>
+                    <div id="error" class="row hidden" style="margin-top: 25px">
+                        <div class="col-sm-10 col-sm-offset-1">
+                            <div class="alert alert-danger alert-dismissable text-center" style="margin-bottom: 0">
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                <strong>Atencion!</strong> <span id="texto"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" disabled id="cambiarEscudo">Actualizar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 

@@ -10,4 +10,9 @@ class Equipos_torneo extends Model
     {
         return $this->belongsTo('App\Equipo', 'equipo_id');
     }
+
+    public function getTorneo()
+    {
+        return $this->belongsTo('App\Torneo', 'torneo_id');
+    }
 }
