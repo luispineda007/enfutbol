@@ -110,6 +110,7 @@ return array(
     'Hamcrest\\Util' => $vendorDir . '/hamcrest/hamcrest-php/hamcrest/Hamcrest/Util.php',
     'Hamcrest\\Xml\\HasXPath' => $vendorDir . '/hamcrest/hamcrest-php/hamcrest/Hamcrest/Xml/HasXPath.php',
     'IlluminateQueueClosure' => $vendorDir . '/laravel/framework/src/Illuminate/Queue/IlluminateQueueClosure.php',
+    'JugadoresSeeder' => $baseDir . '/database/seeds/JugadoresSeeder.php',
     'Municipios' => $baseDir . '/database/migrations/2014_10_10_154635_municipios.php',
     'MunicipiosSeeder' => $baseDir . '/database/seeds/MunicipiosSeeder.php',
     'PHPUnit\\Framework\\Assert' => $vendorDir . '/phpunit/phpunit/src/ForwardCompatibility/Assert.php',

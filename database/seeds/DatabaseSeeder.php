@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
         $this->call(DepartamentosSeeder::class);
         $this->call(MunicipiosSeeder::class);
         $this->call(SuperAdminSeeder::class);
+        $this->call(JugadoresSeeder::class);
 
         Model::reguard();
     }

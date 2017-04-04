@@ -508,6 +508,8 @@ class TorneosController extends Controller
         $usuario = User::find($request->usuario_id);
         $plantilla = Plantilla::find($request->plantilla);
         if($usuario != null && $plantilla!= null && $plantilla->usuario_id==\Auth::user()->id){
+
+            if($usuario->getPersona->sexo==$plantilla->genero){
             $añadir = true;
             foreach($plantilla->getJugadores as $jugador){
                 if($jugador->usuario_id == $usuario->id){
@@ -533,6 +535,9 @@ class TorneosController extends Controller
             }
             else{
                 return ['estado' => false,'mensaje' => "El usuario seleccionado ya existe en esta plantilla, por favor ingresa uno diferente."];
+            }
+            }else{
+                return ['estado' => false,'mensaje' => "Este usuario tiene el sexo opuesto al seleccionado en la planilla"];
             }
         }
         else{
