@@ -768,6 +768,7 @@
             else
                 $("#addPersona").addClass("hidden");
 
+
             if($numExistentes>=4 && continuar)
                 $("#continuarInscripcion").html("<button class='btn btn-primary center-block' type='button' id='btnContinuar'>Continuar<i class='fa fa-spinner fa-pulse fa-3x fa-fw cargando hidden'></i>");
         }

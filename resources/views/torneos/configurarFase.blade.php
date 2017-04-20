@@ -363,8 +363,15 @@
 
             $("#conteEquipos").html(html);
             $( "ul.dropequipos" ).sortable({
-                connectWith: ".dropgrupos"
+                connectWith: ".dropgrupos",
 //                disabled: true
+                sort: function(event, ui) {
+                    var $target = $(event.target);
+                    if (!/html|body/i.test($target.offsetParent()[0].tagName)) {
+                        var top = event.pageY - $target.offsetParent().offset().top - (ui.helper.outerHeight(true) / 2);
+                        ui.helper.css({'top' : top + 'px'});
+                    }
+                }
             });
 
         }

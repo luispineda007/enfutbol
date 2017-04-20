@@ -213,6 +213,7 @@ class TorneosController extends Controller
 
         $fase = Fases_torneo::where("estado","C")->where("torneo_id",$torneo_id)->first();
 
+
         if($fase){
             return view('torneos.configurarFase');
         }else{
