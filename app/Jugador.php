@@ -23,7 +23,7 @@ class Jugador extends Model
         return $torneos;
     }
 
-    public function participaEnTorneo( $torneo_id , $identificacion ){
+    static public function participaEnTorneo( $torneo_id , $identificacion ){
 
         $torneos = DB::table('torneos')
             ->select( 'equipos.id', 'equipos.nombre')

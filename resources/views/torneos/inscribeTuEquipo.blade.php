@@ -107,15 +107,18 @@
         }
 
         #escudo:hover, .escudo:hover{
-            -webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
-            -moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
-            box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+            opacity: 1;
+            -webkit-box-shadow: 5px 5px 10px 0px rgba(0,0,0,0.4);
+            -moz-box-shadow: 5px 5px 10px 0px rgba(0,0,0,0.4);
+            box-shadow: 5px 5px 10px 0px rgba(0,0,0,0.4);
         }
         .escudo{
+            opacity: 0.5;
             padding: 5px;
+            border-radius: 5px;
         }
         .escudo:hover{
-            border: solid 1px rgba(0,0,0,0.75);
+            /*border: solid 1px rgba(0,0,0,0.75);*/
             cursor: pointer;
         }
         #escudos{
@@ -123,10 +126,11 @@
         }
         .selected{
             padding: 5px;
-            box-shadow: 5px 5px 10px 6px darkgreen;
-            margin: 0 12px;
-            border-top:solid 1px darkgreen;
-            border-left:solid 1px darkgreen;
+            box-shadow: 5px 5px 10px 0px rgba(6, 161, 6, 0.6);
+            border-radius: 5px;
+            /*margin: 0 12px;*/
+            /*border-top:solid 1px darkgreen;*/
+            /*border-left:solid 1px darkgreen;*/
         }
 
     </style>
@@ -167,6 +171,7 @@
                                 </div><!-- /.box-body -->
                             </div><!-- /.box -->
                         </div><!-- /.col -->
+
 
                         <div class="col-sm-5 col-sm-offset-1">
                             <div class="box box-primary">
@@ -222,6 +227,9 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="col-xs-12 text-center">Nota: los jugadores que estan desabilitados ya estan inscritos aun equipo en el Torneo</div>
+
                     <div class="col-sm-12" id="continuarInscripcion"></div>
 
                     {!!Form::open(['id'=>'formEquipo','class'=>'form-horizontal hidden', 'autocomplete'=>'off'])!!}
@@ -476,7 +484,7 @@
         var imagen = false;
 
         @if($torneo)
-            console.log('entraaaaa');
+            //console.log('entraaaaa');
             maxjugadores = parseInt("{{$torneo->max_jugadores}}");
             torneo = "{{$torneo->id}}";
             sessionStorage.setItem("maxjugadores", parseInt("{{$torneo->max_jugadores}}"));
@@ -498,7 +506,8 @@
                 $("#titulo").html(titulo);
             @foreach($planillas as $planilla)
                 @foreach($planilla->getJugadores as $jugador)
-                 jugadores.push({id:"{{$jugador->getUsuario->getPersona->identificacion}}",nombre:"{{$jugador->getUsuario->getPersona->nombres}}",equipo:""});
+                {{--console.log({id:"{{$jugador->getUsuario->getPersona->identificacion}}",nombre:"{{$jugador->getUsuario->getPersona->nombres}}",equipo:"{{($jugador->participaEnTorneo($torneo->id,$jugador->getUsuario->getPersona->identificacion))?"X":""}}"});--}}
+                 jugadores.push({id:"{{$jugador->getUsuario->getPersona->identificacion}}",nombre:"{{$jugador->getUsuario->getPersona->nombres}}",equipo:"{{($jugador->participaEnTorneo($torneo->id,$jugador->getUsuario->getPersona->identificacion))?"X":""}}"});
                 @endforeach
                     jugadoresplanilla["planilla{{$planilla->id}}"]=jugadores;
                     jugadores=[];
@@ -532,12 +541,21 @@
             $( "#sortableEquipo" ).sortable({
 
                 receive: function( event, ui ) {
+                    ++totalJugadores;
+                    validarInsertJugador(totalJugadores);
                     $(ui.item).removeClass("ui-state-default").addClass("integranteEquipo");
                     $(ui.item).find("input").removeClass("checkPlanilla").addClass("checkEquipo");
                     selectJugadorEnEquipo($(ui.item).data("jugador"),"X");
                     iniciarCheckEquipo();
                     $("#checkSelectPlanti").iCheck('uncheck');
 
+
+                },sort: function(event, ui) {
+                    var $target = $(event.target);
+                    if (!/html|body/i.test($target.offsetParent()[0].tagName)) {
+                        var top = event.pageY - $target.offsetParent().offset().top - (ui.helper.outerHeight(true) / 2);
+                        ui.helper.css({'top' : top + 'px'});
+                    }
                 }
             }).disableSelection();
 
@@ -545,7 +563,7 @@
             $(".thumbnail").click(function () {
                 $("#sortablePlanilla" ).html("");
                 $("#sortablePlanilla").data("planilla",$(this).data("planilla"));
-                //console.log(jugadoresplanilla["planilla"+$(this).data("planilla")]);
+                console.log(jugadoresplanilla["planilla"+$(this).data("planilla")]);
                 $.each(jugadoresplanilla["planilla"+$(this).data("planilla")],function (index,val) {
 
                     $( "#sortablePlanilla" ).append("<li class='ui-state-default "+(val.equipo=="X"?"ui-state-disabled":"")+"' data-jugador='"+val.id+"'>"+val.nombre+" <div class='pull-right'><input type='checkbox' class='minimal checkPlanilla' name='' id='' "+(val.equipo=="X"?"disabled":"")+"></div></li>");
@@ -574,6 +592,7 @@
                         }, 650);
                         --totalJugadores;
                         validarInsertJugador(totalJugadores);
+                        $( "#sortableEquipo" ).sortable( "enable" );
                     }
                     else
                         total = false;
@@ -588,19 +607,31 @@
 
             $("#pasarSelect").click(function(){
 
+
+
                 $('.checkPlanilla:checked').each(function (index,val) {
 
-                    if($(this).parent().attr("aria-disabled")=="false"){
-                        var elemento =$(this).parents("li");
-                        selectJugadorEnEquipo(elemento.data("jugador"),"X");
-                        $(elemento).hide( "fade", [], 600*(index+1) ,function () {
+
+                    ++totalJugadores;
+                    if(validarInsertJugador(totalJugadores)){
+                        console.log(totalJugadores);
+
+                    if ($(this).parent().attr("aria-disabled") == "false") {
+                        var elemento = $(this).parents("li");
+                        selectJugadorEnEquipo(elemento.data("jugador"), "X");
+                        $(elemento).hide("fade", [], 600 * (index + 1), function () {
                             $("#sortableEquipo").append($(this));
-                            $($(this)).show( "drop", [], 600 );
+                            $($(this)).show("drop", [], 600);
                             $($(this)).removeClass("ui-state-default").addClass("integranteEquipo");
                             $($(this)).find("input").removeClass("checkPlanilla").addClass("checkEquipo");
                             iniciarCheckEquipo();
-                        } );
+
+                        });
+                    }else{
+                        --totalJugadores;
                     }
+
+                }
 
                 });
 
@@ -749,7 +780,6 @@
                 });
             });
 
-
         });// FIN READY
 
         $("#btnAccionModal").on("click","#submitFormAddJugadpr",function () {
@@ -762,15 +792,32 @@
             $("#nuevaPesona").modal("toggle");
         });
 
-        function validarInsertJugador($numExistentes){
-            if($numExistentes < maxjugadores)
+        function validarInsertJugador(numExistentes){
+
+
+            console.log(numExistentes,maxjugadores);
+
+
+            if(numExistentes>maxjugadores){
+                totalJugadores = maxjugadores;
+                return false;
+            }
+
+            if(numExistentes==maxjugadores){
+                $( "#sortableEquipo" ).sortable( "disable" );
+            }
+
+            if(numExistentes < maxjugadores)
                 $("#addPersona").removeClass("hidden");
             else
                 $("#addPersona").addClass("hidden");
 
-
-            if($numExistentes>=4 && continuar)
+            if(numExistentes>=4&& continuar){
                 $("#continuarInscripcion").html("<button class='btn btn-primary center-block' type='button' id='btnContinuar'>Continuar<i class='fa fa-spinner fa-pulse fa-3x fa-fw cargando hidden'></i>");
+            }
+
+            return true;
+
         }
 
         function iniciarCheckPlanillas() {
@@ -883,6 +930,25 @@
                     control.removeClass('fa-chevron-down').addClass('fa-chevron-up');
                 }
             }
+        }
+
+        function existePersona(identificacion) {
+            $.ajax({
+                type: "POST",
+                context: document.body,
+                url: '{{route('exisPersona')}}',
+                data:{identificacion:identificacion, torneo:torneo},
+                success: function (data) {
+                    if(data.bandera) {
+
+                    }
+                    else{
+
+                    }
+                },
+                error: function (data) {
+                }
+            });
         }
 
         $('#nuevaPesona').on('hidden.bs.modal', function (e) {

@@ -51,7 +51,7 @@
 @section('content')
     <div class="row">
         <div class="col-sm-10 col-sm-offset-1">
-            <div class="panel panel-primary">
+            <div class="panel panel-{{(Auth::guest())?"success":((Auth::user()->rol=="admin")?"primary":"success")}}">
                 <div class="panel-heading">
                     <h4>Crear torneo</h4>
                 </div>
@@ -153,6 +153,19 @@
                                 </div>
                             </div>
 
+                        @if(Auth::user()->getSitio)
+
+                            <div class="form-group">
+                                <label for="privacidad" class="col-md-7 control-label">El torneo pertenece a este sitio </label>
+                                <div class="col-md-5">
+                                    <div class="checkbox">
+                                        <label><input type="radio" name="sitio_id" class="rsitio" value="1" checked>&nbsp; Si</label>
+                                        <label><input type="radio" name="sitio_id" class="rsitio" value="0"> &nbsp;No</label>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+
                         </div>
 
                         <div class="col-md-6">
@@ -233,6 +246,23 @@
                                 </div>
                             </div>
 
+                            <div class="form-group">
+                                <label for="nombre" class="col-md-2 control-label">Lugar</label>
+                                <div class="col-md-10">
+                                    <div class="input-group date">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-trophy"></i>
+                                        </div>
+                                        @if(Auth::user()->getSitio)
+                                            <input type="text" class="form-control" id="lugar" name="lugar" value="{{Auth::user()->getSitio->nombre}}" disabled>
+                                            @else
+                                            <input type="text" class="form-control" id="lugar" name="lugar" placeholder="Lugar donde se jugara el torneo" required>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+
+
                         </div>
 
                         <div class="form-group">
@@ -255,6 +285,7 @@
     {!!Html::script('plugins/iCheck/icheck.min.js')!!}
     {!!Html::script('plugins/datepicker/bootstrap-datepicker.js')!!}
     <script>
+        var nombreSitio = "";
         $(function() {
             $.fn.datepicker.dates['es'] = {
                 days: ["Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado"],
@@ -317,14 +348,31 @@
                 reader.readAsDataURL(file);
             });
 
-            $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
+            $('input[type="radio"].minimal').iCheck({
                 checkboxClass: 'icheckbox_minimal-blue',
                 radioClass: 'iradio_minimal-blue'
+            });
+            $('input[type="radio"].rsitio').iCheck({
+                checkboxClass: 'icheckbox_minimal-blue',
+                radioClass: 'iradio_minimal-blue'
+            }).on('ifChecked', function(event){
+                if ($(this)[0].value==0) {
+                    $( "#lugar" ).prop( "disabled", false );
+                    $( "#lugar" ).val("");
+                }else{
+                    $( "#lugar" ).prop( "disabled", true );
+                    $( "#lugar" )[0].value=nombreSitio;
+                    console.log(nombreSitio);
+                }
+
             });
 
             llenarMunicipios();
             $('#municipio_id').val('{{$municipio}}');
-        });
+
+
+            nombreSitio = $("#lugar").val();
+        });/// FIN READY
 
         $("#departamento").change(function () {
             llenarMunicipios();

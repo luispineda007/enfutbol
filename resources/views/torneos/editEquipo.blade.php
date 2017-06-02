@@ -1,6 +1,7 @@
 @extends('layouts.principal')
 
 @section('css')
+    {!!Html::style('plugins/iCheck/all.css')!!}
     <style>
         .icon i{
             margin: 0 4px;
@@ -67,6 +68,7 @@
                     </div>
 
                     <div class="row">
+                        sdsdsds dsdsdsd sdsdsd sdsds sdsd
                         <div class="col-md-10 col-md-offset-1" style="margin-top: 25px" id="seccionJugadores">
                             <div class="box box-primary">
                                 <div class="box-header with-border">
@@ -83,7 +85,7 @@
                                             <tr class="fila">
                                                 <td class="integranteEquipo">{{$integrante->identificacion}}</td>
                                                 <td>{{$integrante->getUsuarioJugador($integrante->identificacion)[0]->nombres}}</td>
-                                                <td data-integrante="{{$integrante->id}}" data-toggle='tooltip' data-placement='bottom' title="Eliminar jugador">
+                                                <td data-integrante="{{$integrante->id}}">
                                                     <input type="checkbox" class="minimal deleteJugador">
                                                 </td>
                                             </tr>
@@ -106,7 +108,15 @@
 
 
 @section('js')
+    {!!Html::script('plugins/iCheck/icheck.min.js')!!}
     <script>
+
+        $(function () {
+            $('input[type="checkbox"].deleteJugador').iCheck({
+                checkboxClass: 'icheckbox_flat-red',
+                increaseArea: '-10%'
+            });
+        });
 
     </script>
 @endsection

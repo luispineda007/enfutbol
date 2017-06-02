@@ -108,8 +108,8 @@ class TorneosController extends Controller
     public function insertTorneo(Request $request)
     {
         $usuario = \Auth::user();
-        if ($usuario->getPagoServiTorneo) {
-            if ($usuario->getPagoServiTorneo->estado == "X") {
+        if ($usuario->getPagoServiTorneo){
+            if ($usuario->getPagoServiTorneo->estado == "X"){
                 DB::beginTransaction();
                 try {
                     $fotos = $request->file('url_logo');

@@ -1,6 +1,7 @@
 @extends('layouts.principal')
 
 @section('css')
+    {!!Html::style('plugins/iCheck/all.css')!!}
     <style>
         span>i{
             padding:4px 0;
@@ -77,7 +78,7 @@
                                             <tr class="fila">
                                                 <td class="integranteEquipo">{{$integrante->identificacion}}</td>
                                                 <td>{{$integrante->getUsuarioJugador($integrante->identificacion)[0]->nombres}}</td>
-                                                <td data-integrante="{{$integrante->id}}" data-toggle='tooltip' data-placement='bottom' title="Eliminar jugador">
+                                                <td data-integrante="{{$integrante->id}}" class="text-center">
                                                     <input type="checkbox" class="minimal deleteJugador">
                                                 </td>
                                             </tr>
@@ -100,7 +101,41 @@
 
 
 @section('js')
+    {!!Html::script('plugins/iCheck/icheck.min.js')!!}
     <script>
+
+        $(function () {
+            $('input[type="checkbox"].deleteJugador').iCheck({
+                checkboxClass: 'icheckbox_flat-red',
+                increaseArea: '-10%'
+            });
+        });
+
+        $("#borrarDeEquipo").click(function(){
+            var total = true;
+            $('.deleteJugador:checked').each(function (index, val) {
+                if(totalJugadores >4){
+                    console.log("");
+//                    var elemento = $(this).parents("li");
+//                    selectJugadorEnEquipo(elemento.data("jugador"), "");
+//                    $(elemento).hide("drop", [], 600);
+//                    setTimeout(function () {
+//                        $(elemento).remove();
+//                    }, 650);
+//                    --totalJugadores;
+//                    validarInsertJugador(totalJugadores);
+//                    $( "#sortableEquipo" ).sortable( "enable" );
+                }
+                else
+                    total = false;
+            });
+            if(!total) {
+                $("#modal-title").html("Atencion!").parents('.modal-header').addClass('alert-warning');
+                $("#content").html("El equipo no puede contener menos de 4 jugadores");
+                $("#botonModal").addClass('btn-warning');
+                $("#notifModal").modal("show");
+            }
+        });
 
     </script>
 @endsection
